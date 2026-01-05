@@ -16,7 +16,7 @@ import Settings from './pages/Settings';
 function App() {
     return (
         <CategoryProvider>
-            <Router basename="/flips-wallet-reward">
+            <Router>
                 <Routes>
                     {/* Auth Routes - No Layout */}
                     <Route path="/login" element={<Login />} />
