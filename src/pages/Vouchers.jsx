@@ -4,6 +4,9 @@ import { vouchers, myVouchers } from '../data/mockData';
 import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
 import { Badge } from '../components/ui/Badge';
+import { STATUS } from '../config/constants';
+import { getStatusStyle, REWARD_TYPE_STYLES } from '../config/styles';
+import { isPhysicalReward, handleImageError } from '../utils/dataHelpers';
 
 const Vouchers = () => {
     const [activeTab, setActiveTab] = useState('my-vouchers');
@@ -68,81 +71,121 @@ const Vouchers = () => {
                         </div>
                     )}
 
-                    {myVouchers.map(voucher => (
-                        <Card key={voucher.id} padding="p-0" className="overflow-hidden bg-white border border-gray-200">
-                            <div className="flex h-full">
-                                {/* Left Side (Image) */}
-                                <div className="w-1/3 relative">
-                                    <img
-                                        src={voucher.image}
-                                        alt={voucher.title}
-                                        className="w-full h-full object-cover"
-                                    />
-                                    <div className="absolute inset-0 bg-black/10"></div>
-                                </div>
 
-                                {/* Right Side (Info) */}
-                                <div className="w-2/3 p-4 flex flex-col justify-between">
-                                    <div>
-                                        <div className="flex justify-between items-start mb-1">
-                                            <Badge className="bg-blue-50 text-blue-700 border-blue-100 text-[10px] px-1.5 py-0.5">
-                                                {voucher.partner}
-                                            </Badge>
-                                            {voucher.status === 'Active' && (
-                                                <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" title="Active"></span>
-                                            )}
+                    {myVouchers.map(voucher => {
+                        // Using centralized helpers
+                        const isPhysical = isPhysicalReward(voucher);
+                        const statusStyle = getStatusStyle(voucher.status);
+
+                        return (
+                            <Card key={voucher.id} padding="p-0" className="overflow-hidden bg-white border border-gray-200 hover:shadow-lg transition-shadow">
+                                <div className="flex h-full">
+                                    {/* Left Side (Image) */}
+                                    <div className="w-1/3 relative bg-gray-100">
+                                        <img
+                                            src={voucher.image}
+                                            alt={voucher.title}
+                                            className="w-full h-full object-cover"
+                                            onError={(e) => handleImageError(e, 'Reward')}
+                                        />
+                                        <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
+
+                                        {/* Reward Type Badge */}
+                                        <div className={`absolute bottom-2 left-2 text-[9px] font-bold px-1.5 py-0.5 rounded uppercase tracking-wider ${isPhysical ? REWARD_TYPE_STYLES.physical.badge : REWARD_TYPE_STYLES.digital.badge}`}>
+                                            {isPhysical ? REWARD_TYPE_STYLES.physical.icon + ' Physical' : REWARD_TYPE_STYLES.digital.icon + ' Digital'}
                                         </div>
-                                        <h3 className="font-bold text-gray-900 text-sm leading-tight mb-1">{voucher.title}</h3>
-                                        <p className="text-xs text-gray-400 mb-2">{voucher.purchaseDate}</p>
-
-                                        {/* Variant & Shipping Info */}
-                                        {voucher.variantLabel && (
-                                            <div className="mb-2">
-                                                <span className="text-[10px] font-bold text-slate-500 bg-slate-100 px-2 py-0.5 rounded-md border border-slate-200">
-                                                    {voucher.variantLabel}
-                                                </span>
-                                            </div>
-                                        )}
-
-                                        {voucher.status === 'Shipping' && (
-                                            <div className="bg-orange-50 border border-orange-100 rounded-lg p-2 mt-1">
-                                                <div className="flex items-center gap-1.5 text-orange-700 font-bold text-[10px] uppercase tracking-wide">
-                                                    <Truck className="w-3 h-3" /> Shipping
-                                                </div>
-                                                {voucher.trackingId && (
-                                                    <p className="text-[10px] text-orange-600/80 mt-0.5 font-mono">
-                                                        #{voucher.trackingId}
-                                                    </p>
-                                                )}
-                                            </div>
-                                        )}
                                     </div>
 
-                                    {voucher.status !== 'Shipping' && (
-                                        <Button
-                                            size="sm"
-                                            className="w-full mt-3 bg-gray-900 text-white flex items-center justify-center gap-2 text-xs"
-                                            onClick={() => handleOpenQr(voucher)}
-                                        >
-                                            <QrCode className="w-3 h-3" />
-                                            Show QR Code
-                                        </Button>
-                                    )}
+                                    {/* Right Side (Info) */}
+                                    <div className="w-2/3 p-4 flex flex-col justify-between">
+                                        <div>
+                                            <div className="flex justify-between items-start mb-1">
+                                                <Badge className="bg-blue-50 text-blue-700 border-blue-100 text-[10px] px-1.5 py-0.5">
+                                                    {voucher.partner}
+                                                </Badge>
 
-                                    {voucher.status === 'Shipping' && (
-                                        <Button
-                                            size="sm"
-                                            variant="outline"
-                                            onClick={() => handleOpenQr(voucher)}
-                                            className="w-full mt-2 text-xs border-orange-200 text-orange-700 hover:bg-orange-50"
-                                        >
-                                            Track Order
-                                        </Button>
-                                    )}
+                                                {/* Status Indicator - using style map */}
+                                                <span className={`w-2 h-2 rounded-full ${statusStyle.dot} ${voucher.status !== STATUS.DELIVERED ? 'animate-pulse' : ''}`} title={voucher.status}></span>
+                                            </div>
+
+                                            <h3 className="font-bold text-gray-900 text-sm leading-tight mb-1">{voucher.title}</h3>
+                                            <p className="text-xs text-gray-400 mb-2">Redeemed on {voucher.purchaseDate}</p>
+
+                                            {/* Variant Label (if selected variant) */}
+                                            {voucher.variantLabel && (
+                                                <div className="mb-2">
+                                                    <span className="text-[10px] font-bold text-slate-600 bg-slate-100 px-2 py-0.5 rounded-md border border-slate-200">
+                                                        ✓ {voucher.variantLabel}
+                                                    </span>
+                                                </div>
+                                            )}
+
+                                            {/* Physical Item Status */}
+                                            {isPhysical && (
+                                                <div className={`rounded-lg p-2 mt-1 ${isShipping ? 'bg-orange-50 border border-orange-100' :
+                                                    isProcessing ? 'bg-yellow-50 border border-yellow-100' :
+                                                        isDelivered ? 'bg-green-50 border border-green-100' :
+                                                            'bg-gray-50 border border-gray-100'
+                                                    }`}>
+                                                    <div className={`flex items-center gap-1.5 font-bold text-[10px] uppercase tracking-wide ${isShipping ? 'text-orange-700' :
+                                                        isProcessing ? 'text-yellow-700' :
+                                                            isDelivered ? 'text-green-700' :
+                                                                'text-gray-600'
+                                                        }`}>
+                                                        <Truck className="w-3 h-3" />
+                                                        {voucher.status}
+                                                    </div>
+                                                    {voucher.trackingId && (
+                                                        <p className="text-[10px] text-gray-500 mt-0.5 font-mono">
+                                                            {voucher.carrier && `${voucher.carrier}: `}#{voucher.trackingId}
+                                                        </p>
+                                                    )}
+                                                    {isDelivered && voucher.deliveredDate && (
+                                                        <p className="text-[10px] text-green-600 mt-0.5">
+                                                            Delivered on {voucher.deliveredDate}
+                                                        </p>
+                                                    )}
+                                                </div>
+                                            )}
+
+                                            {/* Event Info (for event tickets) */}
+                                            {voucher.rewardType === 'event' && voucher.eventDate && (
+                                                <div className="bg-purple-50 border border-purple-100 rounded-lg p-2 mt-1">
+                                                    <p className="text-[10px] text-purple-700 font-medium">
+                                                        📅 {voucher.eventDate} • {voucher.venue}
+                                                    </p>
+                                                </div>
+                                            )}
+                                        </div>
+
+                                        {/* Action Button - Conditional based on reward type */}
+                                        {isPhysical ? (
+                                            <Button
+                                                size="sm"
+                                                variant="outline"
+                                                onClick={() => handleOpenQr(voucher)}
+                                                className={`w-full mt-2 text-xs ${isShipping ? 'border-orange-200 text-orange-700 hover:bg-orange-50' :
+                                                    isDelivered ? 'border-green-200 text-green-700 hover:bg-green-50' :
+                                                        'border-gray-200 text-gray-700 hover:bg-gray-50'
+                                                    }`}
+                                            >
+                                                {isShipping ? 'Track Order' : isDelivered ? 'View Details' : 'View Status'}
+                                            </Button>
+                                        ) : (
+                                            <Button
+                                                size="sm"
+                                                className="w-full mt-3 bg-gray-900 text-white flex items-center justify-center gap-2 text-xs"
+                                                onClick={() => handleOpenQr(voucher)}
+                                            >
+                                                <QrCode className="w-3 h-3" />
+                                                Show QR Code
+                                            </Button>
+                                        )}
+                                    </div>
                                 </div>
-                            </div>
-                        </Card>
-                    ))}
+                            </Card>
+                        );
+                    })}
                 </div>
             )}
 
@@ -196,16 +239,25 @@ const Vouchers = () => {
                         </button>
 
                         {/* CONDITIONAL RENDER: Physical vs Digital */}
-                        {selectedVoucher.status === 'Shipping' || selectedVoucher.isPhysical ? (
+                        {selectedVoucher.isPhysical || selectedVoucher.rewardType === 'physical' ? (
                             // PHYSICAL ITEM DETAIL VIEW
                             <div>
                                 <div className="flex items-center gap-4 mb-6">
-                                    <div className="w-16 h-16 rounded-2xl overflow-hidden shadow-md flex-shrink-0 border border-gray-100">
-                                        <img src={selectedVoucher.image} alt="" className="w-full h-full object-cover" />
+                                    <div className="w-16 h-16 rounded-2xl overflow-hidden shadow-md flex-shrink-0 border border-gray-100 bg-gray-100">
+                                        <img
+                                            src={selectedVoucher.image}
+                                            alt=""
+                                            className="w-full h-full object-cover"
+                                            onError={(e) => handleImageError(e, selectedVoucher.title)}
+                                        />
                                     </div>
                                     <div>
                                         <h3 className="font-bold text-slate-900 leading-tight mb-1">{selectedVoucher.title}</h3>
-                                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-orange-50 text-orange-700 text-[10px] font-bold border border-orange-100 uppercase tracking-wide">
+                                        <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-bold border uppercase tracking-wide ${selectedVoucher.status === 'Shipping' ? 'bg-orange-50 text-orange-700 border-orange-100' :
+                                            selectedVoucher.status === 'Processing' ? 'bg-yellow-50 text-yellow-700 border-yellow-100' :
+                                                selectedVoucher.status === 'Delivered' ? 'bg-green-50 text-green-700 border-green-100' :
+                                                    'bg-gray-50 text-gray-700 border-gray-100'
+                                            }`}>
                                             <Truck className="w-3 h-3" /> {selectedVoucher.status}
                                         </span>
                                     </div>
@@ -223,8 +275,14 @@ const Vouchers = () => {
                                     <div className="mt-3 pt-3 border-t border-slate-200 relative z-10">
                                         <div className="flex justify-between text-xs">
                                             <span className="text-slate-500">Carrier</span>
-                                            <span className="font-bold text-slate-700">Kerry Express</span>
+                                            <span className="font-bold text-slate-700">{selectedVoucher.carrier || 'Pending Assignment'}</span>
                                         </div>
+                                        {selectedVoucher.status === 'Delivered' && selectedVoucher.deliveredDate && (
+                                            <div className="flex justify-between text-xs mt-2">
+                                                <span className="text-slate-500">Delivered</span>
+                                                <span className="font-bold text-green-600">{selectedVoucher.deliveredDate}</span>
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
 

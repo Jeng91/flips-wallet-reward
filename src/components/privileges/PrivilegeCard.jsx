@@ -1,5 +1,6 @@
 import React from 'react';
 import { Star, MapPin, Calendar, Lock } from 'lucide-react';
+import { handleImageError } from '../../utils/dataHelpers';
 
 const PrivilegeCard = ({ privilege, onClick, isLocked = false, lockedMessage = '', movieTag }) => {
     // Determine currency display based on category
@@ -37,9 +38,7 @@ const PrivilegeCard = ({ privilege, onClick, isLocked = false, lockedMessage = '
                     src={privilege.image}
                     alt={privilege.title}
                     className={`w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 ${isLocked ? 'grayscale-[30%]' : ''}`}
-                    onError={(e) => {
-                        e.target.src = 'https://placehold.co/400x300/e2e8f0/64748b?text=Image';
-                    }}
+                    onError={(e) => handleImageError(e, privilege.title)}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
 
@@ -112,4 +111,3 @@ const PrivilegeCard = ({ privilege, onClick, isLocked = false, lockedMessage = '
 };
 
 export default PrivilegeCard;
-

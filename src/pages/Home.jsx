@@ -381,63 +381,94 @@ const Home = () => {
                             </div>
                         </div>
 
-                        {/* MOVIE REEL - Horizontal Selection */}
+                        {/* NETFLIX-STYLE MOVIE CAROUSEL */}
                         {colestaiFilter !== 'universal' && (
-                            <div className="relative -mx-6 px-6">
-                                <div className="flex overflow-x-auto gap-4 py-4 px-2 no-scrollbar snap-x">
-                                    {movieInvestments.map((movie) => {
+                            <div className="relative -mx-6 group/carousel">
+                                {/* Left Arrow - Netflix Style */}
+                                <div className="absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-white to-transparent z-20 flex items-center justify-start pl-2 opacity-0 group-hover/carousel:opacity-100 transition-opacity">
+                                    <button
+                                        onClick={() => document.getElementById('movieCarousel').scrollBy({ left: -600, behavior: 'smooth' })}
+                                        className="w-10 h-20 bg-black/60 hover:bg-black/80 text-white rounded-md flex items-center justify-center transition-all backdrop-blur-sm"
+                                    >
+                                        <i className="fas fa-chevron-left"></i>
+                                    </button>
+                                </div>
+
+                                {/* Movie Cards - Horizontal Scroll */}
+                                <div
+                                    id="movieCarousel"
+                                    className="flex gap-3 overflow-x-auto scroll-smooth no-scrollbar py-4 px-6"
+                                    style={{ scrollSnapType: 'x mandatory' }}
+                                >
+                                    {movieInvestments.map((movie, index) => {
                                         const isSelected = colestaiFilter === `movie-${movie.id}`;
                                         const hasInvestment = movie.earnedFlips > 0;
+                                        const isFeatured = movie.roi >= 100;
 
                                         return (
                                             <button
                                                 key={movie.id}
                                                 onClick={() => setColestaiFilter(isSelected ? 'all' : `movie-${movie.id}`)}
-                                                className={`relative flex-shrink-0 w-64 h-36 rounded-xl overflow-hidden group snap-center transition-all duration-300 ${isSelected
-                                                    ? 'ring-4 ring-primary ring-offset-2 transform scale-[1.02] shadow-xl z-10'
-                                                    : 'hover:ring-2 hover:ring-gray-200 hover:scale-[1.01] opacity-90 hover:opacity-100 grayscale-[20%] hover:grayscale-0'
+                                                style={{ scrollSnapAlign: 'start' }}
+                                                className={`relative flex-shrink-0 w-56 h-32 rounded-lg overflow-hidden transition-all duration-300 ease-out
+                                                    ${isSelected
+                                                        ? 'ring-2 ring-primary scale-105 shadow-xl z-10'
+                                                        : 'hover:scale-105 hover:z-10 hover:shadow-xl'
                                                     }`}
                                             >
-                                                {/* Poster Background */}
+                                                {/* Movie Poster */}
                                                 <img
                                                     src={movie.image}
                                                     alt={movie.name}
                                                     className="absolute inset-0 w-full h-full object-cover"
                                                 />
-                                                <div className={`absolute inset-0 bg-gradient-to-t ${isSelected ? 'from-primary/90 via-primary/40' : 'from-black/90 via-black/40'} to-transparent transition-colors duration-300`}></div>
 
-                                                {/* Selection Indicator */}
-                                                {isSelected && (
-                                                    <div className="absolute top-2 right-2 bg-white text-primary text-[10px] font-bold px-2 py-0.5 rounded-full shadow-sm flex items-center gap-1">
-                                                        <Sparkles className="w-3 h-3" /> Selected
+                                                {/* Gradient Overlay */}
+                                                <div className={`absolute inset-0 bg-gradient-to-t ${isSelected
+                                                    ? 'from-primary/90 via-primary/30 to-transparent'
+                                                    : 'from-black/80 via-black/20 to-transparent'
+                                                    }`}></div>
+
+                                                {/* Featured Badge */}
+                                                {isFeatured && !isSelected && (
+                                                    <div className="absolute top-2 left-2 bg-red-600 text-white text-[9px] font-bold px-2 py-0.5 rounded uppercase tracking-wider">
+                                                        Hot
                                                     </div>
                                                 )}
 
-                                                {/* Card Content */}
-                                                <div className="absolute bottom-0 left-0 right-0 p-4 text-left">
-                                                    <p className="text-white font-bold text-lg leading-tight mb-1 truncate shadow-sm">{movie.name}</p>
-
-                                                    <div className="flex items-center justify-between">
-                                                        {hasInvestment ? (
-                                                            <div className="flex items-center gap-1.5">
-                                                                <div className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></div>
-                                                                <span className="text-cyan-200 text-xs font-medium">Owned</span>
-                                                                <span className="text-white font-bold text-sm tracking-wide">{movie.earnedFlips.toLocaleString()} FLIPS</span>
-                                                            </div>
-                                                        ) : (
-                                                            <span className="text-white/60 text-xs flex items-center gap-1 bg-white/10 px-2 py-1 rounded backdrop-blur-sm">
-                                                                Invest to Unlock
-                                                            </span>
-                                                        )}
+                                                {/* Selected Check */}
+                                                {isSelected && (
+                                                    <div className="absolute top-2 right-2 w-6 h-6 bg-white rounded-full flex items-center justify-center">
+                                                        <i className="fas fa-check text-primary text-xs"></i>
                                                     </div>
+                                                )}
+
+                                                {/* Content */}
+                                                <div className="absolute bottom-0 left-0 right-0 p-3">
+                                                    <p className="text-white font-semibold text-sm truncate mb-1">{movie.name}</p>
+                                                    {hasInvestment ? (
+                                                        <div className="flex items-center gap-1.5">
+                                                            <span className="w-1.5 h-1.5 rounded-full bg-green-400"></span>
+                                                            <span className="text-green-300 text-xs font-medium">{movie.earnedFlips.toLocaleString()} FLIPS</span>
+                                                        </div>
+                                                    ) : (
+                                                        <span className="text-white/50 text-xs">Invest to unlock</span>
+                                                    )}
                                                 </div>
                                             </button>
                                         );
                                     })}
                                 </div>
 
-                                {/* Scroll Hint Gradient */}
-                                <div className="absolute right-0 top-0 bottom-6 w-12 bg-gradient-to-l from-white/90 to-transparent pointer-events-none md:hidden"></div>
+                                {/* Right Arrow - Netflix Style */}
+                                <div className="absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-white to-transparent z-20 flex items-center justify-end pr-2 opacity-0 group-hover/carousel:opacity-100 transition-opacity">
+                                    <button
+                                        onClick={() => document.getElementById('movieCarousel').scrollBy({ left: 600, behavior: 'smooth' })}
+                                        className="w-10 h-20 bg-black/60 hover:bg-black/80 text-white rounded-md flex items-center justify-center transition-all backdrop-blur-sm"
+                                    >
+                                        <i className="fas fa-chevron-right"></i>
+                                    </button>
+                                </div>
                             </div>
                         )}
                     </div>

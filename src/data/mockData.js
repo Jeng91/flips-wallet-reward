@@ -287,6 +287,71 @@ export const investments = [
             nextMilestone: "Lead Actor Announcement",
             boxOffice: "N/A"
         }
+    },
+    // NEW MOVIES FOR TESTING SCROLL
+    {
+        id: 5,
+        name: "Bangkok Midnight",
+        type: "Movie",
+        roi: 85,
+        invested: 25000000,
+        returnVal: 46000000,
+        status: "In Progress",
+        image: "https://placehold.co/600x400/1e1b4b/e0e7ff?text=Bangkok+Midnight",
+        tokenId: "inv-movie-5",
+        tokenBalance: 30000,
+        earnedFlips: 8500,
+        tokenPrice: 7.50,
+        tokenSymbol: "BKM",
+        timeline: { currentStep: 2, steps: [], nextMilestone: "Trailer", boxOffice: "N/A" }
+    },
+    {
+        id: 6,
+        name: "The Last Samurai TH",
+        type: "Movie",
+        roi: 150,
+        invested: 80000000,
+        returnVal: 0,
+        status: "Funding",
+        image: "https://placehold.co/600x400/7c2d12/fef3c7?text=Last+Samurai+TH",
+        tokenId: "inv-movie-6",
+        tokenBalance: 0,
+        earnedFlips: 0,
+        tokenPrice: 15.00,
+        tokenSymbol: "LST",
+        timeline: { currentStep: 0, steps: [], nextMilestone: "Casting", boxOffice: "N/A" }
+    },
+    {
+        id: 7,
+        name: "Nang Nak Returns",
+        type: "Movie",
+        roi: 200,
+        invested: 35000000,
+        returnVal: 70000000,
+        status: "Completed",
+        image: "https://placehold.co/600x400/1f2937/d1d5db?text=Nang+Nak+Returns",
+        tokenId: "inv-movie-7",
+        tokenBalance: 45000,
+        earnedFlips: 25000,
+        tokenPrice: 9.00,
+        tokenSymbol: "NNR",
+        timeline: { currentStep: 5, steps: [], nextMilestone: "Streaming", boxOffice: "$89M" }
+    },
+    {
+        id: 8,
+        name: "Muay Thai Legend",
+        type: "Movie",
+        roi: 95,
+        invested: 50000000,
+        returnVal: 0,
+        status: "Pre-Production",
+        image: "https://placehold.co/600x400/991b1b/fecaca?text=Muay+Thai+Legend",
+        tokenId: "inv-movie-8",
+        tokenBalance: 60000,
+        earnedFlips: 0,
+        tokenPrice: 11.00,
+        tokenSymbol: "MTL",
+        timeline: { currentStep: 1, steps: [], nextMilestone: "Script Finalization", boxOffice: "N/A" }
     }
 ];
 
@@ -342,27 +407,81 @@ export const vouchers = [
 ];
 
 export const myVouchers = [
+    // DIGITAL VOUCHER - Uses QR Code
     {
         id: 101,
         title: "5-Star Hotel Night",
         partner: "Colestia",
-        type: "Hotel",
+        rewardType: "digital",
+        category: "Hotel",
         image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&q=80&w=300&h=200",
         purchaseDate: "12 Dec 2024",
         status: "Active",
-        code: "H-123-456-789"
+        code: "H-123-456-789",
+        isPhysical: false,
+        expiryDate: "12 Dec 2025"
     },
+    // PHYSICAL ITEM - Shipping
     {
         id: 102,
         title: "Pro Gaming Headset",
-        partner: "FLIPS ID Gear",
-        type: "Goods",
-        image: "/images/gaming_headset.png",
+        partner: "CTRL G",
+        rewardType: "physical",
+        category: "Gaming Gear",
+        image: "https://placehold.co/400x200/0891b2/ffffff?text=Gaming+Headset",
         purchaseDate: "04 Jan 2025",
         status: "Shipping",
         trackingId: "TH-88849201",
+        carrier: "Kerry Express",
         variantLabel: "Neon Red",
-        addressLabel: "Home"
+        addressLabel: "Home",
+        isPhysical: true
+    },
+    // PHYSICAL ITEM - Delivered
+    {
+        id: 103,
+        title: "Phoenix Rising Jersey",
+        partner: "CTRL G",
+        rewardType: "physical",
+        category: "Apparel",
+        image: "https://placehold.co/400x200/7c3aed/ffffff?text=Phoenix+Jersey",
+        purchaseDate: "28 Dec 2024",
+        status: "Delivered",
+        trackingId: "TH-77712345",
+        carrier: "Flash Express",
+        variantLabel: "Size L",
+        addressLabel: "Office",
+        isPhysical: true,
+        deliveredDate: "02 Jan 2025"
+    },
+    // EVENT TICKET - Uses QR Code
+    {
+        id: 104,
+        title: "Premiere Night VIP - Sanam Luang",
+        partner: "Colestia",
+        rewardType: "event",
+        category: "Movie Tickets",
+        image: "https://placehold.co/400x200/be185d/ffffff?text=Premiere+VIP",
+        purchaseDate: "15 Dec 2024",
+        status: "Active",
+        code: "E-VIP-SLR-2024",
+        isPhysical: false,
+        eventDate: "15 Jun 2024",
+        venue: "Major Cineplex Paragon"
+    },
+    // PHYSICAL ITEM - Processing
+    {
+        id: 105,
+        title: "Developer Hoodie",
+        partner: "CTRL G",
+        rewardType: "physical",
+        category: "Apparel",
+        image: "https://placehold.co/400x200/1e40af/ffffff?text=Dev+Hoodie",
+        purchaseDate: "05 Jan 2025",
+        status: "Processing",
+        variantLabel: "Size XL",
+        addressLabel: "Home",
+        isPhysical: true
     }
 ];
 
@@ -828,7 +947,7 @@ export const privilegePackages = [
         category: 'boat-passes',
         categoryLabel: 'Boat Passes',
         categoryLabelTh: 'บัตรล่องเรือ',
-        image: '/images/privilege_yacht_sunset.png',
+        image: 'https://placehold.co/400x200/0369a1/ffffff?text=Sunset+Cruise',
         price: 800,
         rating: 4.9,
         reviews: 145,
@@ -851,7 +970,7 @@ export const privilegePackages = [
         category: 'boat-events',
         categoryLabel: 'Yacht Events',
         categoryLabelTh: 'อีเว้นท์บนเรือ',
-        image: '/images/privilege_yacht_party.png',
+        image: 'https://placehold.co/400x200/0284c7/ffffff?text=Yacht+Party',
         price: 1500,
         rating: 5.0,
         reviews: 89,
@@ -874,7 +993,7 @@ export const privilegePackages = [
         category: 'boat-tours',
         categoryLabel: 'Luxury Tours',
         categoryLabelTh: 'ทัวร์หรู',
-        image: '/images/privilege_yacht_tour.png',
+        image: 'https://placehold.co/400x200/0ea5e9/ffffff?text=Island+Tour',
         price: 1200,
         rating: 4.8,
         reviews: 178,
@@ -1004,7 +1123,7 @@ export const privilegePackages = [
         category: 'goods',
         categoryLabel: 'Gaming Gear',
         categoryLabelTh: 'อุปกรณ์เกมมิ่ง',
-        image: '/images/gaming_headset.png',
+        image: '/images/privilege_game_figurine.png',
         price: 1200,
         rating: 4.8,
         reviews: 342,
@@ -1030,7 +1149,7 @@ export const privilegePackages = [
         category: 'apparel',
         categoryLabel: 'Apparel',
         categoryLabelTh: 'เครื่องแต่งกาย',
-        image: '/images/hoodie.png',
+        image: '/images/privilege_merch_premium.png',
         price: 800,
         rating: 4.9,
         reviews: 512,

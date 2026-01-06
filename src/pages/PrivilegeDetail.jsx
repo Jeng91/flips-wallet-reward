@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft, MapPin, Calendar, Star, Shield, Check, Share2 } from 'lucide-react';
 import { privilegePackages, defaultWalletData } from '../data/mockData';
 import { Button } from '../components/ui/Button';
+import { handleImageError } from '../utils/dataHelpers';
 
 const PrivilegeDetail = () => {
     const { id } = useParams();
@@ -34,9 +35,7 @@ const PrivilegeDetail = () => {
                         src={privilege.image}
                         alt={privilege.title}
                         className="w-full h-full object-cover"
-                        onError={(e) => {
-                            e.target.src = 'https://placehold.co/600x600/e2e8f0/64748b?text=Image';
-                        }}
+                        onError={(e) => handleImageError(e, privilege.title)}
                     />
                     <div className="absolute top-4 left-4">
                         <span className="px-3 py-1.5 rounded-full bg-white/90 backdrop-blur-sm text-sm font-semibold text-gray-700 shadow-sm">

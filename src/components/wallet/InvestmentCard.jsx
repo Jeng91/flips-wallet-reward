@@ -1,20 +1,27 @@
 import React from 'react';
 import { ExternalLink, Coins } from 'lucide-react';
+import { INVESTMENT_STATUS_STYLES } from '../../config/styles';
+import { handleImageError } from '../../utils/dataHelpers';
 
 const InvestmentCard = ({ inv }) => {
+    // Get status style from centralized map
+    const statusStyle = INVESTMENT_STATUS_STYLES[inv.status] || INVESTMENT_STATUS_STYLES['In Progress'];
+
     return (
         <div className="bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-lg transition-all group">
-            <div className="relative h-32 overflow-hidden">
-                <img src={inv.image} alt={inv.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+            <div className="relative h-32 overflow-hidden bg-gray-200">
+                <img
+                    src={inv.image}
+                    alt={inv.name}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    onError={(e) => handleImageError(e, inv.name)}
+                />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
                 <div className="absolute bottom-3 left-3 right-3">
                     <p className="text-white font-bold">{inv.name}</p>
                     <p className="text-white/70 text-xs">{inv.type}</p>
                 </div>
-                <span className={`absolute top-3 right-3 px-2 py-1 rounded-full text-xs font-bold ${inv.status === 'Completed' ? 'bg-green-500 text-white' :
-                    inv.status === 'In Progress' ? 'bg-blue-500 text-white' :
-                        'bg-gray-500 text-white'
-                    }`}>
+                <span className={`absolute top-3 right-3 px-2 py-1 rounded-full text-xs font-bold ${statusStyle.bg} ${statusStyle.text}`}>
                     {inv.status}
                 </span>
             </div>
@@ -48,7 +55,7 @@ const InvestmentCard = ({ inv }) => {
                 </div>
 
                 {/* MOVIE PRODUCTION TIMELINE */}
-                {inv.timeline && (
+                {inv.timeline && inv.timeline.steps && inv.timeline.steps.length > 0 && (
                     <div className="mb-4 bg-slate-50 rounded-xl p-3 border border-slate-100">
                         <div className="flex justify-between items-center mb-2">
                             <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Production Status</span>
@@ -57,7 +64,9 @@ const InvestmentCard = ({ inv }) => {
                                     {inv.status === 'In Progress' && <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>}
                                     <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
                                 </span>
-                                <span className="text-xs font-bold text-slate-700">{inv.timeline.steps[inv.timeline.currentStep].label}</span>
+                                <span className="text-xs font-bold text-slate-700">
+                                    {inv.timeline.steps[Math.min(inv.timeline.currentStep, inv.timeline.steps.length - 1)]?.label || inv.status}
+                                </span>
                             </div>
                         </div>
 
@@ -74,13 +83,13 @@ const InvestmentCard = ({ inv }) => {
                             <div>
                                 <p className="text-slate-400 scale-90 origin-left">Next Milestone</p>
                                 <p className="font-semibold text-slate-800 truncate" title={inv.timeline.nextMilestone}>
-                                    {inv.timeline.nextMilestone}
+                                    {inv.timeline.nextMilestone || 'TBD'}
                                 </p>
                             </div>
                             <div className="text-right border-l border-slate-200 pl-2">
                                 <p className="text-slate-400 scale-90 origin-right">Est. Completion</p>
                                 <p className="font-semibold text-slate-800">
-                                    {inv.timeline.steps[inv.timeline.steps.length - 1].date}
+                                    {inv.timeline.steps[inv.timeline.steps.length - 1]?.date || 'TBD'}
                                 </p>
                             </div>
                         </div>

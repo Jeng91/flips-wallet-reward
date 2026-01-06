@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import {
     ArrowUpRight, ArrowDownLeft, Plus, QrCode, Ticket,
     Ship, Flame, Ghost, Bolt, Zap, TrendingUp,
-    LayoutDashboard, History, Gift, X,
+    LayoutDashboard, History, Gift, X, Copy, ExternalLink, Package, Truck,
     PieChart, Wallet as WalletIcon, BarChart3
 } from 'lucide-react';
 import {
@@ -13,6 +13,9 @@ import {
     investments
 } from '../data/mockData';
 import { GAME_TEAMS } from '../config/theme';
+import { STATUS } from '../config/constants';
+import { getStatusStyle, REWARD_TYPE_STYLES } from '../config/styles';
+import { getCarrierTrackingUrlByName, isPhysicalReward, handleImageError } from '../utils/dataHelpers';
 import TransferModal from '../components/wallet/TransferModal';
 import ReceiveModal from '../components/wallet/ReceiveModal';
 import DepositModal from '../components/wallet/DepositModal';
@@ -30,6 +33,7 @@ const Wallet = () => {
     const [selectedToken, setSelectedToken] = useState(tokens[0]);
     const [selectedVoucher, setSelectedVoucher] = useState(null);
     const [showQrModal, setShowQrModal] = useState(false);
+    const [copiedTrackingId, setCopiedTrackingId] = useState(false);
 
     const getTeamIcon = (teamId) => {
         const icons = { phoenix: Flame, shadow: Ghost, thunder: Bolt, dragon: Zap };
@@ -37,7 +41,13 @@ const Wallet = () => {
     };
 
     const handleSelectToken = (token) => setSelectedToken(token);
-    const handleShowQr = (voucher) => { setSelectedVoucher(voucher); setShowQrModal(true); };
+    const handleShowQr = (voucher) => { setSelectedVoucher(voucher); setShowQrModal(true); setCopiedTrackingId(false); };
+
+    const copyTrackingId = (trackingId) => {
+        navigator.clipboard.writeText(trackingId);
+        setCopiedTrackingId(true);
+        setTimeout(() => setCopiedTrackingId(false), 2000);
+    };
 
     const tabs = [
         { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
@@ -248,7 +258,7 @@ const Wallet = () => {
             {activeTab === 'vouchers' && (
                 <div>
                     <div className="mb-6">
-                        <p className="text-gray-500">Your redeemed rewards with QR codes</p>
+                        <p className="text-gray-500">Your redeemed rewards</p>
                     </div>
 
                     {myVouchers.length === 0 ? (
@@ -264,30 +274,74 @@ const Wallet = () => {
                         </div>
                     ) : (
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                            {myVouchers.map(voucher => (
-                                <div key={voucher.id} className="bg-white rounded-2xl overflow-hidden border border-gray-200 shadow-sm">
-                                    <div className="relative h-36">
-                                        <img src={voucher.image} alt={voucher.title} className="w-full h-full object-cover" />
-                                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                                        <div className="absolute bottom-3 left-3">
-                                            <span className="px-2 py-1 bg-white/90 rounded-full text-xs font-medium text-gray-700">{voucher.partner}</span>
+                            {myVouchers.map(voucher => {
+                                // Soft-coded reward type detection
+                                const isPhysical = voucher.isPhysical || voucher.rewardType === 'physical';
+                                const isShipping = voucher.status === 'Shipping';
+                                const isProcessing = voucher.status === 'Processing';
+                                const isDelivered = voucher.status === 'Delivered';
+
+                                return (
+                                    <div key={voucher.id} className="bg-white rounded-2xl overflow-hidden border border-gray-200 shadow-sm hover:shadow-lg transition-all">
+                                        <div className="relative h-36 bg-gray-100">
+                                            <img
+                                                src={voucher.image}
+                                                alt={voucher.title}
+                                                className="w-full h-full object-cover"
+                                                onError={(e) => handleImageError(e, 'Reward')}
+                                            />
+                                            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+
+                                            {/* Partner Badge */}
+                                            <div className="absolute bottom-3 left-3">
+                                                <span className="px-2 py-1 bg-white/90 rounded-full text-xs font-medium text-gray-700">{voucher.partner}</span>
+                                            </div>
+
+                                            {/* Type Badge */}
+                                            <div className={`absolute top-3 left-3 px-2 py-0.5 rounded text-[9px] font-bold uppercase ${isPhysical ? 'bg-purple-500 text-white' : 'bg-blue-500 text-white'
+                                                }`}>
+                                                {isPhysical ? '📦 Physical' : '🎫 Digital'}
+                                            </div>
+
+                                            {/* Status Dot */}
+                                            {isShipping && <span className="absolute top-3 right-3 w-3 h-3 rounded-full bg-cyan-500 animate-pulse"></span>}
+                                            {isProcessing && <span className="absolute top-3 right-3 w-3 h-3 rounded-full bg-yellow-500 animate-pulse"></span>}
+                                            {isDelivered && <span className="absolute top-3 right-3 w-3 h-3 rounded-full bg-green-500"></span>}
+                                            {voucher.status === 'Active' && !isPhysical && <span className="absolute top-3 right-3 w-3 h-3 rounded-full bg-green-500 animate-pulse"></span>}
                                         </div>
-                                        {voucher.status === 'Active' && (
-                                            <span className="absolute top-3 right-3 w-3 h-3 rounded-full bg-green-500 animate-pulse"></span>
-                                        )}
+                                        <div className="p-4">
+                                            <h3 className="font-bold text-gray-900 mb-1">{voucher.title}</h3>
+                                            <p className="text-xs text-gray-400 mb-2">Redeemed on {voucher.purchaseDate}</p>
+
+                                            {/* Variant Label */}
+                                            {voucher.variantLabel && (
+                                                <span className="text-[10px] font-bold text-slate-600 bg-slate-100 px-2 py-0.5 rounded-md border border-slate-200 inline-block mb-2">
+                                                    ✓ {voucher.variantLabel}
+                                                </span>
+                                            )}
+
+                                            {/* Status Badge Inline */}
+                                            {isPhysical && (
+                                                <span className={`text-[10px] font-bold px-2 py-0.5 rounded-md inline-block mb-3 ${isShipping ? 'bg-cyan-100 text-cyan-700' :
+                                                    isProcessing ? 'bg-amber-100 text-amber-700' :
+                                                        isDelivered ? 'bg-green-100 text-green-700' :
+                                                            'bg-gray-100 text-gray-600'
+                                                    }`}>
+                                                    {voucher.status}
+                                                </span>
+                                            )}
+
+                                            {/* ONE Universal Button */}
+                                            <Button
+                                                className="w-full bg-gray-900 text-white"
+                                                onClick={() => handleShowQr(voucher)}
+                                            >
+                                                View Details
+                                            </Button>
+                                        </div>
                                     </div>
-                                    <div className="p-4">
-                                        <h3 className="font-bold text-gray-900 mb-1">{voucher.title}</h3>
-                                        <p className="text-xs text-gray-400 mb-4">Redeemed on {voucher.purchaseDate}</p>
-                                        <Button
-                                            className="w-full bg-gray-900 text-white flex items-center justify-center gap-2"
-                                            onClick={() => handleShowQr(voucher)}
-                                        >
-                                            <QrCode className="w-4 h-4" /> Show QR Code
-                                        </Button>
-                                    </div>
-                                </div>
-                            ))}
+                                );
+                            })}
                         </div>
                     )}
                 </div>
@@ -358,37 +412,178 @@ const Wallet = () => {
             <DepositModal isOpen={showDeposit} onClose={() => setShowDeposit(false)} />
             <SelectNetworkModal isOpen={showSelectNetwork} onClose={() => setShowSelectNetwork(false)} onSelect={(token) => { handleSelectToken(token); setShowSelectNetwork(false); setShowTransfer(true); }} />
 
-            {/* QR Modal */}
-            {showQrModal && selectedVoucher && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
-                    <div className="bg-white rounded-3xl p-6 w-full max-w-sm relative shadow-2xl animate-scale-up">
-                        <button onClick={() => setShowQrModal(false)} className="absolute right-4 top-4 p-2 bg-gray-100 rounded-full hover:bg-gray-200">
-                            <X className="w-4 h-4" />
-                        </button>
-                        <div className="text-center mb-6">
-                            <h3 className="font-bold text-gray-900 text-lg">{selectedVoucher.partner}</h3>
-                            <p className="text-gray-500 text-sm">{selectedVoucher.title}</p>
-                        </div>
-                        <div className="bg-white p-6 rounded-xl border-2 border-dashed border-gray-200 mb-6 flex justify-center">
-                            <div className="w-48 h-48 bg-gray-900 p-3 rounded-lg">
-                                <div className="w-full h-full bg-white rounded flex items-center justify-center">
-                                    <div className="text-center">
-                                        <QrCode className="w-24 h-24 mx-auto text-gray-900" />
-                                        <p className="text-xs text-gray-400 mt-2">Scan to redeem</p>
+            {/* SMART DETAIL MODAL */}
+            {showQrModal && selectedVoucher && (() => {
+                const isPhysical = isPhysicalReward(selectedVoucher);
+                const carrierUrl = getCarrierTrackingUrlByName(selectedVoucher.carrier, selectedVoucher.trackingId);
+
+                return (
+                    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
+                        <div className="bg-white rounded-3xl w-full max-w-md relative shadow-2xl animate-scale-up overflow-hidden">
+                            {/* Hero Image Header */}
+                            <div className="relative h-40 overflow-hidden">
+                                <img
+                                    src={selectedVoucher.image}
+                                    alt=""
+                                    className="w-full h-full object-cover"
+                                    onError={(e) => handleImageError(e, selectedVoucher.title)}
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+
+                                {/* Close Button */}
+                                <button onClick={() => setShowQrModal(false)} className="absolute right-3 top-3 p-2 bg-white/20 backdrop-blur-sm rounded-full hover:bg-white/40 transition-all">
+                                    <X className="w-4 h-4 text-white" />
+                                </button>
+
+                                {/* Title on Image */}
+                                <div className="absolute bottom-0 left-0 right-0 p-4">
+                                    <div className="flex items-center gap-2 mb-1">
+                                        <span className="text-[10px] font-bold uppercase text-white/70 bg-white/20 px-2 py-0.5 rounded backdrop-blur-sm">
+                                            {selectedVoucher.partner}
+                                        </span>
+                                        <span className="text-[10px] font-bold uppercase text-white/70 bg-white/20 px-2 py-0.5 rounded backdrop-blur-sm">
+                                            {selectedVoucher.category}
+                                        </span>
                                     </div>
+                                    <h3 className="font-bold text-xl text-white drop-shadow-lg">{selectedVoucher.title}</h3>
+                                </div>
+                            </div>
+
+                            <div className="p-5">
+                                {/* Variant Label */}
+                                {selectedVoucher.variantLabel && (
+                                    <div className="flex items-center gap-2 mb-4">
+                                        <span className="text-xs font-bold text-slate-600 bg-slate-100 px-3 py-1.5 rounded-lg border border-slate-200">
+                                            ✓ Selected: <span className="text-primary">{selectedVoucher.variantLabel}</span>
+                                        </span>
+                                    </div>
+                                )}
+
+                                {isPhysical ? (
+                                    /* PHYSICAL ITEM - Shipping Info */
+                                    <div>
+                                        {/* Status Badge */}
+                                        <div className={`rounded-2xl p-4 mb-4 ${selectedVoucher.status === 'Shipping' ? 'bg-gradient-to-r from-cyan-50 to-blue-50 border border-cyan-100' :
+                                            selectedVoucher.status === 'Processing' ? 'bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-100' :
+                                                selectedVoucher.status === 'Delivered' ? 'bg-gradient-to-r from-green-50 to-emerald-50 border border-green-100' :
+                                                    'bg-gray-50 border border-gray-100'
+                                            }`}>
+                                            <div className="flex items-center gap-3">
+                                                <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${selectedVoucher.status === 'Shipping' ? 'bg-cyan-100' :
+                                                    selectedVoucher.status === 'Processing' ? 'bg-amber-100' :
+                                                        selectedVoucher.status === 'Delivered' ? 'bg-green-100' : 'bg-gray-100'
+                                                    }`}>
+                                                    <Truck className={`w-6 h-6 ${selectedVoucher.status === 'Shipping' ? 'text-cyan-600' :
+                                                        selectedVoucher.status === 'Processing' ? 'text-amber-600' :
+                                                            selectedVoucher.status === 'Delivered' ? 'text-green-600' : 'text-gray-600'
+                                                        }`} />
+                                                </div>
+                                                <div>
+                                                    <p className="font-bold text-lg text-gray-900">{selectedVoucher.status}</p>
+                                                    {selectedVoucher.deliveredDate ? (
+                                                        <p className="text-sm text-green-600">✓ Delivered on {selectedVoucher.deliveredDate}</p>
+                                                    ) : selectedVoucher.status === 'Shipping' ? (
+                                                        <p className="text-sm text-cyan-600">Your package is on the way</p>
+                                                    ) : (
+                                                        <p className="text-sm text-gray-500">Preparing your order</p>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {/* Tracking Number Card */}
+                                        {selectedVoucher.trackingId && (
+                                            <div className="bg-slate-800 rounded-2xl p-4 mb-4 text-white">
+                                                <p className="text-[10px] text-slate-400 uppercase font-bold tracking-wider mb-2">📦 Tracking Number</p>
+                                                <div className="flex items-center justify-between gap-2">
+                                                    <div>
+                                                        <p className="font-mono font-bold text-xl tracking-wider">{selectedVoucher.trackingId}</p>
+                                                        <p className="text-sm text-slate-400 mt-1">{selectedVoucher.carrier}</p>
+                                                    </div>
+                                                    <button
+                                                        onClick={() => copyTrackingId(selectedVoucher.trackingId)}
+                                                        className={`p-3 rounded-xl transition-all ${copiedTrackingId ? 'bg-green-500 text-white' : 'bg-slate-700 text-slate-300 hover:bg-slate-600'}`}
+                                                    >
+                                                        {copiedTrackingId ? '✓' : <Copy className="w-5 h-5" />}
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        )}
+
+                                        {/* Track on Carrier Button */}
+                                        {carrierUrl && (
+                                            <a
+                                                href={carrierUrl}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="w-full flex items-center justify-center gap-2 px-4 py-4 bg-gradient-to-r from-primary to-cyan-600 text-white rounded-xl font-bold hover:opacity-90 transition-all shadow-lg shadow-primary/30"
+                                            >
+                                                <ExternalLink className="w-5 h-5" />
+                                                Track on {selectedVoucher.carrier}
+                                            </a>
+                                        )}
+
+                                        {/* Shipping Address */}
+                                        {selectedVoucher.addressLabel && (
+                                            <div className="mt-4 pt-4 border-t border-gray-100 flex items-center gap-3">
+                                                <div className="w-10 h-10 bg-slate-100 rounded-lg flex items-center justify-center">
+                                                    <Package className="w-5 h-5 text-slate-500" />
+                                                </div>
+                                                <div>
+                                                    <p className="text-xs text-gray-400 uppercase font-bold">Shipping to</p>
+                                                    <p className="font-semibold text-gray-800">{selectedVoucher.addressLabel}</p>
+                                                </div>
+                                            </div>
+                                        )}
+                                    </div>
+                                ) : (
+                                    /* DIGITAL ITEM - QR Code */
+                                    <div>
+                                        <div className="bg-gradient-to-br from-slate-900 to-slate-800 p-6 rounded-2xl mb-4 flex flex-col items-center">
+                                            <div className="w-44 h-44 bg-white p-3 rounded-xl shadow-lg">
+                                                <div className="w-full h-full bg-gray-100 rounded-lg flex items-center justify-center">
+                                                    <QrCode className="w-24 h-24 text-gray-900" />
+                                                </div>
+                                            </div>
+                                            <p className="text-slate-400 text-xs mt-3">Scan to verify authenticity</p>
+                                        </div>
+
+                                        {selectedVoucher.code && (
+                                            <div className="text-center bg-gradient-to-r from-slate-50 to-gray-50 py-4 px-4 rounded-xl mb-4 border border-slate-200">
+                                                <p className="text-[10px] text-slate-400 mb-1 uppercase font-bold tracking-wider">Voucher Code</p>
+                                                <p className="font-mono font-bold text-2xl tracking-widest text-gray-900">{selectedVoucher.code}</p>
+                                            </div>
+                                        )}
+
+                                        {selectedVoucher.eventDate && (
+                                            <div className="p-4 bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl border border-purple-100">
+                                                <div className="flex items-center gap-3">
+                                                    <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center">
+                                                        <span className="text-2xl">📅</span>
+                                                    </div>
+                                                    <div>
+                                                        <p className="font-bold text-purple-900">{selectedVoucher.eventDate}</p>
+                                                        {selectedVoucher.venue && <p className="text-sm text-purple-600">{selectedVoucher.venue}</p>}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        )}
+
+                                        <p className="text-xs text-gray-400 text-center mt-4 bg-gray-50 py-2 rounded-lg">
+                                            🎫 Show this to staff to redeem your reward
+                                        </p>
+                                    </div>
+                                )}
+
+                                {/* Purchase Info Footer */}
+                                <div className="mt-4 pt-4 border-t border-gray-100 text-center">
+                                    <p className="text-xs text-gray-400">Redeemed on {selectedVoucher.purchaseDate}</p>
                                 </div>
                             </div>
                         </div>
-                        <div className="text-center">
-                            <div className="bg-gray-50 py-2 px-4 rounded-lg inline-block">
-                                <p className="text-xs text-gray-400">VOUCHER CODE</p>
-                                <p className="font-mono font-bold text-lg tracking-widest text-gray-900">{selectedVoucher.code}</p>
-                            </div>
-                            <p className="text-xs text-gray-400 mt-4">Show this QR code to staff</p>
-                        </div>
                     </div>
-                </div>
-            )}
+                );
+            })()}
         </div>
     );
 };
