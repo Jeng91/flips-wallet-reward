@@ -7,6 +7,7 @@ import Wallet from './pages/Wallet';
 import Profile from './pages/Profile';
 import Vouchers from './pages/Vouchers';
 import PrivilegeDetail from './pages/PrivilegeDetail';
+import TokenDetail from './pages/TokenDetail';
 import Admin from './pages/Admin';
 import Login from './pages/Login';
 import Register from './pages/Register';
@@ -26,6 +27,7 @@ function App() {
                     <Route element={<MainLayout />}>
                         <Route path="/" element={<Home />} />
                         <Route path="/wallet" element={<Wallet />} />
+                        <Route path="/token/:tokenId" element={<TokenDetail />} />
                         <Route path="/profile" element={<Profile />} />
                         <Route path="/vouchers" element={<Vouchers />} />
                         <Route path="/privilege/:id" element={<PrivilegeDetail />} />

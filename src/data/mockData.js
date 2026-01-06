@@ -1198,6 +1198,218 @@ export const movies = [
     }
 ];
 
+// =============================================
+// TOKEN PRICE HISTORY DATA
+// =============================================
+
+// Helper function to generate price history data
+const generatePriceHistory = (basePrice, volatility = 0.05, points = 100) => {
+    const data = [];
+    let price = basePrice;
+    const now = Date.now();
+
+    for (let i = points; i >= 0; i--) {
+        const change = (Math.random() - 0.5) * 2 * volatility * price;
+        price = Math.max(price + change, basePrice * 0.5); // Don't go below 50% of base
+        data.push({
+            timestamp: now - (i * 3600000), // 1 hour intervals
+            price: parseFloat(price.toFixed(4)),
+            volume: Math.random() * 1000000
+        });
+    }
+    return data;
+};
+
+export const tokenPriceHistory = {
+    flips: {
+        '1H': generatePriceHistory(0.15, 0.02, 60),
+        '1D': generatePriceHistory(0.15, 0.05, 24),
+        '1W': generatePriceHistory(0.15, 0.08, 7 * 24),
+        '1M': generatePriceHistory(0.15, 0.12, 30),
+        '1Y': generatePriceHistory(0.15, 0.25, 365),
+        'All': generatePriceHistory(0.10, 0.35, 500)
+    },
+    tbf: {
+        '1H': generatePriceHistory(5.50, 0.01, 60),
+        '1D': generatePriceHistory(5.50, 0.03, 24),
+        '1W': generatePriceHistory(5.50, 0.06, 7 * 24),
+        '1M': generatePriceHistory(5.50, 0.10, 30),
+        '1Y': generatePriceHistory(5.50, 0.20, 365),
+        'All': generatePriceHistory(4.50, 0.30, 500)
+    },
+    phoenix: {
+        '1H': generatePriceHistory(0.08, 0.03, 60),
+        '1D': generatePriceHistory(0.08, 0.06, 24),
+        '1W': generatePriceHistory(0.08, 0.10, 7 * 24),
+        '1M': generatePriceHistory(0.08, 0.15, 30),
+        '1Y': generatePriceHistory(0.08, 0.28, 365),
+        'All': generatePriceHistory(0.05, 0.40, 500)
+    },
+    shadow: {
+        '1H': generatePriceHistory(0.08, 0.03, 60),
+        '1D': generatePriceHistory(0.08, 0.06, 24),
+        '1W': generatePriceHistory(0.08, 0.10, 7 * 24),
+        '1M': generatePriceHistory(0.08, 0.15, 30),
+        '1Y': generatePriceHistory(0.08, 0.28, 365),
+        'All': generatePriceHistory(0.05, 0.40, 500)
+    },
+    thunder: {
+        '1H': generatePriceHistory(0.08, 0.03, 60),
+        '1D': generatePriceHistory(0.08, 0.06, 24),
+        '1W': generatePriceHistory(0.08, 0.10, 7 * 24),
+        '1M': generatePriceHistory(0.08, 0.15, 30),
+        '1Y': generatePriceHistory(0.08, 0.28, 365),
+        'All': generatePriceHistory(0.05, 0.40, 500)
+    },
+    dragon: {
+        '1H': generatePriceHistory(0.08, 0.03, 60),
+        '1D': generatePriceHistory(0.08, 0.06, 24),
+        '1W': generatePriceHistory(0.08, 0.10, 7 * 24),
+        '1M': generatePriceHistory(0.08, 0.15, 30),
+        '1Y': generatePriceHistory(0.08, 0.28, 365),
+        'All': generatePriceHistory(0.05, 0.40, 500)
+    }
+};
+
+// =============================================
+// TOKEN TRANSACTION HISTORY
+// =============================================
+
+export const tokenTransactionHistory = {
+    flips: [
+        { id: 1, type: 'receive', amount: 5000, from: 'Investment Reward', date: '2025-01-05 14:30', txHash: '0x7a8b...c3d2' },
+        { id: 2, type: 'send', amount: -500, to: 'Redeem Privilege', date: '2025-01-04 10:15', txHash: '0x9f2e...b1a4' },
+        { id: 3, type: 'receive', amount: 2500, from: 'Game Reward', date: '2025-01-03 16:45', txHash: '0x3c4d...e5f6' },
+        { id: 4, type: 'receive', amount: 10000, from: 'Referral Bonus', date: '2025-01-02 09:20', txHash: '0x1a2b...3c4d' },
+        { id: 5, type: 'send', amount: -1500, to: 'Transfer to Friend', date: '2025-01-01 12:00', txHash: '0x5e6f...7g8h' },
+        { id: 6, type: 'receive', amount: 15000, from: 'Film Production Bonus', date: '2024-12-28 18:30', txHash: '0x8h9i...0j1k' },
+        { id: 7, type: 'receive', amount: 20000, from: 'Investment Reward - Gold Tier', date: '2024-12-15 11:00', txHash: '0x2l3m...4n5o' },
+    ],
+    tbf: [
+        { id: 1, type: 'receive', amount: 1500, from: 'Initial Allocation', date: '2025-01-01 00:00', txHash: '0xa1b2...c3d4' },
+        { id: 2, type: 'receive', amount: 200, from: 'Staking Reward', date: '2024-12-25 10:00', txHash: '0xe5f6...g7h8' },
+    ],
+    phoenix: [
+        { id: 1, type: 'receive', amount: 2500, from: 'Team Victory Bonus', date: '2025-01-05 20:00', txHash: '0xi9j0...k1l2' },
+        { id: 2, type: 'receive', amount: 1000, from: 'Match Participation', date: '2025-01-03 19:00', txHash: '0xm3n4...o5p6' },
+        { id: 3, type: 'send', amount: -500, to: 'Team Merch Purchase', date: '2025-01-02 15:30', txHash: '0xq7r8...s9t0' },
+    ],
+    shadow: [
+        { id: 1, type: 'receive', amount: 1800, from: 'Team Victory Bonus', date: '2025-01-04 21:00', txHash: '0xu1v2...w3x4' },
+        { id: 2, type: 'receive', amount: 800, from: 'Match Participation', date: '2025-01-01 18:00', txHash: '0xy5z6...a7b8' },
+    ],
+    thunder: [
+        { id: 1, type: 'receive', amount: 3200, from: 'Championship Win', date: '2025-01-05 22:00', txHash: '0xc9d0...e1f2' },
+        { id: 2, type: 'receive', amount: 1500, from: 'Tournament Entry', date: '2024-12-30 17:00', txHash: '0xg3h4...i5j6' },
+    ],
+    dragon: [
+        { id: 1, type: 'receive', amount: 1500, from: 'Team Victory Bonus', date: '2025-01-03 20:30', txHash: '0xk7l8...m9n0' },
+        { id: 2, type: 'receive', amount: 600, from: 'Match Participation', date: '2024-12-29 19:00', txHash: '0xo1p2...q3r4' },
+    ]
+};
+
+// =============================================
+// TOKEN DETAILS (ABOUT INFO)
+// =============================================
+
+export const tokenDetails = {
+    flips: {
+        name: 'Flips Coins',
+        symbol: 'FLIPS',
+        description: 'Universal reward token for the Flips ecosystem. Earn FLIPS through investments, games, and activities. Redeem for exclusive privileges and rewards.',
+        descriptionTh: 'โทเค็นรางวัลสากลสำหรับระบบนิเวศ Flips สะสม FLIPS ผ่านการลงทุน เกม และกิจกรรม แลกรับสิทธิพิเศษและของรางวัล',
+        totalSupply: '100,000,000',
+        circulatingSupply: '45,000,000',
+        marketCap: '$6,750,000',
+        website: 'https://flips.io',
+        whitepaper: 'https://flips.io/whitepaper.pdf',
+        contract: '0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb',
+        features: [
+            'Earn rewards from investments',
+            'Redeem exclusive privileges',
+            'Transfer to other users',
+            'Stake for additional benefits'
+        ]
+    },
+    tbf: {
+        name: 'TBF Yacht Club',
+        symbol: 'TBFC',
+        description: 'Premium partner token for yacht club access and luxury experiences.',
+        descriptionTh: 'โทเค็นพาร์ทเนอร์พรีเมียมสำหรับการเข้าถึงยอร์ชคลับและประสบการณ์หรูหรา',
+        totalSupply: '10,000,000',
+        circulatingSupply: '2,500,000',
+        marketCap: '$13,750,000',
+        website: 'https://tbfyachtclub.com',
+        contract: '0x8a3D4b9Cc6e2F1a6B5c8E0d9A1B2C3D4E5F6G7H8',
+        features: [
+            'VIP yacht access',
+            'Exclusive events',
+            'Luxury partner benefits',
+            'Premium staking rewards'
+        ]
+    },
+    phoenix: {
+        name: 'Phoenix Rising',
+        symbol: 'PHOENIX',
+        description: 'Team token for Phoenix Rising esports team supporters.',
+        descriptionTh: 'โทเค็นทีมสำหรับผู้สนับสนุนทีม Phoenix Rising อีสปอร์ต',
+        totalSupply: '50,000,000',
+        circulatingSupply: '15,000,000',
+        marketCap: '$1,200,000',
+        features: [
+            'Team merchandise discounts',
+            'Match prediction rewards',
+            'Exclusive team content',
+            'Meet & greet opportunities'
+        ]
+    },
+    shadow: {
+        name: 'Shadow Strikers',
+        symbol: 'SHADOW',
+        description: 'Team token for Shadow Strikers esports team supporters.',
+        descriptionTh: 'โทเค็นทีมสำหรับผู้สนับสนุนทีม Shadow Strikers อีสปอร์ต',
+        totalSupply: '50,000,000',
+        circulatingSupply: '12,000,000',
+        marketCap: '$960,000',
+        features: [
+            'Team merchandise discounts',
+            'Match prediction rewards',
+            'Exclusive team content',
+            'Meet & greet opportunities'
+        ]
+    },
+    thunder: {
+        name: 'Thunder Titans',
+        symbol: 'THUNDER',
+        description: 'Team token for Thunder Titans esports team supporters.',
+        descriptionTh: 'โทเค็นทีมสำหรับผู้สนับสนุนทีม Thunder Titans อีสปอร์ต',
+        totalSupply: '50,000,000',
+        circulatingSupply: '18,000,000',
+        marketCap: '$1,440,000',
+        features: [
+            'Team merchandise discounts',
+            'Match prediction rewards',
+            'Exclusive team content',
+            'Meet & greet opportunities'
+        ]
+    },
+    dragon: {
+        name: 'Dragon Dynasty',
+        symbol: 'DRAGON',
+        description: 'Team token for Dragon Dynasty esports team supporters.',
+        descriptionTh: 'โทเค็นทีมสำหรับผู้สนับสนุนทีม Dragon Dynasty อีสปอร์ต',
+        totalSupply: '50,000,000',
+        circulatingSupply: '10,000,000',
+        marketCap: '$800,000',
+        features: [
+            'Team merchandise discounts',
+            'Match prediction rewards',
+            'Exclusive team content',
+            'Meet & greet opportunities'
+        ]
+    }
+};
+
 // Filter categories
 export const filters = [
     { id: 'all', label: 'All', labelTh: 'ทั้งหมด' },

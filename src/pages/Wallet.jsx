@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
     ArrowUpRight, ArrowDownLeft, Plus, QrCode, Ticket,
     Ship, Flame, Ghost, Bolt, Zap, TrendingUp,
@@ -25,6 +26,7 @@ import PortfolioSummary from '../components/wallet/PortfolioSummary';
 import InvestmentCard from '../components/wallet/InvestmentCard';
 
 const Wallet = () => {
+    const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState('dashboard');
     const [showTransfer, setShowTransfer] = useState(false);
     const [showReceive, setShowReceive] = useState(false);
@@ -114,7 +116,10 @@ const Wallet = () => {
                     </h2>
                     <div className="space-y-3 mb-8">
                         {/* FLIPS Token */}
-                        <div className="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm flex items-center justify-between hover:border-primary/30 hover:shadow-md transition-all">
+                        <div
+                            onClick={() => navigate('/token/flips')}
+                            className="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm flex items-center justify-between hover:border-primary/30 hover:shadow-md transition-all cursor-pointer"
+                        >
                             <div className="flex items-center gap-4">
                                 <div className="w-12 h-12 bg-cyan-50 rounded-xl flex items-center justify-center">
                                     <img src="/images/flips_token.png" alt="Flips" className="w-8 h-8 object-contain" />
@@ -131,7 +136,10 @@ const Wallet = () => {
                         </div>
 
                         {/* TBF Token */}
-                        <div className="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm flex items-center justify-between hover:border-primary/30 hover:shadow-md transition-all">
+                        <div
+                            onClick={() => navigate('/token/tbf')}
+                            className="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm flex items-center justify-between hover:border-primary/30 hover:shadow-md transition-all cursor-pointer"
+                        >
                             <div className="flex items-center gap-4">
                                 <div className="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center text-blue-600">
                                     <Ship className="w-6 h-6" />
@@ -152,7 +160,11 @@ const Wallet = () => {
                             const Icon = getTeamIcon(team.id);
                             const balance = defaultWalletData.teamCoins[team.id] || 0;
                             return (
-                                <div key={team.id} className="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm flex items-center justify-between hover:border-primary/30 hover:shadow-md transition-all">
+                                <div
+                                    key={team.id}
+                                    onClick={() => navigate(`/token/${team.id}`)}
+                                    className="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm flex items-center justify-between hover:border-primary/30 hover:shadow-md transition-all cursor-pointer"
+                                >
                                     <div className="flex items-center gap-4">
                                         <div className={`w-12 h-12 ${team.bgColor} rounded-xl flex items-center justify-center ${team.textColor}`}>
                                             <Icon className="w-6 h-6" />
