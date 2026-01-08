@@ -1,86 +1,51 @@
 import React, { useState } from 'react';
 import { Card } from '../ui/Card';
 import { privilegePackages } from '../../data/mockData';
-import { tbfBoats, tbfBookings, tbfConfirmedBookings, fractionalBoat, fractionalBookings, fractionalConfirmedBookings } from '../../data/adminExtendedData';
 
-const AdminTBFVouchers = () => {
+const AdminCtrlGVouchers = () => {
     const [searchTerm, setSearchTerm] = useState('');
-    const [activeTab, setActiveTab] = useState('all'); // all, boat-passes, boat-events, boat-tours
+    const [activeTab, setActiveTab] = useState('all'); // all, game-merchandise, game-meet-greet, game-items, early-access
 
-    // Filter TBF privileges (exclude fractional)
-    const tbfPrivileges = privilegePackages.filter(p => p.mainCategory === 'tbf');
+    // Filter CtrlG privileges
+    const ctrlgPrivileges = privilegePackages.filter(p => p.mainCategory === 'ctrlg');
 
     // Filter by active tab
     const filteredPrivileges = activeTab === 'all'
-        ? tbfPrivileges
-        : tbfPrivileges.filter(p => p.category === activeTab);
+        ? ctrlgPrivileges
+        : ctrlgPrivileges.filter(p => p.category === activeTab);
 
     const searchFiltered = filteredPrivileges.filter(p =>
         p.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
         p.titleTh.includes(searchTerm)
     );
 
-    // Boat booking statistics (excluding fractional)
-    const totalBookings = tbfBookings.length + tbfConfirmedBookings.length;
-    const pendingBookings = tbfBookings.length;
-    const confirmedBookings = tbfConfirmedBookings.length;
-
     return (
         <div className="max-w-7xl mx-auto space-y-6">
             {/* Header */}
             <div>
-                <h2 className="text-3xl font-bold text-gray-900">Fractional TBF - จัดการ Boat Rewards</h2>
-                <p className="text-gray-600 mt-1">จัดการ rewards สำหรับ Boat Experiences (ไม่รวม Fractional Ownership)</p>
+                <h2 className="text-3xl font-bold text-gray-900">CtrlG - จัดการ Vouchers</h2>
+                <p className="text-gray-600 mt-1">จัดการ rewards สำหรับ Gaming และ Entertainment</p>
             </div>
 
             {/* Statistics */}
             <div className="grid md:grid-cols-4 gap-4">
                 <Card className="text-center">
-                    <p className="text-2xl font-bold text-blue-600">{tbfPrivileges.length}</p>
+                    <p className="text-2xl font-bold text-indigo-600">{ctrlgPrivileges.length}</p>
                     <p className="text-sm text-gray-600">Rewards ทั้งหมด</p>
                 </Card>
                 <Card className="text-center">
-                    <p className="text-2xl font-bold text-cyan-600">{tbfPrivileges.filter(p => p.category === 'boat-passes').length}</p>
-                    <p className="text-sm text-gray-600">บัตรล่องเรือ</p>
+                    <p className="text-2xl font-bold text-purple-600">{ctrlgPrivileges.filter(p => p.category === 'game-merchandise').length}</p>
+                    <p className="text-sm text-gray-600">สินค้าเกม</p>
                 </Card>
                 <Card className="text-center">
-                    <p className="text-2xl font-bold text-teal-600">{tbfPrivileges.filter(p => p.category === 'boat-events').length}</p>
-                    <p className="text-sm text-gray-600">อีเว้นท์บนเรือ</p>
+                    <p className="text-2xl font-bold text-pink-600">{ctrlgPrivileges.filter(p => p.category === 'game-meet-greet').length}</p>
+                    <p className="text-sm text-gray-600">พบนักแข่ง</p>
                 </Card>
                 <Card className="text-center">
-                    <p className="text-2xl font-bold text-sky-600">{tbfPrivileges.filter(p => p.category === 'boat-tours').length}</p>
-                    <p className="text-sm text-gray-600">ทัวร์หรู</p>
+                    <p className="text-2xl font-bold text-blue-600">{ctrlgPrivileges.filter(p => p.category === 'game-items' || p.category === 'early-access').length}</p>
+                    <p className="text-sm text-gray-600">ไอเทมในเกม</p>
                 </Card>
             </div>
-
-            {/* Boat Booking Stats (Separate from privileges) */}
-            <Card>
-                <h3 className="text-lg font-bold text-gray-900 mb-4">
-                    <i className="fas fa-ship mr-2 text-blue-600"></i>
-                    สถิติการจองเรือ TBF (Regular Bookings)
-                </h3>
-                <div className="grid grid-cols-4 gap-4">
-                    <div className="text-center p-3 bg-gray-50 rounded-lg">
-                        <p className="text-2xl font-bold text-gray-900">{tbfBoats.length}</p>
-                        <p className="text-xs text-gray-600">เรือทั้งหมด</p>
-                    </div>
-                    <div className="text-center p-3 bg-blue-50 rounded-lg">
-                        <p className="text-2xl font-bold text-blue-600">{totalBookings}</p>
-                        <p className="text-xs text-gray-600">การจองทั้งหมด</p>
-                    </div>
-                    <div className="text-center p-3 bg-orange-50 rounded-lg">
-                        <p className="text-2xl font-bold text-orange-600">{pendingBookings}</p>
-                        <p className="text-xs text-gray-600">รอยืนยัน</p>
-                    </div>
-                    <div className="text-center p-3 bg-green-50 rounded-lg">
-                        <p className="text-2xl font-bold text-green-600">{confirmedBookings}</p>
-                        <p className="text-xs text-gray-600">ยืนยันแล้ว</p>
-                    </div>
-                </div>
-                <div className="mt-3 pt-3 border-t border-gray-200 text-sm text-gray-600">
-                    <p><i className="fas fa-info-circle mr-2"></i>หมายเหตุ: สถิตินี้ไม่รวม Fractional Ownership Bookings</p>
-                </div>
-            </Card>
 
             {/* Tabs */}
             <Card>
@@ -93,25 +58,32 @@ const AdminTBFVouchers = () => {
                         All Privileges
                     </button>
                     <button
-                        onClick={() => setActiveTab('boat-passes')}
-                        className={`px-6 py-2 rounded-lg font-medium transition-colors whitespace-nowrap ${activeTab === 'boat-passes' ? 'bg-gray-200 text-gray-900' : 'bg-gray-50 text-gray-600 hover:bg-gray-100'
+                        onClick={() => setActiveTab('game-merchandise')}
+                        className={`px-6 py-2 rounded-lg font-medium transition-colors whitespace-nowrap ${activeTab === 'game-merchandise' ? 'bg-gray-200 text-gray-900' : 'bg-gray-50 text-gray-600 hover:bg-gray-100'
                             }`}
                     >
-                        Boat Passes
+                        Game Merchandise
                     </button>
                     <button
-                        onClick={() => setActiveTab('boat-events')}
-                        className={`px-6 py-2 rounded-lg font-medium transition-colors whitespace-nowrap ${activeTab === 'boat-events' ? 'bg-gray-200 text-gray-900' : 'bg-gray-50 text-gray-600 hover:bg-gray-100'
+                        onClick={() => setActiveTab('game-meet-greet')}
+                        className={`px-6 py-2 rounded-lg font-medium transition-colors whitespace-nowrap ${activeTab === 'game-meet-greet' ? 'bg-gray-200 text-gray-900' : 'bg-gray-50 text-gray-600 hover:bg-gray-100'
                             }`}
                     >
-                        Yacht Events
+                        Meet Players
                     </button>
                     <button
-                        onClick={() => setActiveTab('boat-tours')}
-                        className={`px-6 py-2 rounded-lg font-medium transition-colors whitespace-nowrap ${activeTab === 'boat-tours' ? 'bg-gray-200 text-gray-900' : 'bg-gray-50 text-gray-600 hover:bg-gray-100'
+                        onClick={() => setActiveTab('game-items')}
+                        className={`px-6 py-2 rounded-lg font-medium transition-colors whitespace-nowrap ${activeTab === 'game-items' ? 'bg-gray-200 text-gray-900' : 'bg-gray-50 text-gray-600 hover:bg-gray-100'
                             }`}
                     >
-                        Luxury Tours
+                        In-Game Items
+                    </button>
+                    <button
+                        onClick={() => setActiveTab('early-access')}
+                        className={`px-6 py-2 rounded-lg font-medium transition-colors whitespace-nowrap ${activeTab === 'early-access' ? 'bg-gray-200 text-gray-900' : 'bg-gray-50 text-gray-600 hover:bg-gray-100'
+                            }`}
+                    >
+                        Early Access
                     </button>
                 </div>
             </Card>
@@ -141,16 +113,12 @@ const AdminTBFVouchers = () => {
                     <p className="text-xl font-bold text-gray-900">{searchFiltered.filter(p => p.tier === 'gold').length}</p>
                 </Card>
                 <Card className="text-center">
-                    <p className="text-sm text-gray-600">ราคาเฉลี่ย</p>
-                    <p className="text-xl font-bold text-gray-900">
-                        {searchFiltered.length > 0 ? Math.round(searchFiltered.reduce((sum, p) => sum + p.price, 0) / searchFiltered.length) : 0}
-                    </p>
+                    <p className="text-sm text-gray-600">ระดับ Silver</p>
+                    <p className="text-xl font-bold text-gray-900">{searchFiltered.filter(p => p.tier === 'silver').length}</p>
                 </Card>
                 <Card className="text-center">
-                    <p className="text-sm text-gray-600">คะแนนเฉลี่ย</p>
-                    <p className="text-xl font-bold text-gray-900">
-                        {searchFiltered.length > 0 ? (searchFiltered.reduce((sum, p) => sum + p.rating, 0) / searchFiltered.length).toFixed(1) : 0}
-                    </p>
+                    <p className="text-sm text-gray-600">สินค้าจริง</p>
+                    <p className="text-xl font-bold text-gray-900">{searchFiltered.filter(p => p.isPhysical).length}</p>
                 </Card>
             </div>
 
@@ -159,16 +127,16 @@ const AdminTBFVouchers = () => {
                 {searchFiltered.map((privilege) => (
                     <Card key={privilege.id} className="hover:shadow-lg transition-shadow">
                         {/* Privilege Image */}
-                        <div className="aspect-video bg-gradient-to-br from-blue-500 to-cyan-600 rounded-lg mb-4 flex items-center justify-center overflow-hidden">
+                        <div className="aspect-video bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg mb-4 flex items-center justify-center overflow-hidden">
                             {privilege.image ? (
                                 <img
                                     src={privilege.image}
                                     alt={privilege.title}
                                     className="w-full h-full object-cover"
-                                    onError={(e) => e.target.src = 'https://placehold.co/400x200/0284c7/ffffff?text=TBF+Boat'}
+                                    onError={(e) => e.target.src = 'https://placehold.co/400x200/6366f1/ffffff?text=CTRL+G'}
                                 />
                             ) : (
-                                <i className="fas fa-ship text-white text-4xl"></i>
+                                <i className="fas fa-gamepad text-white text-4xl"></i>
                             )}
                         </div>
 
@@ -177,30 +145,35 @@ const AdminTBFVouchers = () => {
                             {/* Badges */}
                             <div className="flex gap-2 mb-2 flex-wrap">
                                 <span className={`px-2 py-1 rounded text-xs font-medium ${privilege.tier === 'gold' ? 'bg-yellow-100 text-yellow-700' :
-                                    privilege.tier === 'silver' ? 'bg-gray-100 text-gray-700' :
-                                        'bg-blue-100 text-blue-700'
+                                        privilege.tier === 'silver' ? 'bg-gray-100 text-gray-700' :
+                                            'bg-blue-100 text-blue-700'
                                     }`}>
                                     {privilege.tier?.toUpperCase()}
                                 </span>
-                                <span className="px-2 py-1 bg-blue-100 text-blue-700 rounded text-xs font-medium">
+                                <span className="px-2 py-1 bg-indigo-100 text-indigo-700 rounded text-xs font-medium">
                                     {privilege.categoryLabel}
                                 </span>
+                                {privilege.isPhysical && (
+                                    <span className="px-2 py-1 bg-orange-100 text-orange-700 rounded text-xs font-medium">
+                                        <i className="fas fa-box mr-1"></i>Physical
+                                    </span>
+                                )}
                             </div>
 
                             <h3 className="font-bold text-gray-900 mb-1">{privilege.titleTh}</h3>
                             <p className="text-xs text-gray-500 mb-2">{privilege.title}</p>
 
-                            {privilege.venue && (
+                            {privilege.teamName && (
                                 <p className="text-xs text-gray-600 mb-2">
-                                    <i className="fas fa-map-marker-alt mr-1"></i>
-                                    {privilege.venue}
+                                    <i className="fas fa-users mr-1"></i>
+                                    {privilege.teamNameTh || privilege.teamName}
                                 </p>
                             )}
 
-                            {privilege.eventDate && privilege.eventDate !== 'Flexible' && (
+                            {privilege.gameName && (
                                 <p className="text-xs text-gray-600 mb-2">
-                                    <i className="fas fa-calendar mr-1"></i>
-                                    {privilege.eventDate}
+                                    <i className="fas fa-gamepad mr-1"></i>
+                                    {privilege.gameNameTh || privilege.gameName}
                                 </p>
                             )}
 
@@ -212,8 +185,8 @@ const AdminTBFVouchers = () => {
                             <div className="flex items-center justify-between mb-3 pt-3 border-t border-gray-100">
                                 <div>
                                     <p className="text-xs text-gray-500">ราคา</p>
-                                    <p className="font-bold text-blue-600">
-                                        {privilege.price} TBF
+                                    <p className="font-bold text-indigo-600">
+                                        {privilege.price} {privilege.coinType?.toUpperCase() || 'CTRL G'}
                                     </p>
                                 </div>
                                 <div className="text-right">
@@ -230,7 +203,7 @@ const AdminTBFVouchers = () => {
                                 <button className="flex-1 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm font-medium">
                                     แก้ไข
                                 </button>
-                                <button className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium">
+                                <button className="flex-1 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors text-sm font-medium">
                                     ดูรายละเอียด
                                 </button>
                             </div>
@@ -249,4 +222,4 @@ const AdminTBFVouchers = () => {
     );
 };
 
-export default AdminTBFVouchers;
+export default AdminCtrlGVouchers;

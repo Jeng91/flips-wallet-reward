@@ -21,7 +21,10 @@ import AdminNewUsers from './components/admin/AdminNewUsers';
 import AdminTokenManagement from './components/admin/AdminTokenManagement';
 import AdminWalletMonitoring from './components/admin/AdminWalletMonitoring';
 import AdminColestiaVouchers from './components/admin/AdminColestiaVouchers';
+import AdminCtrlGVouchers from './components/admin/AdminCtrlGVouchers';
+import AdminVoucherOverview from './components/admin/AdminVoucherOverview';
 import AdminTBFVouchers from './components/admin/AdminTBFVouchers';
+import AdminFractionalTBF from './components/admin/AdminFractionalTBF';
 import AdminReports from './components/admin/AdminReports';
 import AdminRolesPermissions from './components/admin/AdminRolesPermissions';
 import { filmTokens, walletHolders, fundingReports, adminRoles, adminUsers, redemptionQueue } from './data/adminMockData';
@@ -43,10 +46,10 @@ function App() {
                         <Route path="users/new" element={<AdminNewUsers />} />
                         <Route path="wallet/tokens" element={<AdminTokenManagement tokens={filmTokens} />} />
                         <Route path="wallet/monitoring" element={<AdminWalletMonitoring wallets={walletHolders} />} />
-                        <Route path="vouchers" element={<AdminColestiaVouchers />} />
+                        <Route path="vouchers" element={<AdminVoucherOverview />} />
                         <Route path="vouchers/colestia" element={<AdminColestiaVouchers />} />
-                        <Route path="vouchers/ctrlg" element={<AdminColestiaVouchers />} />
-                        <Route path="vouchers/tbf" element={<AdminTBFVouchers />} />
+                        <Route path="vouchers/ctrlg" element={<AdminCtrlGVouchers />} />
+                        <Route path="vouchers/tbf" element={<AdminFractionalTBF />} />
                         <Route path="fractional" element={<AdminTBFVouchers />} />
                         <Route path="reports" element={<AdminReports reports={fundingReports} />} />
                         <Route path="roles" element={<AdminRolesPermissions roles={adminRoles} adminUsers={adminUsers} />} />
