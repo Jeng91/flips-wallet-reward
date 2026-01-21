@@ -137,6 +137,7 @@ export const tokens = [
 ];
 
 export const transactions = [
+    // TRX Transactions
     {
         id: "tx1",
         type: "Transfer",
@@ -144,6 +145,7 @@ export const transactions = [
         date: "Today, 10:42 AM",
         amount: -14.99,
         currency: "USD",
+        tokenId: "trx",
         status: "Success",
         icon: "arrow-right-circle"
     },
@@ -154,6 +156,7 @@ export const transactions = [
         date: "Today, 09:15 AM",
         amount: 500.00,
         currency: "USD",
+        tokenId: "trx",
         status: "Pending",
         icon: "wallet"
     },
@@ -164,6 +167,7 @@ export const transactions = [
         date: "Yesterday, 08:30 PM",
         amount: -120.00,
         currency: "USD",
+        tokenId: "trx",
         status: "Failed",
         icon: "download"
     },
@@ -174,8 +178,124 @@ export const transactions = [
         date: "Yesterday, 11:00 AM",
         amount: 50.00,
         currency: "USD",
+        tokenId: "trx",
         status: "Success",
         icon: "plus-circle"
+    },
+    // FLIPS Transactions
+    {
+        id: "tx5",
+        type: "Transfer",
+        title: "Transfer Coins",
+        date: "Jan 18, 02:30 PM",
+        amount: -1000,
+        currency: "FLIPS",
+        tokenId: "flips",
+        status: "Success",
+        icon: "arrow-right-circle"
+    },
+    {
+        id: "tx6",
+        type: "Receive",
+        title: "Receive Coins",
+        date: "Jan 17, 11:00 AM",
+        amount: 500,
+        currency: "FLIPS",
+        tokenId: "flips",
+        status: "Success",
+        icon: "wallet"
+    },
+    {
+        id: "tx7",
+        type: "Transfer",
+        title: "Transfer Coins",
+        date: "Jan 15, 09:20 AM",
+        amount: -2500,
+        currency: "FLIPS",
+        tokenId: "flips",
+        status: "Success",
+        icon: "arrow-right-circle"
+    },
+    {
+        id: "tx8",
+        type: "Receive",
+        title: "Receive Coins",
+        date: "Jan 10, 03:45 PM",
+        amount: 8500,
+        currency: "FLIPS",
+        tokenId: "flips",
+        status: "Success",
+        icon: "wallet"
+    },
+    // TBFC Transactions
+    {
+        id: "tx9",
+        type: "Transfer",
+        title: "Transfer Coins",
+        date: "Jan 12, 10:15 AM",
+        amount: -50,
+        currency: "TBFC",
+        tokenId: "tbf",
+        status: "Success",
+        icon: "arrow-right-circle"
+    },
+    {
+        id: "tx10",
+        type: "Receive",
+        title: "Receive Coins",
+        date: "Jan 05, 02:00 PM",
+        amount: 1500,
+        currency: "TBFC",
+        tokenId: "tbf",
+        status: "Success",
+        icon: "wallet"
+    },
+    // Team Coin Transactions - Phoenix
+    {
+        id: "tx11",
+        type: "Receive",
+        title: "Receive Coins",
+        date: "Jan 16, 04:30 PM",
+        amount: 500,
+        currency: "PHOENIX",
+        tokenId: "phoenix",
+        status: "Success",
+        icon: "wallet"
+    },
+    {
+        id: "tx12",
+        type: "Transfer",
+        title: "Transfer Coins",
+        date: "Jan 14, 11:00 AM",
+        amount: -200,
+        currency: "PHOENIX",
+        tokenId: "phoenix",
+        status: "Success",
+        icon: "arrow-right-circle"
+    },
+    // Team Coin Transactions - Thunder
+    {
+        id: "tx13",
+        type: "Receive",
+        title: "Receive Coins",
+        date: "Jan 13, 09:00 AM",
+        amount: 1000,
+        currency: "THUNDER",
+        tokenId: "thunder",
+        status: "Success",
+        icon: "wallet"
+    },
+    // Investment Token - BG2
+    {
+        id: "tx14",
+        type: "Receive",
+        title: "Receive Coins",
+        date: "Jan 08, 01:20 PM",
+        amount: 5000,
+        currency: "BG2",
+        tokenId: "inv-movie",
+        status: "Success",
+        icon: "wallet"
     }
 ];
 

@@ -4,7 +4,7 @@ import {
     ArrowUpRight, ArrowDownLeft, Plus, QrCode, Ticket,
     Ship, Flame, Ghost, Bolt, Zap, TrendingUp,
     LayoutDashboard, History, Gift, X, Copy, ExternalLink, Package, Truck,
-    PieChart, Wallet as WalletIcon, BarChart3
+    PieChart, Wallet as WalletIcon, BarChart3, ChevronLeft, ChevronRight
 } from 'lucide-react';
 import {
     defaultWalletData,
@@ -36,6 +36,9 @@ const Wallet = () => {
     const [selectedVoucher, setSelectedVoucher] = useState(null);
     const [showQrModal, setShowQrModal] = useState(false);
     const [copiedTrackingId, setCopiedTrackingId] = useState(false);
+    // History tab state
+    const [selectedHistoryToken, setSelectedHistoryToken] = useState(null);
+    const [historyFilter, setHistoryFilter] = useState('all');
 
     const getTeamIcon = (teamId) => {
         const icons = { phoenix: Flame, shadow: Ghost, thunder: Bolt, dragon: Zap };
@@ -362,59 +365,243 @@ const Wallet = () => {
             {/* HISTORY TAB */}
             {activeTab === 'history' && (
                 <div>
-                    <div className="flex items-center justify-between mb-6">
-                        <p className="text-gray-500">All transactions</p>
-                        <div className="flex gap-2">
-                            <button className="px-4 py-2 rounded-lg bg-primary text-white text-sm font-medium">All</button>
-                            <button className="px-4 py-2 rounded-lg bg-gray-100 text-gray-700 text-sm hover:bg-gray-200">Earned</button>
-                            <button className="px-4 py-2 rounded-lg bg-gray-100 text-gray-700 text-sm hover:bg-gray-200">Spent</button>
-                        </div>
-                    </div>
+                    {/* Token List View - When no token is selected */}
+                    {!selectedHistoryToken ? (
+                        <>
+                            <div className="mb-6">
+                                <p className="text-gray-500">Select a token to view transaction history</p>
+                            </div>
 
-                    <div className="space-y-3">
-                        {transactions.map((tx) => (
-                            <div key={tx.id} className="flex items-center justify-between p-4 bg-white rounded-xl border border-gray-100 hover:shadow-md transition-all">
-                                <div className="flex items-center gap-4">
-                                    <div className={`w-10 h-10 rounded-full flex items-center justify-center ${tx.amount > 0 ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-500'}`}>
-                                        {tx.amount > 0 ? <ArrowDownLeft className="w-5 h-5" /> : <ArrowUpRight className="w-5 h-5" />}
+                            <div className="space-y-3">
+                                {/* TRX Token */}
+                                <div
+                                    onClick={() => setSelectedHistoryToken({ id: 'trx', name: 'Tron', symbol: 'TRX', balance: 24582, color: 'bg-red-500', textColor: 'text-white' })}
+                                    className="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm flex items-center justify-between hover:border-primary/30 hover:shadow-md transition-all cursor-pointer"
+                                >
+                                    <div className="flex items-center gap-4">
+                                        <div className="w-12 h-12 bg-red-500 rounded-xl flex items-center justify-center text-white font-bold">
+                                            TRX
+                                        </div>
+                                        <div>
+                                            <p className="font-bold text-gray-900">TRX</p>
+                                            <p className="text-sm text-gray-400">Tron</p>
+                                        </div>
+                                    </div>
+                                    <div className="flex items-center gap-3">
+                                        <div className="text-right">
+                                            <p className="text-xl font-bold text-gray-900">24,582</p>
+                                            <p className="text-xs text-gray-400">$2,704.02</p>
+                                        </div>
+                                        <ChevronRight className="w-5 h-5 text-gray-400" />
+                                    </div>
+                                </div>
+
+                                {/* FLIPS Token */}
+                                <div
+                                    onClick={() => setSelectedHistoryToken({ id: 'flips', name: 'FLIPS Token', symbol: 'FLIPS', balance: defaultWalletData.totalPoints, color: 'bg-cyan-500', textColor: 'text-white' })}
+                                    className="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm flex items-center justify-between hover:border-primary/30 hover:shadow-md transition-all cursor-pointer"
+                                >
+                                    <div className="flex items-center gap-4">
+                                        <div className="w-12 h-12 bg-cyan-50 rounded-xl flex items-center justify-center">
+                                            <img src="/images/flips_token.png" alt="Flips" className="w-8 h-8 object-contain" />
+                                        </div>
+                                        <div>
+                                            <p className="font-bold text-gray-900">FLIPS</p>
+                                            <p className="text-sm text-gray-400">FLIPS Token</p>
+                                        </div>
+                                    </div>
+                                    <div className="flex items-center gap-3">
+                                        <div className="text-right">
+                                            <p className="text-xl font-bold text-gray-900">{defaultWalletData.totalPoints.toLocaleString()}</p>
+                                            <p className="text-xs text-gray-400">${(defaultWalletData.totalPoints * 0.15).toLocaleString()}</p>
+                                        </div>
+                                        <ChevronRight className="w-5 h-5 text-gray-400" />
+                                    </div>
+                                </div>
+
+                                {/* TBFC Token */}
+                                <div
+                                    onClick={() => setSelectedHistoryToken({ id: 'tbf', name: 'TBFC (Yacht Club)', symbol: 'TBFC', balance: defaultWalletData.tbfCoins, color: 'bg-blue-800', textColor: 'text-white' })}
+                                    className="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm flex items-center justify-between hover:border-primary/30 hover:shadow-md transition-all cursor-pointer"
+                                >
+                                    <div className="flex items-center gap-4">
+                                        <div className="w-12 h-12 bg-blue-800 rounded-xl flex items-center justify-center text-white">
+                                            <Ship className="w-6 h-6" />
+                                        </div>
+                                        <div>
+                                            <p className="font-bold text-gray-900">TBFC</p>
+                                            <p className="text-sm text-gray-400">TBFC Yacht Club</p>
+                                        </div>
+                                    </div>
+                                    <div className="flex items-center gap-3">
+                                        <div className="text-right">
+                                            <p className="text-xl font-bold text-gray-900">{defaultWalletData.tbfCoins.toLocaleString()}</p>
+                                            <p className="text-xs text-gray-400">$0</p>
+                                        </div>
+                                        <ChevronRight className="w-5 h-5 text-gray-400" />
+                                    </div>
+                                </div>
+
+                                {/* Team Coins */}
+                                {GAME_TEAMS.map((team) => {
+                                    const Icon = getTeamIcon(team.id);
+                                    const balance = defaultWalletData.teamCoins[team.id] || 0;
+                                    return (
+                                        <div
+                                            key={team.id}
+                                            onClick={() => setSelectedHistoryToken({ id: team.id, name: team.coinName, symbol: team.id.toUpperCase(), balance: balance, color: team.bgColor, textColor: team.textColor, icon: Icon })}
+                                            className="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm flex items-center justify-between hover:border-primary/30 hover:shadow-md transition-all cursor-pointer"
+                                        >
+                                            <div className="flex items-center gap-4">
+                                                <div className={`w-12 h-12 ${team.bgColor} rounded-xl flex items-center justify-center ${team.textColor}`}>
+                                                    <Icon className="w-6 h-6" />
+                                                </div>
+                                                <div>
+                                                    <p className="font-bold text-gray-900">{team.coinName}</p>
+                                                    <p className="text-sm text-gray-400">CTRL G Team Token</p>
+                                                </div>
+                                            </div>
+                                            <div className="flex items-center gap-3">
+                                                <div className="text-right">
+                                                    <p className="text-xl font-bold text-gray-900">{balance.toLocaleString()}</p>
+                                                    <p className="text-xs text-gray-400">$0</p>
+                                                </div>
+                                                <ChevronRight className="w-5 h-5 text-gray-400" />
+                                            </div>
+                                        </div>
+                                    );
+                                })}
+
+                                {/* Investment Tokens */}
+                                {investments.slice(0, 2).map((inv) => (
+                                    <div
+                                        key={inv.id}
+                                        onClick={() => setSelectedHistoryToken({ id: inv.tokenId, name: inv.name, symbol: inv.tokenSymbol, balance: inv.tokenBalance || 0, color: 'bg-indigo-500', textColor: 'text-white', image: inv.image })}
+                                        className="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm flex items-center justify-between hover:border-primary/30 hover:shadow-md transition-all cursor-pointer"
+                                    >
+                                        <div className="flex items-center gap-4">
+                                            <div className="w-12 h-12 bg-indigo-50 rounded-xl flex items-center justify-center overflow-hidden">
+                                                <img src={inv.image} alt={inv.name} className="w-full h-full object-cover" />
+                                            </div>
+                                            <div>
+                                                <p className="font-bold text-gray-900">{inv.tokenSymbol}</p>
+                                                <p className="text-sm text-gray-400">{inv.name}</p>
+                                            </div>
+                                        </div>
+                                        <div className="flex items-center gap-3">
+                                            <div className="text-right">
+                                                <p className="text-xl font-bold text-gray-900">{(inv.tokenBalance || 0).toLocaleString()}</p>
+                                                <p className="text-xs text-gray-400">${((inv.tokenBalance || 0) * inv.tokenPrice).toLocaleString()}</p>
+                                            </div>
+                                            <ChevronRight className="w-5 h-5 text-gray-400" />
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </>
+                    ) : (
+                        /* Token History View - When a token is selected */
+                        <>
+                            {/* Back Button and Token Header */}
+                            <div className="flex items-center gap-4 mb-6">
+                                <button
+                                    onClick={() => { setSelectedHistoryToken(null); setHistoryFilter('all'); }}
+                                    className="p-2 bg-gray-100 rounded-xl hover:bg-gray-200 transition-colors"
+                                >
+                                    <ChevronLeft className="w-5 h-5 text-gray-600" />
+                                </button>
+                                <div className="flex items-center gap-3">
+                                    <div className={`w-10 h-10 ${selectedHistoryToken.color || 'bg-primary'} rounded-xl flex items-center justify-center ${selectedHistoryToken.textColor || 'text-white'}`}>
+                                        {selectedHistoryToken.image ? (
+                                            <img src={selectedHistoryToken.image} alt={selectedHistoryToken.name} className="w-full h-full object-cover rounded-xl" />
+                                        ) : selectedHistoryToken.icon ? (
+                                            <selectedHistoryToken.icon className="w-5 h-5" />
+                                        ) : (
+                                            <span className="text-xs font-bold">{selectedHistoryToken.symbol?.slice(0, 3)}</span>
+                                        )}
                                     </div>
                                     <div>
-                                        <p className="font-medium text-gray-800">{tx.title}</p>
-                                        <p className="text-xs text-gray-400">{tx.date}</p>
+                                        <h3 className="font-bold text-gray-900">{selectedHistoryToken.symbol} History</h3>
+                                        <p className="text-sm text-gray-500">Balance: {selectedHistoryToken.balance?.toLocaleString()} {selectedHistoryToken.symbol}</p>
                                     </div>
                                 </div>
-                                <div className="text-right">
-                                    <p className={`font-bold ${tx.amount > 0 ? 'text-green-600' : 'text-red-500'}`}>
-                                        {tx.amount > 0 ? '+' : ''}{tx.amount.toLocaleString()} {tx.currency}
-                                    </p>
-                                    <span className={`text-xs px-2 py-0.5 rounded-full ${tx.status === 'Success' ? 'bg-green-100 text-green-700' :
-                                        tx.status === 'Pending' ? 'bg-amber-100 text-amber-700' : 'bg-red-100 text-red-700'
-                                        }`}>{tx.status}</span>
-                                </div>
                             </div>
-                        ))}
-                    </div>
 
-                    {/* Points History */}
-                    <h3 className="font-bold text-gray-800 mt-8 mb-4">Rewards History</h3>
-                    <div className="space-y-3">
-                        {defaultWalletData.transactions.map((tx, i) => (
-                            <div key={i} className="flex items-center justify-between p-4 bg-white rounded-xl border border-gray-100">
-                                <div className="flex items-center gap-4">
-                                    <div className={`w-10 h-10 rounded-full flex items-center justify-center ${tx.type === 'earn' ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-500'}`}>
-                                        {tx.type === 'earn' ? <ArrowDownLeft className="w-5 h-5" /> : <ArrowUpRight className="w-5 h-5" />}
-                                    </div>
-                                    <div>
-                                        <p className="font-medium text-gray-800">{tx.description}</p>
-                                        <p className="text-xs text-gray-400">{tx.date}</p>
-                                    </div>
+                            {/* Filter Buttons */}
+                            <div className="flex items-center justify-between mb-6">
+                                <p className="text-gray-500">Transaction history</p>
+                                <div className="flex gap-2">
+                                    <button
+                                        onClick={() => setHistoryFilter('all')}
+                                        className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${historyFilter === 'all' ? 'bg-primary text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}
+                                    >
+                                        All
+                                    </button>
+                                    <button
+                                        onClick={() => setHistoryFilter('earned')}
+                                        className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${historyFilter === 'earned' ? 'bg-primary text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}
+                                    >
+                                        Earned
+                                    </button>
+                                    <button
+                                        onClick={() => setHistoryFilter('spent')}
+                                        className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${historyFilter === 'spent' ? 'bg-primary text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}
+                                    >
+                                        Spent
+                                    </button>
                                 </div>
-                                <p className={`font-bold ${tx.type === 'earn' ? 'text-green-600' : 'text-red-500'}`}>
-                                    {tx.type === 'earn' ? '+' : '-'}{tx.amount.toLocaleString()} Flips
-                                </p>
                             </div>
-                        ))}
-                    </div>
+
+                            {/* Transaction List */}
+                            <div className="space-y-3">
+                                {transactions
+                                    .filter(tx => tx.tokenId === selectedHistoryToken.id)
+                                    .filter(tx => {
+                                        if (historyFilter === 'all') return true;
+                                        if (historyFilter === 'earned') return tx.amount > 0;
+                                        if (historyFilter === 'spent') return tx.amount < 0;
+                                        return true;
+                                    })
+                                    .map((tx) => (
+                                        <div key={tx.id} className="flex items-center justify-between p-4 bg-white rounded-xl border border-gray-100 hover:shadow-md transition-all">
+                                            <div className="flex items-center gap-4">
+                                                <div className={`w-10 h-10 rounded-full flex items-center justify-center ${tx.amount > 0 ? 'bg-green-100 text-green-600' : 'bg-orange-100 text-orange-500'}`}>
+                                                    {tx.amount > 0 ? <ArrowDownLeft className="w-5 h-5" /> : <ArrowUpRight className="w-5 h-5" />}
+                                                </div>
+                                                <div>
+                                                    <p className="font-medium text-gray-800">{tx.title}</p>
+                                                    <p className="text-xs text-gray-400">{tx.date}</p>
+                                                </div>
+                                            </div>
+                                            <div className="text-right">
+                                                <p className={`font-bold ${tx.amount > 0 ? 'text-green-600' : 'text-orange-500'}`}>
+                                                    {tx.amount > 0 ? '+' : ''}{tx.amount.toLocaleString()} {tx.currency}
+                                                </p>
+                                                <span className={`text-xs px-2 py-0.5 rounded-full ${tx.status === 'Success' ? 'bg-green-100 text-green-700' :
+                                                    tx.status === 'Pending' ? 'bg-amber-100 text-amber-700' : 'bg-red-100 text-red-700'
+                                                    }`}>{tx.status}</span>
+                                            </div>
+                                        </div>
+                                    ))}
+
+                                {/* Empty State */}
+                                {transactions.filter(tx => tx.tokenId === selectedHistoryToken.id).filter(tx => {
+                                    if (historyFilter === 'all') return true;
+                                    if (historyFilter === 'earned') return tx.amount > 0;
+                                    if (historyFilter === 'spent') return tx.amount < 0;
+                                    return true;
+                                }).length === 0 && (
+                                        <div className="text-center py-12">
+                                            <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                                <History className="w-8 h-8 text-gray-300" />
+                                            </div>
+                                            <h3 className="text-lg font-bold text-gray-400">No transactions</h3>
+                                            <p className="text-sm text-gray-400 mt-1">No {historyFilter !== 'all' ? historyFilter : ''} transactions found for {selectedHistoryToken.symbol}</p>
+                                        </div>
+                                    )}
+                            </div>
+                        </>
+                    )}
                 </div>
             )}
 
