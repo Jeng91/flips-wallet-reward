@@ -144,40 +144,7 @@ const Wallet = () => {
                             </div>
                         </div>
 
-                        {/* Total Holdings Summary Card */}
-                        <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl p-5 mb-4 text-white">
-                            <div className="flex items-center justify-between mb-4">
-                                <div>
-                                    <p className="text-slate-400 text-sm">Total Token Holdings</p>
-                                    <p className="text-2xl font-bold">
-                                        {(
-                                            defaultWalletData.totalPoints +
-                                            defaultWalletData.tbfCoins +
-                                            Object.values(defaultWalletData.teamCoins).reduce((a, b) => a + b, 0) +
-                                            investments.reduce((sum, inv) => sum + (inv.tokenBalance || 0), 0)
-                                        ).toLocaleString()} Tokens
-                                    </p>
-                                </div>
-                            </div>
-                            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                                <div className="bg-white/10 rounded-xl p-3">
-                                    <p className="text-xs text-slate-400">FLIPS</p>
-                                    <p className="font-bold">{defaultWalletData.totalPoints.toLocaleString()}</p>
-                                </div>
-                                <div className="bg-white/10 rounded-xl p-3">
-                                    <p className="text-xs text-slate-400">TBF</p>
-                                    <p className="font-bold">{defaultWalletData.tbfCoins.toLocaleString()}</p>
-                                </div>
-                                <div className="bg-white/10 rounded-xl p-3">
-                                    <p className="text-xs text-slate-400">CTRL G</p>
-                                    <p className="font-bold">{Object.values(defaultWalletData.teamCoins).reduce((a, b) => a + b, 0).toLocaleString()}</p>
-                                </div>
-                                <div className="bg-white/10 rounded-xl p-3">
-                                    <p className="text-xs text-slate-400">Colestia</p>
-                                    <p className="font-bold">{investments.reduce((sum, inv) => sum + (inv.tokenBalance || 0), 0).toLocaleString()}</p>
-                                </div>
-                            </div>
-                        </div>
+
 
                         {/* Token List */}
                         <div className="space-y-3">
