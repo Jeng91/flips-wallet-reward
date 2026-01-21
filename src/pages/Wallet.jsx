@@ -39,6 +39,8 @@ const Wallet = () => {
     // History tab state
     const [selectedHistoryToken, setSelectedHistoryToken] = useState(null);
     const [historyFilter, setHistoryFilter] = useState('all');
+    // Token filter state
+    const [tokenFilter, setTokenFilter] = useState('all');
 
     const getTeamIcon = (teamId) => {
         const icons = { phoenix: Flame, shadow: Ghost, thunder: Bolt, dragon: Zap };
@@ -113,125 +115,189 @@ const Wallet = () => {
                         </button>
                     </div>
 
-                    {/* Token Balances */}
-                    <h2 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
-                        <i className="fas fa-coins text-primary"></i> My Tokens
-                    </h2>
-                    <div className="space-y-3 mb-8">
-                        {/* FLIPS Token */}
-                        <div
-                            onClick={() => navigate('/token/flips')}
-                            className="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm flex items-center justify-between hover:border-primary/30 hover:shadow-md transition-all cursor-pointer"
-                        >
-                            <div className="flex items-center gap-4">
-                                <div className="w-12 h-12 bg-cyan-50 rounded-xl flex items-center justify-center">
-                                    <img src="/images/flips_token.png" alt="Flips" className="w-8 h-8 object-contain" />
-                                </div>
-                                <div>
-                                    <p className="font-bold text-gray-900">Flips Coins</p>
-                                    <p className="text-sm text-gray-400">Universal Reward Token</p>
-                                </div>
-                            </div>
-                            <div className="text-right">
-                                <p className="text-xl font-bold text-gray-900">{defaultWalletData.totalPoints.toLocaleString()}</p>
-                                <p className="text-xs text-gray-400">FLIPS</p>
-                            </div>
-                        </div>
-
-                        {/* TBF Token */}
-                        <div
-                            onClick={() => navigate('/token/tbf')}
-                            className="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm flex items-center justify-between hover:border-primary/30 hover:shadow-md transition-all cursor-pointer"
-                        >
-                            <div className="flex items-center gap-4">
-                                <div className="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center text-blue-600">
-                                    <Ship className="w-6 h-6" />
-                                </div>
-                                <div>
-                                    <p className="font-bold text-gray-900">TBF Yacht Club</p>
-                                    <p className="text-sm text-gray-400">Partner Token</p>
-                                </div>
-                            </div>
-                            <div className="text-right">
-                                <p className="text-xl font-bold text-gray-900">{defaultWalletData.tbfCoins.toLocaleString()}</p>
-                                <p className="text-xs text-gray-400">TBF</p>
-                            </div>
-                        </div>
-
-                        {/* Team Coins */}
-                        {GAME_TEAMS.map((team) => {
-                            const Icon = getTeamIcon(team.id);
-                            const balance = defaultWalletData.teamCoins[team.id] || 0;
-                            return (
-                                <div
-                                    key={team.id}
-                                    onClick={() => navigate(`/token/${team.id}`)}
-                                    className="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm flex items-center justify-between hover:border-primary/30 hover:shadow-md transition-all cursor-pointer"
+                    {/* My Tokens Section */}
+                    <div className="mb-8">
+                        {/* Header with Filter */}
+                        <div className="flex items-center justify-between mb-4">
+                            <h2 className="text-lg font-bold text-gray-900 flex items-center gap-2">
+                                <i className="fas fa-coins text-primary"></i> My Tokens
+                            </h2>
+                            <div className="flex gap-2">
+                                <button
+                                    onClick={() => setTokenFilter('all')}
+                                    className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${tokenFilter === 'all' ? 'bg-primary text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}
                                 >
-                                    <div className="flex items-center gap-4">
-                                        <div className={`w-12 h-12 ${team.bgColor} rounded-xl flex items-center justify-center ${team.textColor}`}>
-                                            <Icon className="w-6 h-6" />
-                                        </div>
-                                        <div>
-                                            <p className="font-bold text-gray-900">{team.coinName}</p>
-                                            <p className="text-sm text-gray-400">CTRL G Team Token</p>
-                                        </div>
-                                    </div>
-                                    <div className="text-right">
-                                        <p className="text-xl font-bold text-gray-900">{balance.toLocaleString()}</p>
-                                        <p className="text-xs text-gray-400">{team.id.toUpperCase()}</p>
-                                    </div>
-                                </div>
-                            );
-                        })}
+                                    All
+                                </button>
+                                <button
+                                    onClick={() => setTokenFilter('utility')}
+                                    className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${tokenFilter === 'utility' ? 'bg-primary text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}
+                                >
+                                    Utility
+                                </button>
+                                <button
+                                    onClick={() => setTokenFilter('investment')}
+                                    className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${tokenFilter === 'investment' ? 'bg-primary text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}
+                                >
+                                    Investment
+                                </button>
+                            </div>
+                        </div>
 
-                        {/* Investment Tokens */}
-                        {investments.map((inv) => (
-                            <div key={inv.id} className="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm flex items-center justify-between hover:border-primary/30 hover:shadow-md transition-all">
-                                <div className="flex items-center gap-4">
-                                    <div className="w-12 h-12 bg-indigo-50 rounded-xl flex items-center justify-center text-indigo-600 overflow-hidden">
-                                        <img src={inv.image} alt={inv.name} className="w-full h-full object-cover" />
-                                    </div>
-                                    <div>
-                                        <p className="font-bold text-gray-900">{inv.tokenSymbol} Token</p>
-                                        <p className="text-sm text-gray-400">{inv.name}</p>
-                                    </div>
-                                </div>
-                                <div className="text-right">
-                                    <p className="text-xl font-bold text-gray-900">{inv.tokenBalance?.toLocaleString() || 0}</p>
-                                    <p className="text-xs text-gray-400">{inv.tokenSymbol}</p>
+                        {/* Total Holdings Summary Card */}
+                        <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl p-5 mb-4 text-white">
+                            <div className="flex items-center justify-between mb-4">
+                                <div>
+                                    <p className="text-slate-400 text-sm">Total Token Holdings</p>
+                                    <p className="text-2xl font-bold">
+                                        {(
+                                            defaultWalletData.totalPoints +
+                                            defaultWalletData.tbfCoins +
+                                            Object.values(defaultWalletData.teamCoins).reduce((a, b) => a + b, 0) +
+                                            investments.reduce((sum, inv) => sum + (inv.tokenBalance || 0), 0)
+                                        ).toLocaleString()} Tokens
+                                    </p>
                                 </div>
                             </div>
-                        ))}
+                            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                                <div className="bg-white/10 rounded-xl p-3">
+                                    <p className="text-xs text-slate-400">FLIPS</p>
+                                    <p className="font-bold">{defaultWalletData.totalPoints.toLocaleString()}</p>
+                                </div>
+                                <div className="bg-white/10 rounded-xl p-3">
+                                    <p className="text-xs text-slate-400">TBF</p>
+                                    <p className="font-bold">{defaultWalletData.tbfCoins.toLocaleString()}</p>
+                                </div>
+                                <div className="bg-white/10 rounded-xl p-3">
+                                    <p className="text-xs text-slate-400">CTRL G</p>
+                                    <p className="font-bold">{Object.values(defaultWalletData.teamCoins).reduce((a, b) => a + b, 0).toLocaleString()}</p>
+                                </div>
+                                <div className="bg-white/10 rounded-xl p-3">
+                                    <p className="text-xs text-slate-400">Colestia</p>
+                                    <p className="font-bold">{investments.reduce((sum, inv) => sum + (inv.tokenBalance || 0), 0).toLocaleString()}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Token List */}
+                        <div className="space-y-3">
+                            {/* Utility Tokens Section */}
+                            {(tokenFilter === 'all' || tokenFilter === 'utility') && (
+                                <>
+                                    <div className="flex items-center gap-2 mt-4 mb-2">
+                                        <span className="text-xs font-bold text-gray-500 uppercase tracking-wider">Utility Tokens</span>
+                                        <div className="flex-1 h-px bg-gray-200"></div>
+                                    </div>
+
+                                    {/* FLIPS Token */}
+                                    <div
+                                        onClick={() => navigate('/token/flips')}
+                                        className="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm flex items-center justify-between hover:border-primary/30 hover:shadow-md transition-all cursor-pointer"
+                                    >
+                                        <div className="flex items-center gap-4">
+                                            <div className="w-12 h-12 bg-cyan-50 rounded-xl flex items-center justify-center">
+                                                <img src="/images/flips_token.png" alt="Flips" className="w-8 h-8 object-contain" />
+                                            </div>
+                                            <div>
+                                                <p className="font-bold text-gray-900">Flips Coins</p>
+                                                <p className="text-sm text-gray-400">Universal Reward Token</p>
+                                            </div>
+                                        </div>
+                                        <div className="text-right">
+                                            <p className="text-xl font-bold text-gray-900">{defaultWalletData.totalPoints.toLocaleString()}</p>
+                                            <p className="text-xs text-gray-400">FLIPS</p>
+                                        </div>
+                                    </div>
+
+                                    {/* TBF Token */}
+                                    <div
+                                        onClick={() => navigate('/token/tbf')}
+                                        className="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm flex items-center justify-between hover:border-primary/30 hover:shadow-md transition-all cursor-pointer"
+                                    >
+                                        <div className="flex items-center gap-4">
+                                            <div className="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center text-blue-600">
+                                                <Ship className="w-6 h-6" />
+                                            </div>
+                                            <div>
+                                                <p className="font-bold text-gray-900">TBF Yacht Club</p>
+                                                <p className="text-sm text-gray-400">Partner Token</p>
+                                            </div>
+                                        </div>
+                                        <div className="text-right">
+                                            <p className="text-xl font-bold text-gray-900">{defaultWalletData.tbfCoins.toLocaleString()}</p>
+                                            <p className="text-xs text-gray-400">TBF</p>
+                                        </div>
+                                    </div>
+
+                                    {/* CTRL G Team Tokens */}
+                                    <div className="flex items-center gap-2 mt-6 mb-2">
+                                        <span className="text-xs font-bold text-gray-500 uppercase tracking-wider">CTRL G Team Tokens</span>
+                                        <div className="flex-1 h-px bg-gray-200"></div>
+                                    </div>
+
+                                    {GAME_TEAMS.map((team) => {
+                                        const Icon = getTeamIcon(team.id);
+                                        const balance = defaultWalletData.teamCoins[team.id] || 0;
+                                        return (
+                                            <div
+                                                key={team.id}
+                                                onClick={() => navigate(`/token/${team.id}`)}
+                                                className="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm flex items-center justify-between hover:border-primary/30 hover:shadow-md transition-all cursor-pointer"
+                                            >
+                                                <div className="flex items-center gap-4">
+                                                    <div className={`w-12 h-12 ${team.bgColor} rounded-xl flex items-center justify-center ${team.textColor}`}>
+                                                        <Icon className="w-6 h-6" />
+                                                    </div>
+                                                    <div>
+                                                        <p className="font-bold text-gray-900">{team.coinName}</p>
+                                                        <p className="text-sm text-gray-400">CTRL G Team Token</p>
+                                                    </div>
+                                                </div>
+                                                <div className="text-right">
+                                                    <p className="text-xl font-bold text-gray-900">{balance.toLocaleString()}</p>
+                                                    <p className="text-xs text-gray-400">{team.id.toUpperCase()}</p>
+                                                </div>
+                                            </div>
+                                        );
+                                    })}
+                                </>
+                            )}
+
+                            {/* Investment Tokens Section */}
+                            {(tokenFilter === 'all' || tokenFilter === 'investment') && (
+                                <>
+                                    <div className="flex items-center gap-2 mt-6 mb-2">
+                                        <span className="text-xs font-bold text-gray-500 uppercase tracking-wider">Movie Investment Tokens</span>
+                                        <div className="flex-1 h-px bg-gray-200"></div>
+                                    </div>
+
+                                    {investments.map((inv) => (
+                                        <div
+                                            key={inv.id}
+                                            onClick={() => navigate(`/token/${inv.tokenId}`)}
+                                            className="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm flex items-center justify-between hover:border-primary/30 hover:shadow-md transition-all cursor-pointer"
+                                        >
+                                            <div className="flex items-center gap-4">
+                                                <div className="w-12 h-12 bg-indigo-50 rounded-xl flex items-center justify-center text-indigo-600 overflow-hidden">
+                                                    <img src={inv.image} alt={inv.name} className="w-full h-full object-cover" />
+                                                </div>
+                                                <div>
+                                                    <p className="font-bold text-gray-900">{inv.tokenSymbol} Token</p>
+                                                    <p className="text-sm text-gray-400">{inv.name}</p>
+                                                </div>
+                                            </div>
+                                            <div className="text-right">
+                                                <p className="text-xl font-bold text-gray-900">{inv.tokenBalance?.toLocaleString() || 0}</p>
+                                                <p className="text-xs text-gray-400">{inv.tokenSymbol}</p>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </>
+                            )}
+                        </div>
                     </div>
 
-                    {/* Recent Transactions Preview */}
-                    <div className="flex items-center justify-between mb-4">
-                        <h2 className="text-lg font-bold text-gray-900 flex items-center gap-2">
-                            <History className="w-5 h-5 text-primary" /> Recent Activity
-                        </h2>
-                        <button onClick={() => setActiveTab('history')} className="text-sm text-primary font-medium hover:underline">
-                            View All
-                        </button>
-                    </div>
-                    <div className="space-y-2">
-                        {transactions.slice(0, 3).map((tx) => (
-                            <div key={tx.id} className="flex items-center justify-between p-4 bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-all">
-                                <div className="flex items-center gap-3">
-                                    <div className={`w-10 h-10 rounded-full flex items-center justify-center ${tx.amount > 0 ? 'bg-green-50 text-green-600' : 'bg-red-50 text-red-500'}`}>
-                                        {tx.amount > 0 ? <ArrowDownLeft className="w-5 h-5" /> : <ArrowUpRight className="w-5 h-5" />}
-                                    </div>
-                                    <div>
-                                        <p className="font-medium text-gray-800">{tx.title}</p>
-                                        <p className="text-xs text-gray-400">{tx.date}</p>
-                                    </div>
-                                </div>
-                                <p className={`font-bold ${tx.amount > 0 ? 'text-green-600' : 'text-red-500'}`}>
-                                    {tx.amount > 0 ? '+' : ''}{tx.amount.toLocaleString()} {tx.currency}
-                                </p>
-                            </div>
-                        ))}
-                    </div>
+
                 </>
             )}
 
