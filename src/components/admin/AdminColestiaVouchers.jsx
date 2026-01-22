@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card } from '../ui/Card';
 import { privilegePackages } from '../../data/mockData';
+import { getVoucherStatusBadge, formatDate, isVoucherExpired, isVoucherExpiringSoon } from '../../utils/voucherHelpers';
 
 const AdminColestiaVouchers = () => {
     const navigate = useNavigate();
@@ -270,6 +271,16 @@ const AdminColestiaVouchers = () => {
                                     <div>
                                         {/* Badges */}
                                         <div className="flex gap-2 mb-2 flex-wrap">
+                                            {/* Expiry Status Badge (NEW) */}
+                                            {(() => {
+                                                const statusBadge = getVoucherStatusBadge(voucher);
+                                                return (
+                                                    <span className={`px-2 py-1 rounded text-xs font-medium flex items-center gap-1 ${statusBadge.bg} ${statusBadge.text}`}>
+                                                        <span className={`w-1.5 h-1.5 rounded-full ${statusBadge.dot}`}></span>
+                                                        {statusBadge.label}
+                                                    </span>
+                                                );
+                                            })()}
                                             <span className={`px-2 py-1 rounded text-xs font-medium ${voucher.tier === 'gold' ? 'bg-yellow-100 text-yellow-700' :
                                                 voucher.tier === 'silver' ? 'bg-gray-100 text-gray-700' :
                                                     voucher.tier === 'platinum' ? 'bg-purple-100 text-purple-700' :
@@ -286,6 +297,15 @@ const AdminColestiaVouchers = () => {
                                                 </span>
                                             )}
                                         </div>
+
+                                        {/* Expiry Date Display (NEW) */}
+                                        {voucher.expiryDate && (
+                                            <p className={`text-xs mb-2 flex items-center gap-1 ${isVoucherExpired(voucher) ? 'text-red-600' : isVoucherExpiringSoon(voucher) ? 'text-orange-600' : 'text-gray-500'}`}>
+                                                <i className="fas fa-calendar-alt"></i>
+                                                {isVoucherExpired(voucher) ? 'Expired: ' : 'Expires: '}
+                                                {formatDate(voucher.expiryDate)}
+                                            </p>
+                                        )}
 
                                         <h3 className="font-bold text-gray-900 mb-1">{voucher.titleTh}</h3>
                                         <p className="text-xs text-gray-500 mb-2">{voucher.title}</p>

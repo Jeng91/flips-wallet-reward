@@ -92,6 +92,15 @@ const AdminVoucherEditPage = () => {
         conditions: [],
         conditionsTh: [],
 
+        // Validity period (NEW)
+        startDate: '',
+        expiryDate: '',
+        status: 'active', // active, inactive, draft
+
+        // Stock tracking (NEW)
+        totalStock: 100,
+        redeemed: 0,
+
         // Event-specific
         eventDate: '',
         venue: '',
@@ -131,7 +140,8 @@ const AdminVoucherEditPage = () => {
         basic: true,
         pricing: true,
         typeSpecific: true,
-        conditions: false
+        conditions: false,
+        validity: true // NEW: Validity Period section
     });
 
     const [newCondition, setNewCondition] = useState('');
@@ -573,6 +583,92 @@ const AdminVoucherEditPage = () => {
                                         <span className="text-sm text-gray-700">Physical Item (requires shipping)</span>
                                     </label>
                                 </div>
+                            </div>
+                        )}
+                    </Card>
+
+                    {/* VALIDITY PERIOD & STOCK (NEW SECTION) */}
+                    <Card>
+                        <button
+                            onClick={() => toggleSection('validity')}
+                            className="w-full flex items-center justify-between text-left"
+                        >
+                            <h3 className="font-bold text-gray-900 flex items-center gap-2">
+                                <i className="fas fa-calendar-check text-emerald-500"></i>
+                                Validity Period & Stock
+                            </h3>
+                            <i className={`fas fa-chevron-${expandedSections.validity ? 'up' : 'down'} text-gray-400`}></i>
+                        </button>
+
+                        {expandedSections.validity && (
+                            <div className="mt-4 space-y-4">
+                                <div className="grid md:grid-cols-4 gap-4">
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-1">Start Date</label>
+                                        <input
+                                            type="date"
+                                            value={formData.startDate}
+                                            onChange={(e) => handleInputChange('startDate', e.target.value)}
+                                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                                        />
+                                        <p className="text-xs text-gray-400 mt-1">When voucher becomes active</p>
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-1">Expiry Date</label>
+                                        <input
+                                            type="date"
+                                            value={formData.expiryDate}
+                                            onChange={(e) => handleInputChange('expiryDate', e.target.value)}
+                                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                                        />
+                                        <p className="text-xs text-gray-400 mt-1">Leave empty for no expiry</p>
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-1">Status</label>
+                                        <select
+                                            value={formData.status}
+                                            onChange={(e) => handleInputChange('status', e.target.value)}
+                                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                                        >
+                                            <option value="active">Active</option>
+                                            <option value="inactive">Inactive</option>
+                                            <option value="draft">Draft</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-1">Total Stock</label>
+                                        <input
+                                            type="number"
+                                            value={formData.totalStock}
+                                            onChange={(e) => handleInputChange('totalStock', parseInt(e.target.value) || 0)}
+                                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                                            min="0"
+                                        />
+                                    </div>
+                                </div>
+
+                                {/* Stock Progress Bar */}
+                                {formData.totalStock > 0 && (
+                                    <div className="bg-emerald-50 rounded-lg p-4 border border-emerald-100">
+                                        <div className="flex justify-between text-sm mb-2">
+                                            <span className="text-gray-600">
+                                                Redeemed: <strong className="text-emerald-700">{formData.redeemed}</strong>
+                                            </span>
+                                            <span className="text-gray-600">
+                                                Remaining: <strong className="text-emerald-700">{formData.totalStock - formData.redeemed}</strong>
+                                            </span>
+                                        </div>
+                                        <div className="w-full bg-gray-200 rounded-full h-3">
+                                            <div
+                                                className="bg-emerald-500 h-3 rounded-full transition-all"
+                                                style={{ width: `${Math.min(100, (formData.redeemed / formData.totalStock) * 100)}%` }}
+                                            ></div>
+                                        </div>
+                                        <p className="text-xs text-gray-500 mt-2 text-center">
+                                            {Math.round((formData.redeemed / formData.totalStock) * 100)}% redeemed
+                                        </p>
+                                    </div>
+                                )}
                             </div>
                         )}
                     </Card>

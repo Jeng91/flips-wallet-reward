@@ -46,6 +46,47 @@ export const STATUS_STYLES = {
         icon: 'bg-blue-100',
         iconColor: 'text-blue-600'
     },
+    [STATUS.EXPIRED]: {
+        bg: 'bg-red-50',
+        bgGradient: 'bg-gradient-to-r from-red-50 to-rose-50',
+        text: 'text-red-700',
+        textDark: 'text-red-600',
+        border: 'border-red-100',
+        dot: 'bg-red-500',
+        icon: 'bg-red-100',
+        iconColor: 'text-red-600'
+    },
+    [STATUS.USED]: {
+        bg: 'bg-slate-50',
+        bgGradient: 'bg-gradient-to-r from-slate-50 to-gray-50',
+        text: 'text-slate-600',
+        textDark: 'text-slate-500',
+        border: 'border-slate-100',
+        dot: 'bg-slate-400',
+        icon: 'bg-slate-100',
+        iconColor: 'text-slate-500'
+    },
+    // Additional voucher-specific statuses
+    'Expiring Soon': {
+        bg: 'bg-orange-50',
+        bgGradient: 'bg-gradient-to-r from-orange-50 to-amber-50',
+        text: 'text-orange-700',
+        textDark: 'text-orange-600',
+        border: 'border-orange-100',
+        dot: 'bg-orange-500',
+        icon: 'bg-orange-100',
+        iconColor: 'text-orange-600'
+    },
+    'Scheduled': {
+        bg: 'bg-indigo-50',
+        bgGradient: 'bg-gradient-to-r from-indigo-50 to-purple-50',
+        text: 'text-indigo-700',
+        textDark: 'text-indigo-600',
+        border: 'border-indigo-100',
+        dot: 'bg-indigo-500',
+        icon: 'bg-indigo-100',
+        iconColor: 'text-indigo-600'
+    },
     default: {
         bg: 'bg-gray-50',
         bgGradient: 'bg-gray-50',

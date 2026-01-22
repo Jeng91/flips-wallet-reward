@@ -70,6 +70,15 @@ const AdminVoucherEditModal = ({
         conditions: [],
         conditionsTh: [],
 
+        // Validity period (NEW)
+        startDate: '',
+        expiryDate: '',
+        status: 'active', // active, inactive, draft
+
+        // Stock tracking (NEW)
+        totalStock: 100,
+        redeemed: 0,
+
         // Event-specific
         eventDate: '',
         venue: '',
@@ -254,8 +263,8 @@ const AdminVoucherEditModal = ({
                                 type="button"
                                 onClick={() => handleInputChange('voucherType', key)}
                                 className={`p-3 rounded-lg border-2 text-left transition-all ${formData.voucherType === key
-                                        ? `${config.color} text-white border-transparent shadow-lg scale-105`
-                                        : 'bg-white border-gray-200 hover:border-gray-300 text-gray-700'
+                                    ? `${config.color} text-white border-transparent shadow-lg scale-105`
+                                    : 'bg-white border-gray-200 hover:border-gray-300 text-gray-700'
                                     }`}
                             >
                                 <i className={`fas fa-${config.icon} text-lg mb-1`}></i>
@@ -418,6 +427,82 @@ const AdminVoucherEditModal = ({
                     </div>
                 </div>
 
+                {/* VALIDITY PERIOD & STOCK (NEW SECTION) */}
+                <div className="bg-emerald-50 rounded-xl border border-emerald-200 p-4">
+                    <h4 className="text-sm font-bold text-emerald-900 mb-4 flex items-center gap-2">
+                        <i className="fas fa-calendar-check text-emerald-500"></i>
+                        Validity Period & Stock
+                    </h4>
+
+                    <div className="grid md:grid-cols-4 gap-4 mb-4">
+                        <div>
+                            <label className="block text-xs font-medium text-gray-600 mb-1">Start Date</label>
+                            <input
+                                type="date"
+                                value={formData.startDate}
+                                onChange={(e) => handleInputChange('startDate', e.target.value)}
+                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                            />
+                            <p className="text-xs text-gray-400 mt-1">When voucher becomes active</p>
+                        </div>
+                        <div>
+                            <label className="block text-xs font-medium text-gray-600 mb-1">Expiry Date</label>
+                            <input
+                                type="date"
+                                value={formData.expiryDate}
+                                onChange={(e) => handleInputChange('expiryDate', e.target.value)}
+                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                            />
+                            <p className="text-xs text-gray-400 mt-1">Leave empty for no expiry</p>
+                        </div>
+                        <div>
+                            <label className="block text-xs font-medium text-gray-600 mb-1">Status</label>
+                            <select
+                                value={formData.status}
+                                onChange={(e) => handleInputChange('status', e.target.value)}
+                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                            >
+                                <option value="active">Active</option>
+                                <option value="inactive">Inactive</option>
+                                <option value="draft">Draft</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label className="block text-xs font-medium text-gray-600 mb-1">Total Stock</label>
+                            <input
+                                type="number"
+                                value={formData.totalStock}
+                                onChange={(e) => handleInputChange('totalStock', parseInt(e.target.value) || 0)}
+                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                                min="0"
+                            />
+                        </div>
+                    </div>
+
+                    {/* Stock Progress Bar */}
+                    {formData.totalStock > 0 && (
+                        <div className="bg-white rounded-lg p-3 border border-emerald-100">
+                            <div className="flex justify-between text-xs mb-2">
+                                <span className="text-gray-600">
+                                    Redeemed: <strong className="text-emerald-700">{formData.redeemed}</strong>
+                                </span>
+                                <span className="text-gray-600">
+                                    Remaining: <strong className="text-emerald-700">{formData.totalStock - formData.redeemed}</strong>
+                                </span>
+                            </div>
+                            <div className="w-full bg-gray-200 rounded-full h-2">
+                                <div
+                                    className="bg-emerald-500 h-2 rounded-full transition-all"
+                                    style={{ width: `${Math.min(100, (formData.redeemed / formData.totalStock) * 100)}%` }}
+                                ></div>
+                            </div>
+                            <p className="text-xs text-gray-400 mt-1 text-center">
+                                {Math.round((formData.redeemed / formData.totalStock) * 100)}% redeemed
+                            </p>
+                        </div>
+                    )}
+                </div>
+
                 {/* EVENT FIELDS */}
                 {formData.voucherType === 'event' && (
                     <div className="bg-purple-50 rounded-xl border border-purple-200 p-4">
@@ -540,8 +625,8 @@ const AdminVoucherEditModal = ({
                                     <label
                                         key={yacht.id}
                                         className={`flex-1 p-3 rounded-lg border-2 cursor-pointer transition-all ${formData.yachtInfo.availableYachts?.includes(yacht.id)
-                                                ? 'border-cyan-500 bg-cyan-100'
-                                                : 'border-gray-200 bg-white hover:border-gray-300'
+                                            ? 'border-cyan-500 bg-cyan-100'
+                                            : 'border-gray-200 bg-white hover:border-gray-300'
                                             }`}
                                     >
                                         <input

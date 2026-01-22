@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card } from '../ui/Card';
 import { colestiaVouchers, ctrlgVouchers, tbfBookings, tbfConfirmedBookings } from '../../data/adminExtendedData';
+import { isVoucherExpired, isVoucherExpiringSoon } from '../../utils/voucherHelpers';
 
 const AdminVoucherOverview = () => {
     const navigate = useNavigate();
@@ -44,6 +45,11 @@ const AdminVoucherOverview = () => {
         ? ((overallStats.totalRedeemed / (colestiaStats.totalStock + ctrlgStats.totalStock)) * 100).toFixed(1)
         : 0;
 
+    // Calculate expired and expiring soon counts (NEW)
+    const allVouchers = [...colestiaVouchers, ...ctrlgVouchers];
+    const expiredCount = allVouchers.filter(v => isVoucherExpired(v)).length;
+    const expiringSoonCount = allVouchers.filter(v => isVoucherExpiringSoon(v)).length;
+
     return (
         <div className="max-w-7xl mx-auto space-y-6">
             {/* Header */}
@@ -53,7 +59,7 @@ const AdminVoucherOverview = () => {
             </div>
 
             {/* Overall Statistics */}
-            <div className="grid md:grid-cols-4 gap-4">
+            <div className="grid md:grid-cols-6 gap-4">
                 <Card className="text-center">
                     <p className="text-2xl font-bold text-purple-600">{overallStats.totalVouchers}</p>
                     <p className="text-sm text-gray-600">Total Vouchers</p>
@@ -69,6 +75,16 @@ const AdminVoucherOverview = () => {
                 <Card className="text-center">
                     <p className="text-2xl font-bold text-orange-600">{redemptionRate}%</p>
                     <p className="text-sm text-gray-600">Redemption Rate</p>
+                </Card>
+                {/* NEW: Expired Count */}
+                <Card className="text-center border-red-200 bg-red-50">
+                    <p className="text-2xl font-bold text-red-600">{expiredCount}</p>
+                    <p className="text-sm text-red-600">หมดอายุแล้ว</p>
+                </Card>
+                {/* NEW: Expiring Soon Count */}
+                <Card className="text-center border-orange-200 bg-orange-50">
+                    <p className="text-2xl font-bold text-orange-600">{expiringSoonCount}</p>
+                    <p className="text-sm text-orange-600">ใกล้หมดอายุ</p>
                 </Card>
             </div>
 
