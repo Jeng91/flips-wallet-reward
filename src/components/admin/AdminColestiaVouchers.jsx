@@ -47,8 +47,8 @@ const AdminColestiaVouchers = () => {
             {/* Header */}
             <div className="flex items-center justify-between">
                 <div>
-                    <h2 className="text-3xl font-bold text-gray-900">Colestia - จัดการ Vouchers</h2>
-                    <p className="text-gray-600 mt-1">จัดการ rewards สำหรับภาพยนตร์ไทย</p>
+                    <h2 className="text-3xl font-bold text-gray-900">Colestia - Manage Vouchers</h2>
+                    <p className="text-gray-600 mt-1">Manage rewards for Thai films</p>
                 </div>
                 {selectedMovie && (
                     <button
@@ -56,7 +56,7 @@ const AdminColestiaVouchers = () => {
                         className="px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
                     >
                         <i className="fas fa-arrow-left mr-2"></i>
-                        กลับไปรายการภาพยนตร์
+                        Back to Movie List
                     </button>
                 )}
             </div>
@@ -67,19 +67,19 @@ const AdminColestiaVouchers = () => {
                     <div className="grid md:grid-cols-4 gap-4">
                         <Card className="text-center">
                             <p className="text-2xl font-bold text-cyan-600">{movies.length}</p>
-                            <p className="text-sm text-gray-600">ภาพยนตร์ทั้งหมด</p>
+                            <p className="text-sm text-gray-600">Total Movies</p>
                         </Card>
                         <Card className="text-center">
                             <p className="text-2xl font-bold text-green-600">{movies.filter(m => m.vouchers.length > 0).length}</p>
-                            <p className="text-sm text-gray-600">มี Vouchers แล้ว</p>
+                            <p className="text-sm text-gray-600">Has Vouchers</p>
                         </Card>
                         <Card className="text-center">
                             <p className="text-2xl font-bold text-orange-600">{movies.filter(m => m.vouchers.length === 0).length}</p>
-                            <p className="text-sm text-gray-600">ยังไม่มี Vouchers</p>
+                            <p className="text-sm text-gray-600">No Vouchers Yet</p>
                         </Card>
                         <Card className="text-center">
                             <p className="text-2xl font-bold text-purple-600">{colestiaPrivileges.filter(p => p.movieId).length}</p>
-                            <p className="text-sm text-gray-600">Vouchers ทั้งหมด</p>
+                            <p className="text-sm text-gray-600">Total Vouchers</p>
                         </Card>
                     </div>
 
@@ -89,7 +89,7 @@ const AdminColestiaVouchers = () => {
                             <i className="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
                             <input
                                 type="text"
-                                placeholder="ค้นหาภาพยนตร์..."
+                                placeholder="Search movies..."
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
                                 className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
@@ -128,12 +128,12 @@ const AdminColestiaVouchers = () => {
                                         {movie.vouchers.length > 0 ? (
                                             <span className="px-2 py-1 bg-green-100 text-green-700 rounded-full text-xs font-medium flex items-center gap-1">
                                                 <i className="fas fa-check-circle text-xs"></i>
-                                                มี {movie.vouchers.length} vouchers
+                                                Has {movie.vouchers.length} vouchers
                                             </span>
                                         ) : (
                                             <span className="px-2 py-1 bg-orange-100 text-orange-700 rounded-full text-xs font-medium flex items-center gap-1">
                                                 <i className="fas fa-exclamation-circle text-xs"></i>
-                                                ยังไม่มี vouchers
+                                                No vouchers yet
                                             </span>
                                         )}
                                     </div>
@@ -141,7 +141,7 @@ const AdminColestiaVouchers = () => {
                                     {/* Voucher Types Preview */}
                                     {movie.vouchers.length > 0 && (
                                         <div className="mb-2">
-                                            <p className="text-xs text-gray-500 mb-1">ประเภท:</p>
+                                            <p className="text-xs text-gray-500 mb-1">Type:</p>
                                             <div className="flex flex-wrap gap-1">
                                                 {[...new Set(movie.vouchers.map(v => v.categoryLabel))].map((cat, idx) => (
                                                     <span key={idx} className="px-2 py-0.5 bg-cyan-50 text-cyan-700 rounded text-xs">
@@ -161,7 +161,7 @@ const AdminColestiaVouchers = () => {
                                         }}
                                     >
                                         <i className="fas fa-eye mr-1"></i>
-                                        ดูรายละเอียด
+                                        View Details
                                     </button>
                                 </div>
                             </Card>
@@ -171,7 +171,7 @@ const AdminColestiaVouchers = () => {
                     {filteredMovies.length === 0 && (
                         <Card className="text-center py-12">
                             <i className="fas fa-inbox text-gray-300 text-5xl mb-4"></i>
-                            <p className="text-gray-500">ไม่พบภาพยนตร์ที่ค้นหา</p>
+                            <p className="text-gray-500">No movies found</p>
                         </Card>
                     )}
                 </>
@@ -198,7 +198,7 @@ const AdminColestiaVouchers = () => {
                                     </div>
                                     <div>
                                         <p className="text-gray-600">Vouchers</p>
-                                        <p className="font-medium text-gray-900">{selectedMovie.vouchers.length} รายการ</p>
+                                        <p className="font-medium text-gray-900">{selectedMovie.vouchers.length} items</p>
                                     </div>
                                 </div>
 
@@ -234,7 +234,7 @@ const AdminColestiaVouchers = () => {
                             className="px-6 py-3 bg-cyan-600 text-white rounded-lg hover:bg-cyan-700 transition-colors font-medium shadow-sm"
                         >
                             <i className="fas fa-plus mr-2"></i>
-                            เพิ่ม Voucher ใหม่
+                            Add New Voucher
                         </button>
                     </div>
 
@@ -288,7 +288,7 @@ const AdminColestiaVouchers = () => {
                                         {/* Price & Rating */}
                                         <div className="flex items-center justify-between mb-3 pt-3 border-t border-gray-100">
                                             <div>
-                                                <p className="text-xs text-gray-500">ราคา</p>
+                                                <p className="text-xs text-gray-500">Price</p>
                                                 <p className="font-bold text-cyan-600">
                                                     {voucher.price} {voucher.currency}
                                                 </p>
@@ -305,10 +305,10 @@ const AdminColestiaVouchers = () => {
                                         {/* Action Buttons */}
                                         <div className="flex gap-2">
                                             <button className="flex-1 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm font-medium">
-                                                แก้ไข
+                                                Edit
                                             </button>
                                             <button className="flex-1 px-4 py-2 bg-red-50 text-red-700 rounded-lg hover:bg-red-100 transition-colors text-sm font-medium">
-                                                ลบ
+                                                Delete
                                             </button>
                                         </div>
                                     </div>
@@ -321,14 +321,14 @@ const AdminColestiaVouchers = () => {
                             <div className="animate-bounce mb-4">
                                 <i className="fas fa-exclamation-triangle text-orange-500 text-5xl"></i>
                             </div>
-                            <h3 className="text-xl font-bold text-orange-900 mb-2">ยังไม่มี Vouchers สำหรับภาพยนตร์นี้</h3>
-                            <p className="text-orange-700 mb-4">กรุณาเพิ่ม voucher เพื่อให้ผู้ใช้สามารถแลกรางวัลได้</p>
+                            <h3 className="text-xl font-bold text-orange-900 mb-2">No vouchers for this movie yet</h3>
+                            <p className="text-orange-700 mb-4">Please add vouchers so users can redeem rewards</p>
                             <button
                                 onClick={() => setShowAddModal(true)}
                                 className="px-6 py-3 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors font-medium"
                             >
                                 <i className="fas fa-plus mr-2"></i>
-                                เพิ่ม Voucher แรก
+                                Add First Voucher
                             </button>
                         </Card>
                     )}
@@ -342,7 +342,7 @@ const AdminColestiaVouchers = () => {
                         <div className="p-6">
                             {/* Modal Header */}
                             <div className="flex items-center justify-between mb-6">
-                                <h3 className="text-2xl font-bold text-gray-900">เพิ่ม Voucher ใหม่</h3>
+                                <h3 className="text-2xl font-bold text-gray-900">Add New Voucher</h3>
                                 <button
                                     onClick={() => setShowAddModal(false)}
                                     className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
@@ -353,7 +353,7 @@ const AdminColestiaVouchers = () => {
 
                             {selectedMovie && (
                                 <div className="mb-6 p-4 bg-cyan-50 rounded-lg">
-                                    <p className="text-sm text-gray-600">เพิ่มสำหรับภาพยนตร์:</p>
+                                    <p className="text-sm text-gray-600">Add for movie:</p>
                                     <p className="font-bold text-gray-900">{selectedMovie.movieNameTh}</p>
                                     <p className="text-sm text-gray-600">{selectedMovie.movieName}</p>
                                 </div>
@@ -362,7 +362,7 @@ const AdminColestiaVouchers = () => {
                             {/* Form Fields Placeholder */}
                             <div className="space-y-4 mb-6">
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2">ประเภท Voucher</label>
+                                    <label className="block text-sm font-medium text-gray-700 mb-2">Voucher Type</label>
                                     <select className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
                                         <option>Movie Tickets</option>
                                         <option>Meet & Greet</option>
@@ -372,10 +372,10 @@ const AdminColestiaVouchers = () => {
                                 </div>
 
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2">ชื่อ (ไทย)</label>
+                                    <label className="block text-sm font-medium text-gray-700 mb-2">Name (Thai)</label>
                                     <input
                                         type="text"
-                                        placeholder="ระบุชื่อ voucher เป็นภาษาไทย"
+                                        placeholder="Enter voucher name in Thai"
                                         className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
                                     />
                                 </div>
@@ -390,17 +390,17 @@ const AdminColestiaVouchers = () => {
                                 </div>
 
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2">รายละเอียด</label>
+                                    <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
                                     <textarea
                                         rows={3}
-                                        placeholder="อธิบายรายละเอียดของ voucher"
+                                        placeholder="Describe voucher details"
                                         className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
                                     />
                                 </div>
 
                                 <div className="grid grid-cols-2 gap-4">
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">ราคา</label>
+                                        <label className="block text-sm font-medium text-gray-700 mb-2">Price</label>
                                         <input
                                             type="number"
                                             placeholder="0"
@@ -423,19 +423,19 @@ const AdminColestiaVouchers = () => {
                                 <button
                                     onClick={() => {
                                         // Handle save
-                                        alert('ระบบการบันทึกยังไม่พร้อมใช้งาน');
+                                        alert('Save system is not yet available');
                                         setShowAddModal(false);
                                     }}
                                     className="flex-1 px-6 py-3 bg-cyan-600 text-white rounded-lg hover:bg-cyan-700 transition-colors font-medium"
                                 >
                                     <i className="fas fa-save mr-2"></i>
-                                    บันทึก
+                                    Save
                                 </button>
                                 <button
                                     onClick={() => setShowAddModal(false)}
                                     className="flex-1 px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors font-medium"
                                 >
-                                    ยกเลิก
+                                    Cancel
                                 </button>
                             </div>
                         </div>

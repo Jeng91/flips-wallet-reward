@@ -27,23 +27,23 @@ const AdminNewUsers = () => {
         <div className="max-w-7xl mx-auto space-y-6">
             {/* Header */}
             <div>
-                <h2 className="text-3xl font-bold text-gray-900">ผู้ใช้ใหม่</h2>
-                <p className="text-gray-600 mt-1">ผู้ลงทะเบียนใหม่ในระบบ</p>
+                <h2 className="text-3xl font-bold text-gray-900">New Users</h2>
+                <p className="text-gray-600 mt-1">Recently registered users</p>
             </div>
 
             {/* Statistics */}
             <div className="grid md:grid-cols-3 gap-4">
                 <Card className="text-center">
                     <p className="text-2xl font-bold text-blue-600">{newUsers7Days.length}</p>
-                    <p className="text-sm text-gray-600">7 วันล่าสุด</p>
+                    <p className="text-sm text-gray-600">Last 7 Days</p>
                 </Card>
                 <Card className="text-center">
                     <p className="text-2xl font-bold text-green-600">{newUsers30Days.length}</p>
-                    <p className="text-sm text-gray-600">30 วันล่าสุด</p>
+                    <p className="text-sm text-gray-600">Last 30 Days</p>
                 </Card>
                 <Card className="text-center">
                     <p className="text-2xl font-bold text-purple-600">{newUsers90Days.length}</p>
-                    <p className="text-sm text-gray-600">90 วันล่าสุด</p>
+                    <p className="text-sm text-gray-600">Last 90 Days</p>
                 </Card>
             </div>
 
@@ -55,21 +55,21 @@ const AdminNewUsers = () => {
                         className={`px-6 py-2 rounded-lg font-medium transition-colors ${selectedPeriod === '7' ? 'bg-primary text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                             }`}
                     >
-                        7 วัน
+                        7 Days
                     </button>
                     <button
                         onClick={() => setSelectedPeriod('30')}
                         className={`px-6 py-2 rounded-lg font-medium transition-colors ${selectedPeriod === '30' ? 'bg-primary text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                             }`}
                     >
-                        30 วัน
+                        30 Days
                     </button>
                     <button
                         onClick={() => setSelectedPeriod('90')}
                         className={`px-6 py-2 rounded-lg font-medium transition-colors ${selectedPeriod === '90' ? 'bg-primary text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                             }`}
                     >
-                        90 วัน
+                        90 Days
                     </button>
                 </div>
             </Card >
@@ -77,7 +77,7 @@ const AdminNewUsers = () => {
             {/* New Users List */}
             < Card >
                 <h3 className="text-lg font-bold text-gray-900 mb-4">
-                    ผู้ใช้ใหม่ {selectedPeriod} วันล่าสุด ({displayUsers.length} คน)
+                    New Users - Last {selectedPeriod} Days ({displayUsers.length} users)
                 </h3>
                 <div className="space-y-3">
                     {displayUsers.length > 0 ? (
@@ -95,16 +95,16 @@ const AdminNewUsers = () => {
                                     </div>
                                 </div>
                                 <div className="text-right">
-                                    <p className="text-sm font-medium text-gray-900">ลงทะเบียนเมื่อ</p>
+                                    <p className="text-sm font-medium text-gray-900">Registered on</p>
                                     <p className="text-sm text-gray-600">{user.registrationDate}</p>
                                     <div className="mt-1">
                                         {user.hasTokens ? (
                                             <span className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-medium">
-                                                มี {user.totalTokens} tokens
+                                                Has {user.totalTokens} tokens
                                             </span>
                                         ) : (
                                             <span className="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-xs font-medium">
-                                                ยังไม่มี tokens
+                                                No tokens yet
                                             </span>
                                         )}
                                     </div>
@@ -113,7 +113,7 @@ const AdminNewUsers = () => {
                         ))
                     ) : (
                         <div className="text-center py-8 text-gray-500">
-                            ไม่มีผู้ใช้ใหม่ในช่วงเวลาที่เลือก
+                            No new users in selected period
                         </div>
                     )}
                 </div>

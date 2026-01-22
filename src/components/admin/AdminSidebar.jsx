@@ -17,7 +17,7 @@ const AdminSidebar = () => {
     };
 
     const handleLogout = () => {
-        if (window.confirm('คุณต้องการออกจากระบบหรือไม่?')) {
+        if (window.confirm('Are you sure you want to logout?')) {
             navigate('/login');
         }
     };
@@ -29,7 +29,7 @@ const AdminSidebar = () => {
     const menuItems = [
         {
             id: 'dashboard',
-            label: 'แดชบอร์ด',
+            label: 'Dashboard',
             icon: 'fa-dashboard',
             path: '/admin/dashboard'
         },
@@ -39,8 +39,8 @@ const AdminSidebar = () => {
             icon: 'fa-users',
             expandable: true,
             subItems: [
-                { label: 'ผู้ใช้ทั้งหมด', path: '/admin/users' },
-                { label: 'รายชื่อใหม่', path: '/admin/users/new' }
+                { label: 'All Users', path: '/admin/users' },
+                { label: 'New Users', path: '/admin/users/new' }
             ]
         },
         {
@@ -59,7 +59,7 @@ const AdminSidebar = () => {
             icon: 'fa-gift',
             expandable: true,
             subItems: [
-                { label: 'ภาพรวม', path: '/admin/vouchers' },
+                { label: 'Overview', path: '/admin/vouchers' },
                 { label: 'Colestia', path: '/admin/vouchers/colestia' },
                 { label: 'CtrlG', path: '/admin/vouchers/ctrlg' },
                 { label: 'TBF', path: '/admin/vouchers/tbf' }

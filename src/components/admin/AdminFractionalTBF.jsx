@@ -30,7 +30,7 @@ const AdminFractionalTBF = () => {
             {/* Header */}
             <div>
                 <h2 className="text-3xl font-bold text-gray-900">TBF - Ownership Management</h2>
-                <p className="text-gray-600 mt-1">จัดการการจองเรือสำหรับ Fractional Ownership</p>
+                <p className="text-gray-600 mt-1">Manage boat bookings for Fractional Ownership</p>
             </div>
 
             {/* Boat Information Card */}
@@ -48,12 +48,12 @@ const AdminFractionalTBF = () => {
 
                         <div className="grid grid-cols-4 gap-4 text-sm">
                             <div>
-                                <p className="text-gray-500">ประเภท</p>
+                                <p className="text-gray-500">Type</p>
                                 <p className="font-medium text-gray-900">{fractionalBoat.type}</p>
                             </div>
                             <div>
-                                <p className="text-gray-500">ความจุ</p>
-                                <p className="font-medium text-gray-900">{fractionalBoat.capacity} ท่าน</p>
+                                <p className="text-gray-500">Capacity</p>
+                                <p className="font-medium text-gray-900">{fractionalBoat.capacity} persons</p>
                             </div>
                             <div>
                                 <p className="text-gray-500">Total Shares</p>
@@ -72,19 +72,19 @@ const AdminFractionalTBF = () => {
             <div className="grid md:grid-cols-4 gap-4">
                 <Card className="text-center">
                     <p className="text-2xl font-bold text-blue-600">{allBookings.length}</p>
-                    <p className="text-sm text-gray-600">การจองทั้งหมด</p>
+                    <p className="text-sm text-gray-600">Total Bookings</p>
                 </Card>
                 <Card className="text-center">
                     <p className="text-2xl font-bold text-orange-600">{fractionalBookings.length}</p>
-                    <p className="text-sm text-gray-600">รอยืนยัน</p>
+                    <p className="text-sm text-gray-600">Pending</p>
                 </Card>
                 <Card className="text-center">
                     <p className="text-2xl font-bold text-green-600">{fractionalConfirmedBookings.length}</p>
-                    <p className="text-sm text-gray-600">ยืนยันแล้ว</p>
+                    <p className="text-sm text-gray-600">Confirmed</p>
                 </Card>
                 <Card className="text-center">
                     <p className="text-2xl font-bold text-purple-600">{fractionalOwners.length}</p>
-                    <p className="text-sm text-gray-600">เจ้าของร่วม</p>
+                    <p className="text-sm text-gray-600">Co-Owners</p>
                 </Card>
             </div>
 
@@ -96,21 +96,21 @@ const AdminFractionalTBF = () => {
                         className={`px-6 py-2 rounded-lg font-medium transition-colors ${activeTab === 'all' ? 'bg-gray-200 text-gray-900' : 'bg-gray-50 text-gray-600 hover:bg-gray-100'
                             }`}
                     >
-                        ทั้งหมด ({allBookings.length})
+                        All ({allBookings.length})
                     </button>
                     <button
                         onClick={() => setActiveTab('pending')}
                         className={`px-6 py-2 rounded-lg font-medium transition-colors ${activeTab === 'pending' ? 'bg-orange-100 text-orange-700' : 'bg-gray-50 text-gray-600 hover:bg-gray-100'
                             }`}
                     >
-                        รอยืนยัน ({fractionalBookings.length})
+                        Pending ({fractionalBookings.length})
                     </button>
                     <button
                         onClick={() => setActiveTab('confirmed')}
                         className={`px-6 py-2 rounded-lg font-medium transition-colors ${activeTab === 'confirmed' ? 'bg-green-100 text-green-700' : 'bg-gray-50 text-gray-600 hover:bg-gray-100'
                             }`}
                     >
-                        ยืนยันแล้ว ({fractionalConfirmedBookings.length})
+                        Confirmed ({fractionalConfirmedBookings.length})
                     </button>
                 </div>
             </Card>
@@ -121,7 +121,7 @@ const AdminFractionalTBF = () => {
                     <i className="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
                     <input
                         type="text"
-                        placeholder="ค้นหาด้วยชื่อ, อีเมล, เบอร์โทร, หรือชื่อเรือ..."
+                        placeholder="Search by name, email, phone, or boat name..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                         className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
@@ -136,14 +136,14 @@ const AdminFractionalTBF = () => {
                         <thead className="bg-gray-50 border-b border-gray-200">
                             <tr>
                                 <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">ID</th>
-                                <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">ชื่อเจ้าของเรือ</th>
-                                <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">ชื่อเรือ</th>
-                                <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">วันที่จอง</th>
-                                <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">ชื่อ-นามสกุล</th>
-                                <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">เบอร์โทร</th>
-                                <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">อีเมล</th>
-                                <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">สถานะ</th>
-                                <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">การจัดการ</th>
+                                <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Boat Owner</th>
+                                <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Boat Name</th>
+                                <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Booking Date</th>
+                                <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Full Name</th>
+                                <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Phone</th>
+                                <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Email</th>
+                                <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Status</th>
+                                <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Actions</th>
                             </tr>
                         </thead>
                         <tbody className="bg-white divide-y divide-gray-200">
@@ -195,12 +195,12 @@ const AdminFractionalTBF = () => {
                                             {booking.status === 'confirmed' ? (
                                                 <span className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-medium">
                                                     <i className="fas fa-check-circle mr-1"></i>
-                                                    ยืนยันแล้ว
+                                                    Confirmed
                                                 </span>
                                             ) : (
                                                 <span className="px-3 py-1 bg-orange-100 text-orange-700 rounded-full text-xs font-medium">
                                                     <i className="fas fa-clock mr-1"></i>
-                                                    รอยืนยัน
+                                                    Pending
                                                 </span>
                                             )}
                                         </td>
@@ -208,7 +208,7 @@ const AdminFractionalTBF = () => {
                                             <div className="flex items-center gap-2">
                                                 <button
                                                     className="px-3 py-1 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
-                                                    title="ดูรายละเอียด"
+                                                    title="View Details"
                                                 >
                                                     <i className="fas fa-eye"></i>
                                                 </button>
@@ -216,13 +216,13 @@ const AdminFractionalTBF = () => {
                                                     <>
                                                         <button
                                                             className="px-3 py-1 text-green-600 hover:bg-green-50 rounded-lg transition-colors"
-                                                            title="อนุมัติ"
+                                                            title="Approve"
                                                         >
                                                             <i className="fas fa-check"></i>
                                                         </button>
                                                         <button
                                                             className="px-3 py-1 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-                                                            title="ปฏิเสธ"
+                                                            title="Reject"
                                                         >
                                                             <i className="fas fa-times"></i>
                                                         </button>
@@ -236,7 +236,7 @@ const AdminFractionalTBF = () => {
                                 <tr>
                                     <td colSpan="9" className="px-4 py-12 text-center">
                                         <i className="fas fa-inbox text-gray-300 text-5xl mb-4"></i>
-                                        <p className="text-gray-500">ไม่พบข้อมูลการจอง</p>
+                                        <p className="text-gray-500">No bookings found</p>
                                     </td>
                                 </tr>
                             )}
@@ -249,7 +249,7 @@ const AdminFractionalTBF = () => {
             <Card>
                 <h3 className="text-lg font-bold text-gray-900 mb-4">
                     <i className="fas fa-users mr-2 text-purple-600"></i>
-                    เจ้าของร่วม (Fractional Owners)
+                    Fractional Owners
                 </h3>
                 <div className="grid md:grid-cols-2 gap-4">
                     {fractionalOwners.map((owner) => (

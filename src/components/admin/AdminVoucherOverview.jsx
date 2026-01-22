@@ -48,27 +48,27 @@ const AdminVoucherOverview = () => {
         <div className="max-w-7xl mx-auto space-y-6">
             {/* Header */}
             <div>
-                <h2 className="text-3xl font-bold text-gray-900">Voucher & Reward - ภาพรวม</h2>
-                <p className="text-gray-600 mt-1">สรุปภาพรวมของ Vouchers และ Rewards ทั้งหมด</p>
+                <h2 className="text-3xl font-bold text-gray-900">Voucher & Reward - Overview</h2>
+                <p className="text-gray-600 mt-1">Summary of all Vouchers and Rewards</p>
             </div>
 
             {/* Overall Statistics */}
             <div className="grid md:grid-cols-4 gap-4">
                 <Card className="text-center">
                     <p className="text-2xl font-bold text-purple-600">{overallStats.totalVouchers}</p>
-                    <p className="text-sm text-gray-600">Vouchers ทั้งหมด</p>
+                    <p className="text-sm text-gray-600">Total Vouchers</p>
                 </Card>
                 <Card className="text-center">
                     <p className="text-2xl font-bold text-blue-600">{overallStats.totalProducts}</p>
-                    <p className="text-sm text-gray-600">สินค้าและของชอ</p>
+                    <p className="text-sm text-gray-600">Products & Gifts</p>
                 </Card>
                 <Card className="text-center">
                     <p className="text-2xl font-bold text-green-600">{overallStats.totalActivities}</p>
-                    <p className="text-sm text-gray-600">รอบบริการและกิจกรรม</p>
+                    <p className="text-sm text-gray-600">Services & Activities</p>
                 </Card>
                 <Card className="text-center">
                     <p className="text-2xl font-bold text-orange-600">{redemptionRate}%</p>
-                    <p className="text-sm text-gray-600">อัตราการแลก</p>
+                    <p className="text-sm text-gray-600">Redemption Rate</p>
                 </Card>
             </div>
 
@@ -80,8 +80,8 @@ const AdminVoucherOverview = () => {
                             <i className="fas fa-film text-white text-xl"></i>
                         </div>
                         <div>
-                            <h3 className="text-xl font-bold text-gray-900">Colestia - ภาพยนตร์</h3>
-                            <p className="text-sm text-gray-600">Vouchers สำหรับภาพยนตร์ไทย</p>
+                            <h3 className="text-xl font-bold text-gray-900">Colestia - Movies</h3>
+                            <p className="text-sm text-gray-600">Vouchers for Thai films</p>
                         </div>
                     </div>
                     <button
@@ -89,30 +89,30 @@ const AdminVoucherOverview = () => {
                         className="px-4 py-2 bg-cyan-600 text-white rounded-lg hover:bg-cyan-700 transition-colors font-medium"
                     >
                         <i className="fas fa-arrow-right mr-2"></i>
-                        ดูรายละเอียด
+                        View Details
                     </button>
                 </div>
 
                 <div className="grid grid-cols-5 gap-4">
                     <div className="text-center p-3 bg-gray-50 rounded-lg">
                         <p className="text-2xl font-bold text-gray-900">{colestiaStats.total}</p>
-                        <p className="text-xs text-gray-600">รายการทั้งหมด</p>
+                        <p className="text-xs text-gray-600">Total Items</p>
                     </div>
                     <div className="text-center p-3 bg-blue-50 rounded-lg">
                         <p className="text-2xl font-bold text-blue-600">{colestiaStats.products}</p>
-                        <p className="text-xs text-gray-600">สินค้า</p>
+                        <p className="text-xs text-gray-600">Products</p>
                     </div>
                     <div className="text-center p-3 bg-green-50 rounded-lg">
                         <p className="text-2xl font-bold text-green-600">{colestiaStats.activities}</p>
-                        <p className="text-xs text-gray-600">กิจกรรม</p>
+                        <p className="text-xs text-gray-600">Activities</p>
                     </div>
                     <div className="text-center p-3 bg-purple-50 rounded-lg">
                         <p className="text-2xl font-bold text-purple-600">{colestiaStats.redeemed}</p>
-                        <p className="text-xs text-gray-600">แลกแล้ว</p>
+                        <p className="text-xs text-gray-600">Redeemed</p>
                     </div>
                     <div className="text-center p-3 bg-orange-50 rounded-lg">
                         <p className="text-2xl font-bold text-orange-600">{colestiaStats.remaining}</p>
-                        <p className="text-xs text-gray-600">คงเหลือ</p>
+                        <p className="text-xs text-gray-600">Remaining</p>
                     </div>
                 </div>
             </Card>
@@ -126,7 +126,7 @@ const AdminVoucherOverview = () => {
                         </div>
                         <div>
                             <h3 className="text-xl font-bold text-gray-900">CtrlG - Gaming & Entertainment</h3>
-                            <p className="text-sm text-gray-600">Vouchers สำหรับภาพยนตร์ต่างประเทศและ Gaming</p>
+                            <p className="text-sm text-gray-600">Vouchers for international movies and gaming</p>
                         </div>
                     </div>
                     <button
@@ -134,30 +134,30 @@ const AdminVoucherOverview = () => {
                         className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors font-medium"
                     >
                         <i className="fas fa-arrow-right mr-2"></i>
-                        ดูรายละเอียด
+                        View Details
                     </button>
                 </div>
 
                 <div className="grid grid-cols-5 gap-4">
                     <div className="text-center p-3 bg-gray-50 rounded-lg">
                         <p className="text-2xl font-bold text-gray-900">{ctrlgStats.total}</p>
-                        <p className="text-xs text-gray-600">รายการทั้งหมด</p>
+                        <p className="text-xs text-gray-600">Total Items</p>
                     </div>
                     <div className="text-center p-3 bg-blue-50 rounded-lg">
                         <p className="text-2xl font-bold text-blue-600">{ctrlgStats.products}</p>
-                        <p className="text-xs text-gray-600">สินค้า</p>
+                        <p className="text-xs text-gray-600">Products</p>
                     </div>
                     <div className="text-center p-3 bg-green-50 rounded-lg">
                         <p className="text-2xl font-bold text-green-600">{ctrlgStats.activities}</p>
-                        <p className="text-xs text-gray-600">กิจกรรม</p>
+                        <p className="text-xs text-gray-600">Activities</p>
                     </div>
                     <div className="text-center p-3 bg-purple-50 rounded-lg">
                         <p className="text-2xl font-bold text-purple-600">{ctrlgStats.redeemed}</p>
-                        <p className="text-xs text-gray-600">แลกแล้ว</p>
+                        <p className="text-xs text-gray-600">Redeemed</p>
                     </div>
                     <div className="text-center p-3 bg-orange-50 rounded-lg">
                         <p className="text-2xl font-bold text-orange-600">{ctrlgStats.remaining}</p>
-                        <p className="text-xs text-gray-600">คงเหลือ</p>
+                        <p className="text-xs text-gray-600">Remaining</p>
                     </div>
                 </div>
             </Card>
@@ -171,7 +171,7 @@ const AdminVoucherOverview = () => {
                         </div>
                         <div>
                             <h3 className="text-xl font-bold text-gray-900">TBF - Boat Booking</h3>
-                            <p className="text-sm text-gray-600">การจัดการการจองเรือ</p>
+                            <p className="text-sm text-gray-600">Boat booking management</p>
                         </div>
                     </div>
                     <button
@@ -179,30 +179,30 @@ const AdminVoucherOverview = () => {
                         className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
                     >
                         <i className="fas fa-arrow-right mr-2"></i>
-                        ดูรายละเอียด
+                        View Details
                     </button>
                 </div>
 
                 <div className="grid grid-cols-5 gap-4">
                     <div className="text-center p-3 bg-gray-50 rounded-lg">
                         <p className="text-2xl font-bold text-gray-900">{tbfStats.total}</p>
-                        <p className="text-xs text-gray-600">การจองทั้งหมด</p>
+                        <p className="text-xs text-gray-600">Total Bookings</p>
                     </div>
                     <div className="text-center p-3 bg-orange-50 rounded-lg">
                         <p className="text-2xl font-bold text-orange-600">{tbfStats.pending}</p>
-                        <p className="text-xs text-gray-600">รอยืนยัน</p>
+                        <p className="text-xs text-gray-600">Pending</p>
                     </div>
                     <div className="text-center p-3 bg-green-50 rounded-lg">
                         <p className="text-2xl font-bold text-green-600">{tbfStats.confirmed}</p>
-                        <p className="text-xs text-gray-600">ยืนยันแล้ว</p>
+                        <p className="text-xs text-gray-600">Confirmed</p>
                     </div>
                     <div className="text-center p-3 bg-blue-50 rounded-lg">
                         <p className="text-2xl font-bold text-blue-600">3</p>
-                        <p className="text-xs text-gray-600">เรือทั้งหมด</p>
+                        <p className="text-xs text-gray-600">Total Boats</p>
                     </div>
                     <div className="text-center p-3 bg-cyan-50 rounded-lg">
                         <p className="text-2xl font-bold text-cyan-600">3</p>
-                        <p className="text-xs text-gray-600">พร้อมให้บริการ</p>
+                        <p className="text-xs text-gray-600">Available</p>
                     </div>
                 </div>
             </Card>

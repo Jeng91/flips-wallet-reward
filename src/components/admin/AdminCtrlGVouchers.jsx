@@ -23,27 +23,27 @@ const AdminCtrlGVouchers = () => {
         <div className="max-w-7xl mx-auto space-y-6">
             {/* Header */}
             <div>
-                <h2 className="text-3xl font-bold text-gray-900">CtrlG - จัดการ Vouchers</h2>
-                <p className="text-gray-600 mt-1">จัดการ rewards สำหรับ Gaming และ Entertainment</p>
+                <h2 className="text-3xl font-bold text-gray-900">CtrlG - Manage Vouchers</h2>
+                <p className="text-gray-600 mt-1">Manage rewards for Gaming and Entertainment</p>
             </div>
 
             {/* Statistics */}
             <div className="grid md:grid-cols-4 gap-4">
                 <Card className="text-center">
                     <p className="text-2xl font-bold text-indigo-600">{ctrlgPrivileges.length}</p>
-                    <p className="text-sm text-gray-600">Rewards ทั้งหมด</p>
+                    <p className="text-sm text-gray-600">Total Rewards</p>
                 </Card>
                 <Card className="text-center">
                     <p className="text-2xl font-bold text-purple-600">{ctrlgPrivileges.filter(p => p.category === 'game-merchandise').length}</p>
-                    <p className="text-sm text-gray-600">สินค้าเกม</p>
+                    <p className="text-sm text-gray-600">Game Merchandise</p>
                 </Card>
                 <Card className="text-center">
                     <p className="text-2xl font-bold text-pink-600">{ctrlgPrivileges.filter(p => p.category === 'game-meet-greet').length}</p>
-                    <p className="text-sm text-gray-600">พบนักแข่ง</p>
+                    <p className="text-sm text-gray-600">Meet Players</p>
                 </Card>
                 <Card className="text-center">
                     <p className="text-2xl font-bold text-blue-600">{ctrlgPrivileges.filter(p => p.category === 'game-items' || p.category === 'early-access').length}</p>
-                    <p className="text-sm text-gray-600">ไอเทมในเกม</p>
+                    <p className="text-sm text-gray-600">In-Game Items</p>
                 </Card>
             </div>
 
@@ -105,19 +105,19 @@ const AdminCtrlGVouchers = () => {
             {/* Statistics Cards Row */}
             <div className="grid grid-cols-4 gap-4">
                 <Card className="text-center">
-                    <p className="text-sm text-gray-600">รายการทั้งหมด</p>
+                    <p className="text-sm text-gray-600">Total Items</p>
                     <p className="text-xl font-bold text-gray-900">{searchFiltered.length}</p>
                 </Card>
                 <Card className="text-center">
-                    <p className="text-sm text-gray-600">ระดับ Gold</p>
+                    <p className="text-sm text-gray-600">Gold Tier</p>
                     <p className="text-xl font-bold text-gray-900">{searchFiltered.filter(p => p.tier === 'gold').length}</p>
                 </Card>
                 <Card className="text-center">
-                    <p className="text-sm text-gray-600">ระดับ Silver</p>
+                    <p className="text-sm text-gray-600">Silver Tier</p>
                     <p className="text-xl font-bold text-gray-900">{searchFiltered.filter(p => p.tier === 'silver').length}</p>
                 </Card>
                 <Card className="text-center">
-                    <p className="text-sm text-gray-600">สินค้าจริง</p>
+                    <p className="text-sm text-gray-600">Physical Items</p>
                     <p className="text-xl font-bold text-gray-900">{searchFiltered.filter(p => p.isPhysical).length}</p>
                 </Card>
             </div>
@@ -145,8 +145,8 @@ const AdminCtrlGVouchers = () => {
                             {/* Badges */}
                             <div className="flex gap-2 mb-2 flex-wrap">
                                 <span className={`px-2 py-1 rounded text-xs font-medium ${privilege.tier === 'gold' ? 'bg-yellow-100 text-yellow-700' :
-                                        privilege.tier === 'silver' ? 'bg-gray-100 text-gray-700' :
-                                            'bg-blue-100 text-blue-700'
+                                    privilege.tier === 'silver' ? 'bg-gray-100 text-gray-700' :
+                                        'bg-blue-100 text-blue-700'
                                     }`}>
                                     {privilege.tier?.toUpperCase()}
                                 </span>
@@ -184,7 +184,7 @@ const AdminCtrlGVouchers = () => {
                             {/* Price & Rating */}
                             <div className="flex items-center justify-between mb-3 pt-3 border-t border-gray-100">
                                 <div>
-                                    <p className="text-xs text-gray-500">ราคา</p>
+                                    <p className="text-xs text-gray-500">Price</p>
                                     <p className="font-bold text-indigo-600">
                                         {privilege.price} {privilege.coinType?.toUpperCase() || 'CTRL G'}
                                     </p>
@@ -201,10 +201,10 @@ const AdminCtrlGVouchers = () => {
                             {/* Action Buttons */}
                             <div className="flex gap-2">
                                 <button className="flex-1 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm font-medium">
-                                    แก้ไข
+                                    Edit
                                 </button>
                                 <button className="flex-1 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors text-sm font-medium">
-                                    ดูรายละเอียด
+                                    View Details
                                 </button>
                             </div>
                         </div>
@@ -215,7 +215,7 @@ const AdminCtrlGVouchers = () => {
             {searchFiltered.length === 0 && (
                 <Card className="text-center py-12">
                     <i className="fas fa-inbox text-gray-300 text-5xl mb-4"></i>
-                    <p className="text-gray-500">ไม่พบรายการที่ค้นหา</p>
+                    <p className="text-gray-500">No items found</p>
                 </Card>
             )}
         </div>
