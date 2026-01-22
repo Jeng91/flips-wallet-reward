@@ -216,7 +216,7 @@ const TokenDetail = () => {
     }
 
     return (
-        <div className="max-w-4xl mx-auto px-4 py-4 md:py-6 pb-24">
+        <div className="max-w-4xl mx-auto px-4 py-4 md:py-6 pb-4 md:pb-32">
             {/* Header */}
             <div className="flex items-center gap-3 mb-6">
                 <button
@@ -1078,8 +1078,8 @@ const TokenDetail = () => {
                 )}
             </div>
 
-            {/* Action Buttons */}
-            <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4 shadow-lg">
+            {/* Action Buttons - Inline on mobile, Fixed on desktop */}
+            <div className="mt-6 mb-20 md:mb-0 md:fixed md:bottom-0 md:left-0 md:right-0 bg-white border-t border-gray-200 p-4 shadow-lg md:shadow-lg rounded-2xl md:rounded-none md:z-50">
                 <div className="max-w-4xl mx-auto grid grid-cols-5 gap-2">
                     <button
                         onClick={() => setShowTransfer(true)}
