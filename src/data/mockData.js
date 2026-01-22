@@ -315,6 +315,11 @@ export const investments = [
         tokenPrice: 10.00,
         tokenSymbol: "SLR",
 
+        // Movie Details for About Section
+        director: "พันพิกุล ศรีสมัย",
+        genre: "Drama / Romance",
+        synopsis: "ภาพยนตร์ที่บอกเล่าเรื่องราวความรักและความทรงจำในยุค 80s ผ่านมุมมองของนักดนตรีหนุ่มที่พบรักครั้งแรกในสนามหลวง ท่ามกลางบรรยากาศเรโทรอันงดงาม เรื่องราวอันซาบซึ้งที่จะพาคุณย้อนเวลากลับไปสู่ยุคทองของวงการเพลงไทย",
+
         // Funding Progress
         funding: {
             target: 100000000,        // Target funding amount
@@ -429,6 +434,11 @@ export const investments = [
         tokenPrice: 8.50,
         tokenSymbol: "LPJ",
 
+        // Movie Details for About Section
+        director: "พจน์ อานนท์",
+        genre: "Comedy / Horror",
+        synopsis: "ภาคต่อสุดฮาของซีรีส์หลวงพี่แจ๊ส เมื่อหลวงพี่ต้องเผชิญหน้ากับผีร้ายในยุคดิจิทัล พร้อมเทคโนโลยี 4G ที่ทำให้ทุกอย่างวุ่นวายมากขึ้น รับรองขำกลิ้งลิ้นทั้งโรง!",
+
         funding: {
             target: 50000000,
             current: 50000000,
@@ -522,6 +532,11 @@ export const investments = [
         earnedFlips: 0,
         tokenPrice: 12.00,
         tokenSymbol: "OBR",
+
+        // Movie Details for About Section
+        director: "ปรัชญา ปิ่นแก้ว",
+        genre: "Action / Martial Arts",
+        synopsis: "การรีมาสเตอร์ครั้งยิ่งใหญ่ของภาพยนตร์มวยไทยระดับตำนาน นำแสดงโดย Tony Jaa กลับมาบนจอยักษ์ IMAX พร้อมคุณภาพเสียงและภาพระดับสูงสุด สัมผัสประสบการณ์แอ็คชั่นสุดมันส์อีกครั้งในรูปแบบที่ไม่เคยมีมาก่อน!",
 
         funding: {
             target: 200000000,

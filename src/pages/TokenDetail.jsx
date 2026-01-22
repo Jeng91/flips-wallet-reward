@@ -383,73 +383,129 @@ const TokenDetail = () => {
                     <div className="space-y-4">
                         {/* Investment-specific section */}
                         {token.isInvestment && token.investmentData && (
-                            <div className="space-y-4">
-                                {/* Tier and ROI */}
-                                <div className="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm">
-                                    <div className="flex items-center justify-between mb-4">
-                                        {token.investmentData.rewards?.myTier ? (
-                                            <div
-                                                className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-bold"
-                                                style={{
-                                                    backgroundColor: (token.investmentData.rewards.tiers.find(t => t.name === token.investmentData.rewards.myTier)?.color || '#ffd700') + '20',
-                                                    color: token.investmentData.rewards.tiers.find(t => t.name === token.investmentData.rewards.myTier)?.color || '#ffd700'
-                                                }}
-                                            >
-                                                <i className="fas fa-crown"></i>
-                                                {token.investmentData.rewards.myTier} Tier
-                                            </div>
-                                        ) : (
-                                            <div className="px-4 py-2 bg-gray-100 rounded-full text-sm font-medium text-gray-500">
-                                                No Tier
-                                            </div>
-                                        )}
-                                        <div className="text-right">
-                                            <p className="text-xs text-gray-500">ROI</p>
-                                            <p className="text-2xl font-bold text-green-600">+{token.investmentData.roi}%</p>
+                            <div className="space-y-6">
+                                {/* ==================== Section 1: ภาพรวมการลงทุน ==================== */}
+                                <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
+                                    <h2 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
+                                        <span className="w-8 h-8 bg-indigo-100 rounded-lg flex items-center justify-center">
+                                            <i className="fas fa-chart-pie text-indigo-600 text-sm"></i>
+                                        </span>
+                                        ภาพรวมการลงทุน
+                                    </h2>
+
+                                    {/* Token Holdings Grid */}
+                                    <div className="grid grid-cols-2 gap-4 mb-6">
+                                        <div className="bg-gray-50 rounded-xl p-4">
+                                            <p className="text-xs text-gray-500 mb-1">จำนวน Token ที่ถือ</p>
+                                            <p className="text-2xl font-bold text-gray-900">
+                                                {token.balance.toLocaleString()}
+                                            </p>
+                                            <p className="text-xs text-gray-400">{token.symbol}</p>
+                                        </div>
+                                        <div className="bg-gray-50 rounded-xl p-4">
+                                            <p className="text-xs text-gray-500 mb-1">มูลค่าที่ลงทุนไป</p>
+                                            <p className="text-2xl font-bold text-indigo-600">
+                                                ฿{(token.balance * token.currentPrice).toLocaleString()}
+                                            </p>
+                                            <p className="text-xs text-gray-400">≈ ${((token.balance * token.currentPrice) / 35).toLocaleString()}</p>
                                         </div>
                                     </div>
-                                </div>
 
-                                {/* Funding Progress */}
-                                {token.investmentData.funding && (
-                                    <div className="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm">
-                                        <h3 className="text-lg font-bold text-gray-900 mb-4">Funding Progress</h3>
-                                        <div className="mb-4">
+                                    {/* Ownership & Funding Row */}
+                                    <div className="grid grid-cols-2 gap-4 mb-6">
+                                        <div className="bg-indigo-50 rounded-xl p-4 border border-indigo-100">
+                                            <p className="text-xs text-indigo-600 mb-1">สัดส่วนการถือ (%)</p>
+                                            <p className="text-3xl font-bold text-indigo-700">
+                                                {token.investmentData.funding?.myOwnership || 0}%
+                                            </p>
+                                            <p className="text-xs text-indigo-500">ของโปรเจกต์ทั้งหมด</p>
+                                        </div>
+                                        <div className="bg-blue-50 rounded-xl p-4 border border-blue-100">
+                                            <p className="text-xs text-blue-600 mb-1">Funding Progress</p>
+                                            <p className="text-3xl font-bold text-blue-700">
+                                                {token.investmentData.funding?.progress || 0}%
+                                            </p>
+                                            <p className="text-xs text-blue-500">ระดมทุนสำเร็จ</p>
+                                        </div>
+                                    </div>
+
+                                    {/* Funding Progress Bar */}
+                                    {token.investmentData.funding && (
+                                        <div className="mb-6">
                                             <div className="flex justify-between text-sm mb-2">
-                                                <span className="text-gray-600">Progress</span>
-                                                <span className="font-bold text-gray-900">{token.investmentData.funding.progress}%</span>
+                                                <span className="text-gray-600">ระดมทุนแล้ว / เป้าหมาย</span>
+                                                <span className="font-bold text-gray-900">
+                                                    ฿{token.investmentData.funding.current?.toLocaleString() || 0} / ฿{token.investmentData.funding.target?.toLocaleString() || 0}
+                                                </span>
                                             </div>
-                                            <div className="h-3 bg-gray-200 rounded-full overflow-hidden">
+                                            <div className="h-4 bg-gray-200 rounded-full overflow-hidden">
                                                 <div
-                                                    className="h-full bg-gradient-to-r from-blue-500 to-indigo-600 transition-all"
+                                                    className="h-full bg-gradient-to-r from-blue-500 to-indigo-600 transition-all duration-500 rounded-full"
                                                     style={{ width: `${token.investmentData.funding.progress}%` }}
                                                 ></div>
                                             </div>
                                         </div>
-                                        <div className="grid grid-cols-3 gap-4 pt-4 border-t border-gray-100">
-                                            <div className="text-center">
-                                                <p className="text-xs text-gray-500">Total Investors</p>
-                                                <p className="text-lg font-bold text-gray-900">{token.investmentData.funding.totalInvestors?.toLocaleString()}</p>
+                                    )}
+
+                                    {/* Donut Chart Section */}
+                                    <div className="flex items-center justify-center gap-8 pt-4 border-t border-gray-100">
+                                        {/* Donut Chart */}
+                                        <div className="relative">
+                                            <svg viewBox="0 0 36 36" className="w-28 h-28">
+                                                {/* Background circle */}
+                                                <path
+                                                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                                                    fill="none"
+                                                    stroke="#e5e7eb"
+                                                    strokeWidth="3"
+                                                />
+                                                {/* Progress circle */}
+                                                <path
+                                                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                                                    fill="none"
+                                                    stroke="#6366f1"
+                                                    strokeWidth="3"
+                                                    strokeDasharray={`${token.investmentData.funding?.myOwnership || 0}, 100`}
+                                                    strokeLinecap="round"
+                                                />
+                                            </svg>
+                                            <div className="absolute inset-0 flex items-center justify-center flex-col">
+                                                <span className="text-xl font-bold text-indigo-600">
+                                                    {token.investmentData.funding?.myOwnership || 0}%
+                                                </span>
+                                                <span className="text-[10px] text-gray-500">Your Share</span>
                                             </div>
-                                            <div className="text-center">
-                                                <p className="text-xs text-gray-500">Your Ownership</p>
-                                                <p className="text-lg font-bold text-indigo-600">{token.investmentData.funding.myOwnership}%</p>
-                                            </div>
-                                            <div className="text-center">
-                                                <p className="text-xs text-gray-500">Token Price</p>
-                                                <p className="text-lg font-bold text-gray-900">฿{token.investmentData.tokenPrice}</p>
+                                        </div>
+
+                                        {/* Investor Stats */}
+                                        <div className="text-left">
+                                            <p className="text-3xl font-bold text-gray-900">
+                                                {token.investmentData.funding?.totalInvestors?.toLocaleString() || 0}
+                                            </p>
+                                            <p className="text-sm text-gray-500">นักลงทุนทั้งหมด</p>
+                                            <div className="flex items-center gap-2 mt-2">
+                                                <div className="w-3 h-3 rounded-full bg-indigo-600"></div>
+                                                <span className="text-xs text-gray-600">คุณ</span>
+                                                <div className="w-3 h-3 rounded-full bg-gray-300"></div>
+                                                <span className="text-xs text-gray-600">อื่นๆ</span>
                                             </div>
                                         </div>
                                     </div>
-                                )}
+                                </div>
 
-                                {/* Production Timeline */}
+                                {/* ==================== Section 2: ความคืบหน้าหนัง ==================== */}
                                 {token.investmentData.timeline && (
-                                    <div className="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm">
-                                        <div className="flex items-center justify-between mb-4">
-                                            <h3 className="text-lg font-bold text-gray-900">Production Status</h3>
+                                    <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
+                                        <div className="flex items-center justify-between mb-6">
+                                            <h2 className="text-lg font-bold text-gray-900 flex items-center gap-2">
+                                                <span className="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center">
+                                                    <i className="fas fa-film text-orange-600 text-sm"></i>
+                                                </span>
+                                                ความคืบหน้าหนัง
+                                            </h2>
+                                            {/* Status Badge */}
                                             <span
-                                                className="px-3 py-1 rounded-full text-xs font-medium capitalize"
+                                                className="px-4 py-1.5 rounded-full text-sm font-bold capitalize"
                                                 style={{
                                                     backgroundColor: token.investmentData.timeline.statusColor === 'blue' ? '#dbeafe' :
                                                         token.investmentData.timeline.statusColor === 'orange' ? '#fed7aa' :
@@ -462,24 +518,250 @@ const TokenDetail = () => {
                                                 {token.investmentData.timeline.currentStatus}
                                             </span>
                                         </div>
-                                        {token.investmentData.timeline.lastUpdateDescription && (
-                                            <div className="mb-4 p-3 bg-blue-50 rounded-lg">
-                                                <p className="text-sm text-blue-900">{token.investmentData.timeline.lastUpdateDescription}</p>
-                                                <p className="text-xs text-blue-600 mt-1">Updated: {token.investmentData.timeline.lastUpdated}</p>
+
+                                        {/* Timeline Stepper */}
+                                        {token.investmentData.timeline.steps && (
+                                            <div className="relative mb-6">
+                                                {/* Connection Line */}
+                                                <div className="absolute left-5 top-6 bottom-6 w-0.5 bg-gray-200"></div>
+
+                                                {token.investmentData.timeline.steps.map((step, index) => {
+                                                    const isCompleted = step.status === 'completed';
+                                                    const isCurrent = step.status === 'current';
+                                                    const isPending = step.status === 'pending';
+
+                                                    return (
+                                                        <div key={index} className="relative flex items-start gap-4 pb-6 last:pb-0">
+                                                            {/* Step Circle */}
+                                                            <div className={`
+                                                                relative z-10 w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 transition-all
+                                                                ${isCompleted ? 'bg-green-500 text-white' :
+                                                                    isCurrent ? 'bg-indigo-600 text-white ring-4 ring-indigo-100' :
+                                                                        'bg-gray-200 text-gray-400'}
+                                                            `}>
+                                                                {isCompleted ? (
+                                                                    <i className="fas fa-check text-sm"></i>
+                                                                ) : (
+                                                                    <span className="text-sm font-bold">{index + 1}</span>
+                                                                )}
+                                                            </div>
+
+                                                            {/* Step Content */}
+                                                            <div className="flex-1 pt-1">
+                                                                <p className={`font-medium ${isPending ? 'text-gray-400' : 'text-gray-900'}`}>
+                                                                    {step.label}
+                                                                </p>
+                                                                <p className={`text-xs ${isPending ? 'text-gray-300' : 'text-gray-500'}`}>
+                                                                    {step.date}
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    );
+                                                })}
                                             </div>
                                         )}
-                                        <div className="grid grid-cols-2 gap-3 text-sm">
-                                            <div>
-                                                <p className="text-gray-500">Next Milestone</p>
-                                                <p className="font-medium text-gray-900">{token.investmentData.timeline.nextMilestone}</p>
-                                            </div>
-                                            {token.investmentData.timeline.boxOffice !== 'N/A' && (
-                                                <div>
-                                                    <p className="text-gray-500">Box Office</p>
-                                                    <p className="font-bold text-green-600">{token.investmentData.timeline.boxOffice}</p>
+
+                                        {/* Latest Update */}
+                                        {token.investmentData.timeline.lastUpdateDescription && (
+                                            <div className="bg-blue-50 border border-blue-100 rounded-xl p-4 mb-4">
+                                                <div className="flex items-start gap-3">
+                                                    <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                                        <i className="fas fa-bullhorn text-blue-600 text-xs"></i>
+                                                    </div>
+                                                    <div>
+                                                        <p className="font-bold text-blue-900 text-sm">Milestone ล่าสุด</p>
+                                                        <p className="text-sm text-blue-800">{token.investmentData.timeline.lastUpdateDescription}</p>
+                                                        <p className="text-xs text-blue-600 mt-1">
+                                                            <i className="fas fa-clock mr-1"></i>
+                                                            อัปเดตเมื่อ: {token.investmentData.timeline.lastUpdated}
+                                                        </p>
+                                                    </div>
                                                 </div>
-                                            )}
-                                        </div>
+                                            </div>
+                                        )}
+
+                                        {/* Box Office (if released) */}
+                                        {token.investmentData.timeline.boxOffice && token.investmentData.timeline.boxOffice !== 'N/A' && (
+                                            <div className="bg-green-50 border border-green-100 rounded-xl p-4">
+                                                <div className="flex items-center justify-between">
+                                                    <div className="flex items-center gap-3">
+                                                        <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+                                                            <i className="fas fa-ticket-alt text-green-600"></i>
+                                                        </div>
+                                                        <div>
+                                                            <p className="text-xs text-green-600">Box Office</p>
+                                                            <p className="text-2xl font-bold text-green-700">{token.investmentData.timeline.boxOffice}</p>
+                                                        </div>
+                                                    </div>
+                                                    <div className="text-right">
+                                                        <p className="text-xs text-green-600">Next Milestone</p>
+                                                        <p className="text-sm font-medium text-green-800">{token.investmentData.timeline.nextMilestone}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        )}
+                                    </div>
+                                )}
+
+                                {/* ==================== Section 3: Reward & สิทธิ์ ==================== */}
+                                {token.investmentData.rewards && (
+                                    <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
+                                        <h2 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
+                                            <span className="w-8 h-8 bg-yellow-100 rounded-lg flex items-center justify-center">
+                                                <i className="fas fa-gift text-yellow-600 text-sm"></i>
+                                            </span>
+                                            Reward & สิทธิ์
+                                        </h2>
+
+                                        {/* Current Tier Card */}
+                                        {(() => {
+                                            const currentTier = token.investmentData.rewards.tiers?.find(t => t.name === token.investmentData.rewards.myTier);
+                                            const currentTierIndex = token.investmentData.rewards.tiers?.findIndex(t => t.name === token.investmentData.rewards.myTier) || 0;
+                                            const nextTier = token.investmentData.rewards.tiers?.[currentTierIndex + 1];
+                                            const tierColor = currentTier?.color || '#9ca3af';
+
+                                            return (
+                                                <>
+                                                    {/* Tier Header Card */}
+                                                    <div
+                                                        className="rounded-xl p-5 mb-6"
+                                                        style={{ backgroundColor: tierColor + '15' }}
+                                                    >
+                                                        <div className="flex items-center justify-between">
+                                                            <div>
+                                                                <p className="text-xs opacity-70 mb-1">Tier ของคุณ</p>
+                                                                <div className="flex items-center gap-2">
+                                                                    <i className="fas fa-crown text-xl" style={{ color: tierColor }}></i>
+                                                                    <span className="text-2xl font-bold" style={{ color: tierColor }}>
+                                                                        {token.investmentData.rewards.myTier || 'No Tier'}
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                            <div className="text-right">
+                                                                <p className="text-xs opacity-70 mb-1">Reward ที่เหลือ</p>
+                                                                <p className="text-3xl font-bold" style={{ color: tierColor }}>
+                                                                    {token.investmentData.rewards.stats?.totalAvailable || 0}
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    {/* Redemption Progress */}
+                                                    <div className="mb-6">
+                                                        <div className="flex justify-between text-sm mb-2">
+                                                            <span className="text-gray-600">Redeemed / Available</span>
+                                                            <span className="font-bold text-gray-900">
+                                                                {token.investmentData.rewards.stats?.totalRedeemed || 0} / {(token.investmentData.rewards.stats?.totalAvailable || 0) + (token.investmentData.rewards.stats?.totalRedeemed || 0)}
+                                                            </span>
+                                                        </div>
+                                                        <div className="h-3 bg-gray-200 rounded-full overflow-hidden">
+                                                            <div
+                                                                className="h-full bg-gradient-to-r from-green-400 to-green-600 transition-all duration-500 rounded-full"
+                                                                style={{ width: `${token.investmentData.rewards.stats?.progress || 0}%` }}
+                                                            ></div>
+                                                        </div>
+                                                        <p className="text-xs text-gray-500 mt-1">
+                                                            {token.investmentData.rewards.stats?.progress || 0}% ใช้ไปแล้ว
+                                                        </p>
+                                                    </div>
+
+                                                    {/* Next Tier Progress */}
+                                                    {nextTier && (
+                                                        <div className="mb-6 p-4 bg-gray-50 rounded-xl">
+                                                            <div className="flex justify-between text-sm mb-2">
+                                                                <span className="text-gray-600">
+                                                                    อัปเกรดไป <span className="font-bold" style={{ color: nextTier.color }}>{nextTier.name}</span>
+                                                                </span>
+                                                                <span className="font-bold text-gray-900">
+                                                                    {token.balance.toLocaleString()} / {nextTier.minTokens?.toLocaleString()} tokens
+                                                                </span>
+                                                            </div>
+                                                            <div className="h-3 bg-gray-200 rounded-full overflow-hidden">
+                                                                <div
+                                                                    className="h-full transition-all duration-500 rounded-full"
+                                                                    style={{
+                                                                        width: `${Math.min((token.balance / nextTier.minTokens) * 100, 100)}%`,
+                                                                        backgroundColor: nextTier.color
+                                                                    }}
+                                                                ></div>
+                                                            </div>
+                                                            <p className="text-xs text-gray-500 mt-1">
+                                                                ต้องการอีก {Math.max(nextTier.minTokens - token.balance, 0).toLocaleString()} tokens
+                                                            </p>
+                                                        </div>
+                                                    )}
+
+                                                    {/* Benefits Checklist */}
+                                                    {currentTier?.benefits && currentTier.benefits.length > 0 && (
+                                                        <div className="mb-6">
+                                                            <h3 className="font-bold text-gray-900 mb-3 flex items-center gap-2">
+                                                                <i className="fas fa-check-circle text-green-500"></i>
+                                                                สิทธิ์ที่ได้รับ ({currentTier.name} Tier)
+                                                            </h3>
+                                                            <div className="space-y-2">
+                                                                {currentTier.benefits.map((benefit, index) => (
+                                                                    <div key={index} className="flex items-center gap-3 p-3 bg-green-50 rounded-lg border border-green-100">
+                                                                        <i className="fas fa-check-circle text-green-500"></i>
+                                                                        <span className="text-sm text-green-800">{benefit}</span>
+                                                                    </div>
+                                                                ))}
+                                                            </div>
+                                                        </div>
+                                                    )}
+
+                                                    {/* Available Rewards */}
+                                                    {token.investmentData.rewards.available && token.investmentData.rewards.available.length > 0 && (
+                                                        <div className="mb-6">
+                                                            <h3 className="font-bold text-gray-900 mb-3 flex items-center gap-2">
+                                                                <i className="fas fa-gift text-indigo-500"></i>
+                                                                Reward ที่สามารถรับได้
+                                                            </h3>
+                                                            <div className="space-y-3">
+                                                                {token.investmentData.rewards.available.map((reward, index) => (
+                                                                    <div key={index} className="flex items-center justify-between p-4 border border-gray-200 rounded-xl hover:border-indigo-300 hover:shadow-sm transition-all">
+                                                                        <div className="flex items-center gap-3">
+                                                                            <div className="w-10 h-10 bg-indigo-100 rounded-lg flex items-center justify-center">
+                                                                                <i className="fas fa-gift text-indigo-600"></i>
+                                                                            </div>
+                                                                            <div>
+                                                                                <p className="font-medium text-gray-900">{reward.name}</p>
+                                                                                <p className="text-xs text-gray-500">{reward.category}</p>
+                                                                            </div>
+                                                                        </div>
+                                                                        <button className="px-4 py-2 bg-indigo-600 text-white text-sm font-bold rounded-lg hover:bg-indigo-700 transition-colors">
+                                                                            {reward.flipsPrice} FLIPS
+                                                                        </button>
+                                                                    </div>
+                                                                ))}
+                                                            </div>
+                                                        </div>
+                                                    )}
+
+                                                    {/* Redeemed Rewards */}
+                                                    {token.investmentData.rewards.redeemed && token.investmentData.rewards.redeemed.length > 0 && (
+                                                        <div>
+                                                            <h3 className="font-bold text-gray-900 mb-3 flex items-center gap-2">
+                                                                <i className="fas fa-history text-gray-500"></i>
+                                                                Reward ที่รับไปแล้ว
+                                                            </h3>
+                                                            <div className="space-y-2">
+                                                                {token.investmentData.rewards.redeemed.map((reward, index) => (
+                                                                    <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                                                                        <div className="flex items-center gap-3">
+                                                                            <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+                                                                                <i className="fas fa-check text-green-600 text-xs"></i>
+                                                                            </div>
+                                                                            <span className="text-sm text-gray-700">{reward.name}</span>
+                                                                        </div>
+                                                                        <span className="text-xs text-gray-500">{reward.redeemedDate}</span>
+                                                                    </div>
+                                                                ))}
+                                                            </div>
+                                                        </div>
+                                                    )}
+                                                </>
+                                            );
+                                        })()}
                                     </div>
                                 )}
                             </div>
@@ -576,7 +858,127 @@ const TokenDetail = () => {
 
                 {activeTab === 'about' && (
                     <div className="space-y-4">
-                        {about.description && (
+                        {/* Movie-specific About Section */}
+                        {token.isInvestment && token.investmentData && (
+                            <div className="space-y-4">
+                                {/* Movie Header Card */}
+                                <div className="bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm">
+                                    {/* Movie Poster Banner */}
+                                    <div className="relative h-48 bg-gradient-to-r from-indigo-600 to-purple-600">
+                                        <img
+                                            src={token.investmentData.image}
+                                            alt={token.investmentData.name}
+                                            className="w-full h-full object-cover opacity-40"
+                                        />
+                                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+                                        <div className="absolute bottom-0 left-0 right-0 p-5">
+                                            <span className="inline-block px-3 py-1 bg-indigo-500 text-white text-xs font-bold rounded-full mb-2">
+                                                {token.investmentData.type || 'Movie'}
+                                            </span>
+                                            <h2 className="text-2xl font-bold text-white">{token.investmentData.name}</h2>
+                                        </div>
+                                    </div>
+
+                                    {/* Movie Details */}
+                                    <div className="p-5">
+                                        <div className="grid grid-cols-2 gap-4 mb-4">
+                                            <div className="bg-gray-50 rounded-xl p-4">
+                                                <div className="flex items-center gap-3">
+                                                    <div className="w-10 h-10 bg-indigo-100 rounded-lg flex items-center justify-center">
+                                                        <i className="fas fa-user-tie text-indigo-600"></i>
+                                                    </div>
+                                                    <div>
+                                                        <p className="text-xs text-gray-500">ผู้กำกับ</p>
+                                                        <p className="font-bold text-gray-900">
+                                                            {token.investmentData.director || 'To be announced'}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="bg-gray-50 rounded-xl p-4">
+                                                <div className="flex items-center gap-3">
+                                                    <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
+                                                        <i className="fas fa-film text-purple-600"></i>
+                                                    </div>
+                                                    <div>
+                                                        <p className="text-xs text-gray-500">ประเภท</p>
+                                                        <p className="font-bold text-gray-900">
+                                                            {token.investmentData.genre || 'Drama'}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {/* Synopsis */}
+                                        <div className="mb-4">
+                                            <h3 className="font-bold text-gray-900 mb-2 flex items-center gap-2">
+                                                <i className="fas fa-book-open text-gray-400"></i>
+                                                เรื่องย่อ
+                                            </h3>
+                                            <p className="text-sm text-gray-600 leading-relaxed">
+                                                {token.investmentData.synopsis ||
+                                                    `${token.investmentData.name} is an exciting Thai film production that brings together talented filmmakers and a compelling story. 
+                                                  This project has attracted significant investment interest from the community, demonstrating strong confidence in Thai cinema.`}
+                                            </p>
+                                        </div>
+
+                                        {/* Movie Stats */}
+                                        <div className="grid grid-cols-3 gap-3 pt-4 border-t border-gray-100">
+                                            <div className="text-center">
+                                                <p className="text-xs text-gray-500">Token Symbol</p>
+                                                <p className="font-bold text-indigo-600">{token.investmentData.tokenSymbol}</p>
+                                            </div>
+                                            <div className="text-center">
+                                                <p className="text-xs text-gray-500">Token Price</p>
+                                                <p className="font-bold text-gray-900">฿{token.investmentData.tokenPrice}</p>
+                                            </div>
+                                            <div className="text-center">
+                                                <p className="text-xs text-gray-500">ROI</p>
+                                                <p className="font-bold text-green-600">+{token.investmentData.roi}%</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Token Information Card */}
+                                <div className="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm">
+                                    <h3 className="font-bold text-gray-900 mb-4 flex items-center gap-2">
+                                        <span className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
+                                            <i className="fas fa-coins text-blue-600 text-sm"></i>
+                                        </span>
+                                        ข้อมูล Token
+                                    </h3>
+                                    <div className="space-y-1">
+                                        <div className="flex justify-between items-center py-6 border-b border-gray-100">
+                                            <span className="text-sm text-gray-500">Token Name</span>
+                                            <span className="text-sm font-bold text-gray-900">{token.investmentData.tokenSymbol} Token</span>
+                                        </div>
+                                        <div className="flex justify-between items-center py-6 border-b border-gray-100">
+                                            <span className="text-sm text-gray-500">Total Supply</span>
+                                            <span className="text-sm font-bold text-gray-900">{token.investmentData.funding?.totalSupply?.toLocaleString() || 'N/A'}</span>
+                                        </div>
+                                        <div className="flex justify-between items-center py-6 border-b border-gray-100">
+                                            <span className="text-sm text-gray-500">Investment Target</span>
+                                            <span className="text-sm font-bold text-gray-900">฿{token.investmentData.funding?.target?.toLocaleString() || 'N/A'}</span>
+                                        </div>
+                                        <div className="flex justify-between items-center py-6 border-b border-gray-100">
+                                            <span className="text-sm text-gray-500">Total Investors</span>
+                                            <span className="text-sm font-bold text-gray-900">{token.investmentData.funding?.totalInvestors?.toLocaleString() || 'N/A'}</span>
+                                        </div>
+                                        <div className="flex justify-between items-center py-6">
+                                            <span className="text-sm text-gray-500">Status</span>
+                                            <span className="px-3 py-1 bg-green-100 text-green-700 text-xs font-bold rounded-full capitalize">
+                                                {token.investmentData.status || token.investmentData.timeline?.currentStatus || 'Active'}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Original About Section for non-investment tokens */}
+                        {!token.isInvestment && about.description && (
                             <div className="bg-white rounded-xl p-5 border border-gray-100">
                                 <h3 className="font-bold text-gray-900 mb-2">About {token.name}</h3>
                                 <p className="text-gray-600 text-sm leading-relaxed">{about.description}</p>
