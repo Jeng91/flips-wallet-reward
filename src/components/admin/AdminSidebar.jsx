@@ -66,12 +66,6 @@ const AdminSidebar = () => {
             ]
         },
         {
-            id: 'fractional',
-            label: 'Fractional TBF',
-            icon: 'fa-ship',
-            path: '/admin/fractional'
-        },
-        {
             id: 'reports',
             label: 'Reports & Export',
             icon: 'fa-chart-bar',

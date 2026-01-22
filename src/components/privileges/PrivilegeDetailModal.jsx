@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { X, MapPin, Calendar, Star, Shield, Check, Package, Truck, ChevronRight, AlertCircle, Plus } from 'lucide-react';
+import { X, MapPin, Calendar, Star, Shield, Check, Package, Truck, ChevronRight, AlertCircle, Plus, Anchor, Ship, Users, Clock, DollarSign } from 'lucide-react';
 import { defaultWalletData, userProfile } from '../../data/mockData';
+import { tbfYachts, yachtLocation, memberFractionProgram } from '../../data/adminExtendedData';
 
 const PrivilegeDetailModal = ({ isOpen, onClose, privilege }) => {
     // Single Page Flow: 'detail' (includes all inputs) -> 'success'
@@ -8,12 +9,17 @@ const PrivilegeDetailModal = ({ isOpen, onClose, privilege }) => {
     const [selectedVariant, setSelectedVariant] = useState(null);
     const [selectedAddressId, setSelectedAddressId] = useState(null);
     const [tempAddresses, setTempAddresses] = useState(userProfile.addresses || []);
+    const [activeInfoTab, setActiveInfoTab] = useState('info'); // info, conditions (for yacht vouchers)
+
+    // Check if this is a yacht voucher
+    const isYachtVoucher = privilege?.voucherType === 'yacht_experience' || privilege?.voucherType === 'yacht_fraction';
 
     // Reset state when modal opens
     useEffect(() => {
         if (isOpen) {
             setStep('detail');
             setSelectedVariant(null);
+            setActiveInfoTab('info'); // Reset to info tab
             // Default to first address
             const def = userProfile.addresses?.find(a => a.isDefault);
             setSelectedAddressId(def ? def.id : (userProfile.addresses?.[0]?.id || null));
@@ -104,7 +110,7 @@ const PrivilegeDetailModal = ({ isOpen, onClose, privilege }) => {
                 <div className="w-full md:w-5/12 h-full overflow-y-auto custom-scrollbar border-r border-slate-100 bg-slate-50 relative">
                     {/* Hero Image */}
                     <div className="relative h-64 sticky top-0 z-10">
-                        <img src={privilege.image} alt={privilege.title} className="w-full h-full object-cover" />
+                        <img src={privilege.infoPage?.heroImage || privilege.image} alt={privilege.title} className="w-full h-full object-cover" />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
                         <div className="absolute bottom-4 left-6 right-6">
                             <div className="flex items-center gap-2 mb-2">
@@ -116,34 +122,205 @@ const PrivilegeDetailModal = ({ isOpen, onClose, privilege }) => {
                                         <Package className="w-3 h-3" /> Physical Item
                                     </span>
                                 )}
+                                {isYachtVoucher && (
+                                    <span className="px-2 py-0.5 rounded-md bg-cyan-500/80 backdrop-blur-md text-white text-[10px] font-bold flex items-center gap-1">
+                                        <Anchor className="w-3 h-3" /> Yacht Experience
+                                    </span>
+                                )}
                             </div>
                             <h2 className="text-2xl font-black text-white leading-tight mb-1 drop-shadow-md">{privilege.title}</h2>
                             {privilege.subtitle && <p className="text-white/80 text-sm font-medium">{privilege.subtitle}</p>}
                         </div>
                     </div>
 
-                    {/* Details Content */}
-                    <div className="p-6 space-y-6">
-                        <div>
-                            <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wider mb-2 flex items-center gap-2">
-                                <Star className="w-4 h-4 text-primary" /> Reward Details
-                            </h3>
-                            <p className="text-slate-600 text-sm leading-relaxed">{privilege.description}</p>
-                        </div>
-
-                        {/* Conditions */}
-                        <div>
-                            <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wider mb-2 flex items-center gap-2">
-                                <Shield className="w-4 h-4 text-primary" /> Conditions
-                            </h3>
-                            <div className="flex flex-wrap gap-2">
-                                {privilege.conditions.map((condition, index) => (
-                                    <span key={index} className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-white border border-slate-200 text-xs font-medium text-slate-500 shadow-sm">
-                                        <Check className="w-3 h-3 text-green-500" /> {condition}
-                                    </span>
-                                ))}
+                    {/* Tab Switcher for Yacht Vouchers */}
+                    {isYachtVoucher && (
+                        <div className="sticky top-64 z-10 bg-slate-50 border-b border-slate-200">
+                            <div className="flex">
+                                <button
+                                    onClick={() => setActiveInfoTab('info')}
+                                    className={`flex-1 py-3 text-sm font-bold transition-colors flex items-center justify-center gap-2 ${activeInfoTab === 'info'
+                                            ? 'text-cyan-600 border-b-2 border-cyan-600 bg-white'
+                                            : 'text-slate-500 hover:text-slate-700'
+                                        }`}
+                                >
+                                    <Ship className="w-4 h-4" /> Yacht Info
+                                </button>
+                                <button
+                                    onClick={() => setActiveInfoTab('conditions')}
+                                    className={`flex-1 py-3 text-sm font-bold transition-colors flex items-center justify-center gap-2 ${activeInfoTab === 'conditions'
+                                            ? 'text-cyan-600 border-b-2 border-cyan-600 bg-white'
+                                            : 'text-slate-500 hover:text-slate-700'
+                                        }`}
+                                >
+                                    <Shield className="w-4 h-4" /> Conditions
+                                </button>
                             </div>
                         </div>
+                    )}
+
+                    {/* Details Content */}
+                    <div className="p-6 space-y-6">
+
+                        {/* YACHT INFO TAB */}
+                        {isYachtVoucher && activeInfoTab === 'info' && (
+                            <>
+                                {/* Quick Stats */}
+                                {privilege.yachtInfo && (
+                                    <div className="grid grid-cols-3 gap-2">
+                                        <div className="text-center p-3 bg-white rounded-xl shadow-sm">
+                                            <Clock className="w-5 h-5 mx-auto text-cyan-500 mb-1" />
+                                            <p className="text-lg font-bold text-slate-900">{privilege.yachtInfo.duration}h</p>
+                                            <p className="text-xs text-slate-500">Duration</p>
+                                        </div>
+                                        <div className="text-center p-3 bg-white rounded-xl shadow-sm">
+                                            <Users className="w-5 h-5 mx-auto text-cyan-500 mb-1" />
+                                            <p className="text-lg font-bold text-slate-900">{privilege.yachtInfo.maxPax}</p>
+                                            <p className="text-xs text-slate-500">Max Guests</p>
+                                        </div>
+                                        <div className="text-center p-3 bg-white rounded-xl shadow-sm">
+                                            <Anchor className="w-5 h-5 mx-auto text-cyan-500 mb-1" />
+                                            <p className="text-lg font-bold text-slate-900">{privilege.yachtInfo.availableYachts?.length || 2}</p>
+                                            <p className="text-xs text-slate-500">Yachts</p>
+                                        </div>
+                                    </div>
+                                )}
+
+                                {/* Fraction Ticket Preview */}
+                                {privilege.voucherType === 'yacht_fraction' && privilege.fractionConfig && (
+                                    <div className="bg-gradient-to-br from-blue-50 to-cyan-50 rounded-xl p-4 border border-cyan-200">
+                                        <h4 className="text-sm font-bold text-cyan-900 mb-3 flex items-center gap-2">
+                                            <Star className="w-4 h-4 text-yellow-500" /> What You Get
+                                        </h4>
+                                        <div className="grid grid-cols-2 gap-3">
+                                            <div className="bg-white/80 rounded-lg p-3 text-center">
+                                                <p className="text-2xl font-black text-cyan-600">{privilege.fractionConfig.totalTickets}</p>
+                                                <p className="text-xs text-slate-600">Total Tickets</p>
+                                            </div>
+                                            <div className="bg-white/80 rounded-lg p-3 text-center">
+                                                <p className="text-2xl font-black text-slate-800">{privilege.fractionConfig.programYears}</p>
+                                                <p className="text-xs text-slate-600">Years</p>
+                                            </div>
+                                        </div>
+                                        <p className="text-xs text-cyan-700 mt-2 text-center">
+                                            {privilege.fractionConfig.ticketsPerYear} tickets/year × {privilege.fractionConfig.hoursPerTicket}h each
+                                        </p>
+                                    </div>
+                                )}
+
+                                {/* Info Page Sections */}
+                                {privilege.infoPage?.sections?.map((section, idx) => (
+                                    <div key={idx}>
+                                        <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wider mb-2 flex items-center gap-2">
+                                            {section.icon === 'anchor' && <Anchor className="w-4 h-4 text-cyan-500" />}
+                                            {section.icon === 'check-circle' && <Check className="w-4 h-4 text-green-500" />}
+                                            {section.icon === 'star' && <Star className="w-4 h-4 text-yellow-500" />}
+                                            {section.icon === 'ship' && <Ship className="w-4 h-4 text-blue-500" />}
+                                            {section.icon === 'dollar-sign' && <DollarSign className="w-4 h-4 text-green-500" />}
+                                            {section.title}
+                                        </h3>
+                                        {section.content && (
+                                            <p className="text-slate-600 text-sm leading-relaxed">{section.content}</p>
+                                        )}
+                                        {section.items && (
+                                            <div className="space-y-1.5 mt-2">
+                                                {section.items.map((item, i) => (
+                                                    <div key={i} className="flex items-start gap-2 text-sm text-slate-600">
+                                                        <Check className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
+                                                        <span>{item}</span>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        )}
+                                    </div>
+                                ))}
+
+                                {/* Yacht Comparison */}
+                                {privilege.infoPage?.yachtComparison && (
+                                    <div>
+                                        <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wider mb-3 flex items-center gap-2">
+                                            <Ship className="w-4 h-4 text-cyan-500" /> Available Yachts
+                                        </h3>
+                                        <div className="space-y-3">
+                                            {tbfYachts.map(yacht => (
+                                                <div key={yacht.id} className="bg-white rounded-xl p-3 shadow-sm border border-slate-100">
+                                                    <div className="flex items-center justify-between mb-2">
+                                                        <div>
+                                                            <p className="font-bold text-slate-900 text-sm">{yacht.name}</p>
+                                                            <p className="text-xs text-slate-500">{yacht.brand} • {yacht.tagline}</p>
+                                                        </div>
+                                                        <span className="text-xs bg-cyan-100 text-cyan-700 px-2 py-1 rounded-full font-medium">
+                                                            {yacht.specs.lengthFeet}
+                                                        </span>
+                                                    </div>
+                                                    <div className="grid grid-cols-4 gap-2 text-center">
+                                                        <div className="bg-slate-50 rounded p-1.5">
+                                                            <p className="text-xs font-bold text-slate-700">{yacht.specs.cabins}</p>
+                                                            <p className="text-[10px] text-slate-500">Cabins</p>
+                                                        </div>
+                                                        <div className="bg-slate-50 rounded p-1.5">
+                                                            <p className="text-xs font-bold text-slate-700">{yacht.specs.maxPax}</p>
+                                                            <p className="text-[10px] text-slate-500">PAX</p>
+                                                        </div>
+                                                        <div className="bg-slate-50 rounded p-1.5">
+                                                            <p className="text-xs font-bold text-slate-700">{yacht.specs.power}</p>
+                                                            <p className="text-[10px] text-slate-500">Power</p>
+                                                        </div>
+                                                        <div className="bg-slate-50 rounded p-1.5">
+                                                            <p className="text-xs font-bold text-slate-700">{yacht.type.split(' ')[0]}</p>
+                                                            <p className="text-[10px] text-slate-500">Type</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+
+                                {/* Location */}
+                                <div>
+                                    <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wider mb-2 flex items-center gap-2">
+                                        <MapPin className="w-4 h-4 text-red-500" /> Location
+                                    </h3>
+                                    <div className="bg-white rounded-xl p-3 shadow-sm">
+                                        <p className="font-semibold text-slate-800">{yachtLocation.name}</p>
+                                        <p className="text-xs text-slate-500">{yachtLocation.address}, {yachtLocation.city}</p>
+                                        <div className="flex items-center gap-2 mt-2">
+                                            <span className="text-yellow-500">★</span>
+                                            <span className="text-sm font-medium">{yachtLocation.rating}</span>
+                                            <span className="text-slate-300">•</span>
+                                            <span className="text-xs text-slate-500">{yachtLocation.reviews} reviews</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </>
+                        )}
+
+                        {/* CONDITIONS TAB (for yacht) or DEFAULT (for non-yacht) */}
+                        {(!isYachtVoucher || activeInfoTab === 'conditions') && (
+                            <>
+                                <div>
+                                    <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wider mb-2 flex items-center gap-2">
+                                        <Star className="w-4 h-4 text-primary" /> Reward Details
+                                    </h3>
+                                    <p className="text-slate-600 text-sm leading-relaxed">{privilege.description}</p>
+                                </div>
+
+                                {/* Conditions */}
+                                <div>
+                                    <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wider mb-2 flex items-center gap-2">
+                                        <Shield className="w-4 h-4 text-primary" /> Conditions
+                                    </h3>
+                                    <div className="flex flex-wrap gap-2">
+                                        {privilege.conditions?.map((condition, index) => (
+                                            <span key={index} className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-white border border-slate-200 text-xs font-medium text-slate-500 shadow-sm">
+                                                <Check className="w-3 h-3 text-green-500" /> {condition}
+                                            </span>
+                                        ))}
+                                    </div>
+                                </div>
+                            </>
+                        )}
                     </div>
                 </div>
 
