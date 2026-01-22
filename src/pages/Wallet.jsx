@@ -276,16 +276,25 @@ const Wallet = () => {
                         <div className="absolute -top-16 -right-16 w-48 h-48 bg-primary/10 rounded-full blur-2xl"></div>
                         <div className="relative z-10">
                             <p className="text-white/70 text-sm mb-1">Total Investment Value</p>
-                            <div className="text-4xl font-bold mb-2">
-                                ฿{investments.reduce((sum, inv) => sum + inv.invested, 0).toLocaleString()}
+                            <div className="text-4xl font-bold mb-4">
+                                ฿{investments.reduce((sum, inv) => sum + (inv.tokenBalance * inv.tokenPrice), 0).toLocaleString()}
                             </div>
-                            <div className="flex items-center gap-4">
-                                <div className="flex items-center gap-1 text-primary">
-                                    <TrendingUp className="w-4 h-4" />
-                                    <span>+185% avg ROI</span>
+                            <div className="grid grid-cols-3 gap-4">
+                                <div className="bg-white/10 rounded-xl p-3 backdrop-blur-sm">
+                                    <p className="text-white/70 text-xs mb-1">Active Projects</p>
+                                    <p className="text-2xl font-bold">{investments.filter(inv => inv.funding?.progress === 100).length}</p>
+                                    <p className="text-white/50 text-xs mt-1">Fully Funded</p>
                                 </div>
-                                <span className="text-white/50">•</span>
-                                <span className="text-white/70">{investments.length} active investments</span>
+                                <div className="bg-white/10 rounded-xl p-3 backdrop-blur-sm">
+                                    <p className="text-white/70 text-xs mb-1">Total Investors</p>
+                                    <p className="text-2xl font-bold">{investments.reduce((sum, inv) => sum + (inv.funding?.totalInvestors || 0), 0).toLocaleString()}</p>
+                                    <p className="text-white/50 text-xs mt-1">Community</p>
+                                </div>
+                                <div className="bg-white/10 rounded-xl p-3 backdrop-blur-sm">
+                                    <p className="text-white/70 text-xs mb-1">Rewards</p>
+                                    <p className="text-2xl font-bold">{investments.reduce((sum, inv) => sum + (inv.rewards?.stats.totalAvailable || 0), 0)}</p>
+                                    <p className="text-white/50 text-xs mt-1">Available</p>
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -314,8 +314,24 @@ export const investments = [
         earnedFlips: 50000,
         tokenPrice: 10.00,
         tokenSymbol: "SLR",
+
+        // Funding Progress
+        funding: {
+            target: 100000000,        // Target funding amount
+            current: 100000000,       // Current funding raised (100%)
+            progress: 100,            // Percentage funded
+            totalSupply: 1000000,     // Total token supply
+            myOwnership: 5.0,         // User's ownership % (50000/1000000)
+            totalInvestors: 2350      // Total number of investors
+        },
+
+        // Enhanced Timeline
         timeline: {
             currentStep: 4,
+            currentStatus: "streaming",     // pre-production, filming, post-production, released, streaming
+            statusColor: "green",           // green, yellow, blue, orange
+            lastUpdated: "2024-01-15",
+            lastUpdateDescription: "Now available on Netflix globally",
             steps: [
                 { label: "Pre-Prod", date: "Jan '23" },
                 { label: "Filming", date: "Jun '23" },
@@ -325,6 +341,77 @@ export const investments = [
             ],
             nextMilestone: "Global Netflix Launch",
             boxOffice: "$152M"
+        },
+
+        // Reward System
+        rewards: {
+            myTier: "Gold",              // User's current tier based on tokenBalance
+            tiers: [
+                {
+                    name: "Bronze",
+                    minTokens: 1000,
+                    maxTokens: 9999,
+                    benefits: ["Premiere Ticket", "Digital Poster"],
+                    color: "#cd7f32"
+                },
+                {
+                    name: "Silver",
+                    minTokens: 10000,
+                    maxTokens: 49999,
+                    benefits: ["VIP Premiere", "Signed Poster", "BTS Access"],
+                    color: "#c0c0c0"
+                },
+                {
+                    name: "Gold",
+                    minTokens: 50000,
+                    maxTokens: 999999,
+                    benefits: ["All Silver Benefits", "Meet & Greet", "Movie Credits", "Special Thanks"],
+                    color: "#ffd700"
+                }
+            ],
+            available: [
+                {
+                    id: "premiere-vip",
+                    name: "VIP Premiere Ticket",
+                    category: "movie-tickets",
+                    requiredTier: "Gold",
+                    status: "available",
+                    expiryDate: "2024-06-15",
+                    flipsPrice: 500
+                },
+                {
+                    id: "meet-greet",
+                    name: "Director Meet & Greet",
+                    category: "meet-greet",
+                    requiredTier: "Gold",
+                    status: "available",
+                    expiryDate: "2024-07-20",
+                    flipsPrice: 1500
+                },
+                {
+                    id: "poster-signed",
+                    name: "Signed Movie Poster",
+                    category: "merchandise",
+                    requiredTier: "Silver",
+                    status: "available",
+                    expiryDate: "2024-12-31",
+                    flipsPrice: 400
+                }
+            ],
+            redeemed: [
+                {
+                    id: "credits",
+                    name: "Special Thanks Credit",
+                    category: "credits",
+                    redeemedDate: "2024-03-10",
+                    status: "completed"
+                }
+            ],
+            stats: {
+                totalAvailable: 3,
+                totalRedeemed: 1,
+                progress: 25             // 1/4 rewards redeemed
+            }
         }
     },
     {
@@ -341,8 +428,22 @@ export const investments = [
         earnedFlips: 1200,
         tokenPrice: 8.50,
         tokenSymbol: "LPJ",
+
+        funding: {
+            target: 50000000,
+            current: 50000000,
+            progress: 100,
+            totalSupply: 500000,
+            myOwnership: 3.0,
+            totalInvestors: 1890
+        },
+
         timeline: {
             currentStep: 3,
+            currentStatus: "post-production",
+            statusColor: "yellow",
+            lastUpdated: "2024-01-20",
+            lastUpdateDescription: "Editing phase 65% complete, sound mixing in progress",
             steps: [
                 { label: "Scripting", date: "Q1 '23" },
                 { label: "Casting", date: "Q2 '23" },
@@ -352,6 +453,59 @@ export const investments = [
             ],
             nextMilestone: "Official Trailer Release",
             boxOffice: "N/A"
+        },
+
+        rewards: {
+            myTier: "Silver",
+            tiers: [
+                {
+                    name: "Bronze",
+                    minTokens: 1000,
+                    maxTokens: 9999,
+                    benefits: ["Standard Premiere Ticket", "Digital Poster"],
+                    color: "#cd7f32"
+                },
+                {
+                    name: "Silver",
+                    minTokens: 10000,
+                    maxTokens: 49999,
+                    benefits: ["VIP Premiere", "Signed Poster", "BTS Photo Gallery"],
+                    color: "#c0c0c0"
+                },
+                {
+                    name: "Gold",
+                    minTokens: 50000,
+                    maxTokens: 999999,
+                    benefits: ["All Silver Benefits", "Cast Meet & Greet", "Associate Producer Credit"],
+                    color: "#ffd700"
+                }
+            ],
+            available: [
+                {
+                    id: "premiere-silver",
+                    name: "Silver Tier Premiere Ticket",
+                    category: "movie-tickets",
+                    requiredTier: "Silver",
+                    status: "available",
+                    expiryDate: "2024-09-30",
+                    flipsPrice: 350
+                },
+                {
+                    id: "poster-set",
+                    name: "Limited Edition Poster Set",
+                    category: "merchandise",
+                    requiredTier: "Silver",
+                    status: "available",
+                    expiryDate: "2024-12-31",
+                    flipsPrice: 600
+                }
+            ],
+            redeemed: [],
+            stats: {
+                totalAvailable: 2,
+                totalRedeemed: 0,
+                progress: 0
+            }
         }
     },
     {
@@ -368,8 +522,22 @@ export const investments = [
         earnedFlips: 0,
         tokenPrice: 12.00,
         tokenSymbol: "OBR",
+
+        funding: {
+            target: 200000000,
+            current: 200000000,
+            progress: 100,
+            totalSupply: 1500000,
+            myOwnership: 6.67,
+            totalInvestors: 3200
+        },
+
         timeline: {
             currentStep: 2,
+            currentStatus: "post-production",
+            statusColor: "yellow",
+            lastUpdated: "2024-01-18",
+            lastUpdateDescription: "Sound remastering 80% complete, IMAX version in progress",
             steps: [
                 { label: "Licensing", date: "Done" },
                 { label: "Restoration", date: "Done" },
@@ -379,6 +547,68 @@ export const investments = [
             ],
             nextMilestone: "IMAX Trailer Drop",
             boxOffice: "Est. $50M"
+        },
+
+        rewards: {
+            myTier: "Gold",
+            tiers: [
+                {
+                    name: "Bronze",
+                    minTokens: 5000,
+                    maxTokens: 19999,
+                    benefits: ["IMAX Premiere Ticket", "Remastered Poster"],
+                    color: "#cd7f32"
+                },
+                {
+                    name: "Silver",
+                    minTokens: 20000,
+                    maxTokens: 79999,
+                    benefits: ["VIP IMAX Premiere", "Collector's Blu-ray", "Tony Jaa Interview Access"],
+                    color: "#c0c0c0"
+                },
+                {
+                    name: "Gold",
+                    minTokens: 80000,
+                    maxTokens: 999999,
+                    benefits: ["All Silver Benefits", "Exclusive Screening", "Restoration Team Credits"],
+                    color: "#ffd700"
+                }
+            ],
+            available: [
+                {
+                    id: "imax-premiere",
+                    name: "IMAX Premiere VIP Ticket",
+                    category: "movie-tickets",
+                    requiredTier: "Gold",
+                    status: "available",
+                    expiryDate: "2024-10-15",
+                    flipsPrice: 800
+                },
+                {
+                    id: "bluray-special",
+                    name: "Special Edition Blu-ray",
+                    category: "merchandise",
+                    requiredTier: "Gold",
+                    status: "available",
+                    expiryDate: "2024-12-31",
+                    flipsPrice: 1200
+                },
+                {
+                    id: "restoration-credit",
+                    name: "Restoration Team Credit",
+                    category: "credits",
+                    requiredTier: "Gold",
+                    status: "available",
+                    expiryDate: "2024-08-30",
+                    flipsPrice: 2000
+                }
+            ],
+            redeemed: [],
+            stats: {
+                totalAvailable: 3,
+                totalRedeemed: 0,
+                progress: 0
+            }
         }
     },
     {
@@ -395,8 +625,22 @@ export const investments = [
         earnedFlips: 0,
         tokenPrice: 5.00,
         tokenSymbol: "PM2",
+
+        funding: {
+            target: 80000000,
+            current: 80000000,
+            progress: 100,
+            totalSupply: 800000,
+            myOwnership: 3.13,
+            totalInvestors: 1650
+        },
+
         timeline: {
             currentStep: 1,
+            currentStatus: "pre-production",
+            statusColor: "blue",
+            lastUpdated: "2024-01-22",
+            lastUpdateDescription: "Main cast confirmed, script revision 90% complete",
             steps: [
                 { label: "Concept", date: "Done" },
                 { label: "Casting", date: "Current" },
@@ -406,6 +650,59 @@ export const investments = [
             ],
             nextMilestone: "Lead Actor Announcement",
             boxOffice: "N/A"
+        },
+
+        rewards: {
+            myTier: "Silver",
+            tiers: [
+                {
+                    name: "Bronze",
+                    minTokens: 2000,
+                    maxTokens: 14999,
+                    benefits: ["Premiere Access", "Digital Wallpaper"],
+                    color: "#cd7f32"
+                },
+                {
+                    name: "Silver",
+                    minTokens: 15000,
+                    maxTokens: 49999,
+                    benefits: ["VIP Premiere", "Cast Signed Poster", "Making Of Documentary"],
+                    color: "#c0c0c0"
+                },
+                {
+                    name: "Gold",
+                    minTokens: 50000,
+                    maxTokens: 999999,
+                    benefits: ["All Silver Benefits", "Set Visit Pass", "Executive Producer Credit"],
+                    color: "#ffd700"
+                }
+            ],
+            available: [
+                {
+                    id: "premiere-access",
+                    name: "Premiere Premiere Ticket",
+                    category: "movie-tickets",
+                    requiredTier: "Silver",
+                    status: "available",
+                    expiryDate: "2025-03-31",
+                    flipsPrice: 300
+                },
+                {
+                    id: "making-of",
+                    name: "Making Of Documentary Access",
+                    category: "digital-content",
+                    requiredTier: "Silver",
+                    status: "available",
+                    expiryDate: "2025-06-30",
+                    flipsPrice: 450
+                }
+            ],
+            redeemed: [],
+            stats: {
+                totalAvailable: 2,
+                totalRedeemed: 0,
+                progress: 0
+            }
         }
     },
     // NEW MOVIES FOR TESTING SCROLL
@@ -423,7 +720,45 @@ export const investments = [
         earnedFlips: 8500,
         tokenPrice: 7.50,
         tokenSymbol: "BKM",
-        timeline: { currentStep: 2, steps: [], nextMilestone: "Trailer", boxOffice: "N/A" }
+
+        funding: {
+            target: 75000000,
+            current: 75000000,
+            progress: 100,
+            totalSupply: 600000,
+            myOwnership: 5.0,
+            totalInvestors: 1420
+        },
+
+        timeline: {
+            currentStep: 2,
+            currentStatus: "filming",
+            statusColor: "orange",
+            lastUpdated: "2024-01-19",
+            lastUpdateDescription: "Principal photography 40% complete, Bangkok locations finished",
+            steps: [
+                { label: "Pre-Prod", date: "Done" },
+                { label: "Filming", date: "Current" },
+                { label: "Post-Prod", date: "Q2 '24" },
+                { label: "Premiere", date: "Q4 '24" }
+            ],
+            nextMilestone: "Official Trailer",
+            boxOffice: "N/A"
+        },
+
+        rewards: {
+            myTier: "Silver",
+            tiers: [
+                { name: "Bronze", minTokens: 5000, maxTokens: 19999, benefits: ["Premiere Ticket"], color: "#cd7f32" },
+                { name: "Silver", minTokens: 20000, maxTokens: 79999, benefits: ["VIP Premiere", "Poster"], color: "#c0c0c0" },
+                { name: "Gold", minTokens: 80000, maxTokens: 999999, benefits: ["All Benefits", "Behind Scenes"], color: "#ffd700" }
+            ],
+            available: [
+                { id: "bkm-premiere", name: "Silver Premiere Ticket", category: "movie-tickets", requiredTier: "Silver", status: "available", expiryDate: "2024-12-31", flipsPrice: 400 }
+            ],
+            redeemed: [],
+            stats: { totalAvailable: 1, totalRedeemed: 0, progress: 0 }
+        }
     },
     {
         id: 6,
@@ -439,7 +774,43 @@ export const investments = [
         earnedFlips: 0,
         tokenPrice: 15.00,
         tokenSymbol: "LST",
-        timeline: { currentStep: 0, steps: [], nextMilestone: "Casting", boxOffice: "N/A" }
+
+        funding: {
+            target: 300000000,
+            current: 180000000,
+            progress: 60,
+            totalSupply: 2000000,
+            myOwnership: 0,
+            totalInvestors: 890
+        },
+
+        timeline: {
+            currentStep: 0,
+            currentStatus: "funding",
+            statusColor: "blue",
+            lastUpdated: "2024-01-21",
+            lastUpdateDescription: "Funding 60% complete, script finalized",
+            steps: [
+                { label: "Funding", date: "Current" },
+                { label: "Casting", date: "Q2 '24" },
+                { label: "Filming", date: "Q3 '24" },
+                { label: "Release", date: "2025" }
+            ],
+            nextMilestone: "Lead Casting Announcement",
+            boxOffice: "N/A"
+        },
+
+        rewards: {
+            myTier: null,
+            tiers: [
+                { name: "Bronze", minTokens: 10000, maxTokens: 49999, benefits: ["Early Bird Premiere"], color: "#cd7f32" },
+                { name: "Silver", minTokens: 50000, maxTokens: 149999, benefits: ["VIP Premiere", "Collector's Edition"], color: "#c0c0c0" },
+                { name: "Gold", minTokens: 150000, maxTokens: 999999, benefits: ["All Benefits", "Producer Credit"], color: "#ffd700" }
+            ],
+            available: [],
+            redeemed: [],
+            stats: { totalAvailable: 0, totalRedeemed: 0, progress: 0 }
+        }
     },
     {
         id: 7,
@@ -455,7 +826,48 @@ export const investments = [
         earnedFlips: 25000,
         tokenPrice: 9.00,
         tokenSymbol: "NNR",
-        timeline: { currentStep: 5, steps: [], nextMilestone: "Streaming", boxOffice: "$89M" }
+
+        funding: {
+            target: 120000000,
+            current: 120000000,
+            progress: 100,
+            totalSupply: 900000,
+            myOwnership: 5.0,
+            totalInvestors: 2100
+        },
+
+        timeline: {
+            currentStep: 5,
+            currentStatus: "streaming",
+            statusColor: "green",
+            lastUpdated: "2024-01-10",
+            lastUpdateDescription: "Available on all major streaming platforms",
+            steps: [
+                { label: "Pre-Prod", date: "Done" },
+                { label: "Filming", date: "Done" },
+                { label: "Post-Prod", date: "Done" },
+                { label: "Release", date: "Done" },
+                { label: "Streaming", date: "Now" }
+            ],
+            nextMilestone: "International Distribution",
+            boxOffice: "$89M"
+        },
+
+        rewards: {
+            myTier: "Silver",
+            tiers: [
+                { name: "Bronze", minTokens: 5000, maxTokens: 29999, benefits: ["Digital Poster"], color: "#cd7f32" },
+                { name: "Silver", minTokens: 30000, maxTokens: 99999, benefits: ["Signed Poster", "Streaming Credits"], color: "#c0c0c0" },
+                { name: "Gold", minTokens: 100000, maxTokens: 999999, benefits: ["All Benefits", "Special Thanks"], color: "#ffd700" }
+            ],
+            available: [
+                { id: "nnr-poster", name: "Signed Collector Poster", category: "merchandise", requiredTier: "Silver", status: "available", expiryDate: "2024-12-31", flipsPrice: 550 }
+            ],
+            redeemed: [
+                { id: "streaming-credit", name: "Streaming Platform Credit", category: "credits", redeemedDate: "2024-01-05", status: "completed" }
+            ],
+            stats: { totalAvailable: 1, totalRedeemed: 1, progress: 50 }
+        }
     },
     {
         id: 8,
@@ -471,7 +883,46 @@ export const investments = [
         earnedFlips: 0,
         tokenPrice: 11.00,
         tokenSymbol: "MTL",
-        timeline: { currentStep: 1, steps: [], nextMilestone: "Script Finalization", boxOffice: "N/A" }
+
+        funding: {
+            target: 150000000,
+            current: 150000000,
+            progress: 100,
+            totalSupply: 1200000,
+            myOwnership: 5.0,
+            totalInvestors: 1780
+        },
+
+        timeline: {
+            currentStep: 1,
+            currentStatus: "pre-production",
+            statusColor: "blue",
+            lastUpdated: "2024-01-20",
+            lastUpdateDescription: "Martial arts choreography 70% planned, locations scouted",
+            steps: [
+                { label: "Script", date: "Done" },
+                { label: "Pre-Prod", date: "Current" },
+                { label: "Filming", date: "Q2 '24" },
+                { label: "Release", date: "2025" }
+            ],
+            nextMilestone: "Action Choreography Demo",
+            boxOffice: "N/A"
+        },
+
+        rewards: {
+            myTier: "Gold",
+            tiers: [
+                { name: "Bronze", minTokens: 10000, maxTokens: 39999, benefits: ["Premiere Ticket"], color: "#cd7f32" },
+                { name: "Silver", minTokens: 40000, maxTokens: 99999, benefits: ["VIP Premiere", "Training Gear"], color: "#c0c0c0" },
+                { name: "Gold", minTokens: 100000, maxTokens: 999999, benefits: ["All Benefits", "Muay Thai Workshop"], color: "#ffd700" }
+            ],
+            available: [
+                { id: "mtl-premiere", name: "Gold VIP Premiere", category: "movie-tickets", requiredTier: "Gold", status: "available", expiryDate: "2025-03-31", flipsPrice: 700 },
+                { id: "mtl-workshop", name: "Muay Thai Workshop with Cast", category: "experience", requiredTier: "Gold", status: "available", expiryDate: "2025-06-30", flipsPrice: 1800 }
+            ],
+            redeemed: [],
+            stats: { totalAvailable: 2, totalRedeemed: 0, progress: 0 }
+        }
     }
 ];
 

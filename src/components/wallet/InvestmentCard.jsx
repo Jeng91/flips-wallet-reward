@@ -43,6 +43,45 @@ const InvestmentCard = ({ inv }) => {
                     </div>
                 </div>
 
+                {/* Funding Progress */}
+                {inv.funding && (
+                    <div className="mb-3 p-3 bg-blue-50 rounded-lg border border-blue-100">
+                        <div className="flex justify-between text-xs mb-1.5">
+                            <span className="text-blue-600 font-medium">Funding Progress</span>
+                            <span className="font-bold text-blue-900">{inv.funding.progress}%</span>
+                        </div>
+                        <div className="h-2 bg-blue-200 rounded-full overflow-hidden">
+                            <div
+                                className="h-full bg-gradient-to-r from-blue-500 to-blue-600 rounded-full transition-all duration-500"
+                                style={{ width: `${inv.funding.progress}%` }}
+                            ></div>
+                        </div>
+                        <div className="flex justify-between text-xs mt-1.5">
+                            <span className="text-gray-600">{inv.funding.totalInvestors?.toLocaleString() || 0} investors</span>
+                            <span className="text-gray-600 font-medium">{inv.funding.myOwnership?.toFixed(1)}% owned</span>
+                        </div>
+                    </div>
+                )}
+
+                {/* Reward Tier Badge */}
+                {inv.rewards?.myTier && (
+                    <div className="mb-3">
+                        <div
+                            className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold"
+                            style={{
+                                backgroundColor: (inv.rewards.tiers.find(t => t.name === inv.rewards.myTier)?.color || '#ffd700') + '20',
+                                color: inv.rewards.tiers.find(t => t.name === inv.rewards.myTier)?.color || '#ffd700'
+                            }}
+                        >
+                            <i className="fas fa-crown"></i>
+                            {inv.rewards.myTier} Tier
+                            {inv.rewards.stats.totalAvailable > 0 && (
+                                <span className="text-[10px] font-normal opacity-80">• {inv.rewards.stats.totalAvailable} rewards</span>
+                            )}
+                        </div>
+                    </div>
+                )}
+
                 <div className="flex justify-between items-center mb-3">
                     <div>
                         <p className="text-xs text-gray-400">Invested</p>
@@ -61,8 +100,22 @@ const InvestmentCard = ({ inv }) => {
                             <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Production Status</span>
                             <div className="flex items-center gap-1.5">
                                 <span className={`relative flex h-2 w-2`}>
-                                    {inv.status === 'In Progress' && <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>}
-                                    <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                                    {(inv.timeline.currentStatus === 'filming' || inv.timeline.currentStatus === 'funding') &&
+                                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75"
+                                            style={{
+                                                backgroundColor: inv.timeline.statusColor === 'blue' ? '#3b82f6' :
+                                                    inv.timeline.statusColor === 'orange' ? '#f97316' :
+                                                        inv.timeline.statusColor === 'yellow' ? '#eab308' : '#10b981'
+                                            }}
+                                        ></span>
+                                    }
+                                    <span className="relative inline-flex rounded-full h-2 w-2"
+                                        style={{
+                                            backgroundColor: inv.timeline.statusColor === 'blue' ? '#3b82f6' :
+                                                inv.timeline.statusColor === 'orange' ? '#f97316' :
+                                                    inv.timeline.statusColor === 'yellow' ? '#eab308' : '#10b981'
+                                        }}
+                                    ></span>
                                 </span>
                                 <span className="text-xs font-bold text-slate-700">
                                     {inv.timeline.steps[Math.min(inv.timeline.currentStep, inv.timeline.steps.length - 1)]?.label || inv.status}

@@ -9,7 +9,8 @@ import {
     defaultWalletData,
     tokenPriceHistory,
     tokenTransactionHistory,
-    tokenDetails
+    tokenDetails,
+    investments
 } from '../data/mockData';
 import { GAME_TEAMS } from '../config/theme';
 import TransferModal from '../components/wallet/TransferModal';
@@ -101,6 +102,23 @@ const TokenDetail = () => {
     const [showReceive, setShowReceive] = useState(false);
 
     const getTokenData = () => {
+        // Check if it's an investment token
+        const investment = investments.find(inv => inv.tokenId === tokenId);
+        if (investment) {
+            return {
+                id: tokenId,
+                name: investment.name,
+                symbol: investment.tokenSymbol,
+                balance: investment.tokenBalance || 0,
+                currentPrice: investment.tokenPrice,
+                change24h: investment.roi > 0 ? 5.2 : -2.1,
+                icon: '🎬',
+                color: 'bg-indigo-600',
+                isInvestment: true,
+                investmentData: investment
+            };
+        }
+
         if (tokenId === 'flips') {
             return {
                 id: 'flips',
@@ -363,6 +381,111 @@ const TokenDetail = () => {
             <div className="mb-6">
                 {activeTab === 'holdings' && (
                     <div className="space-y-4">
+                        {/* Investment-specific section */}
+                        {token.isInvestment && token.investmentData && (
+                            <div className="space-y-4">
+                                {/* Tier and ROI */}
+                                <div className="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm">
+                                    <div className="flex items-center justify-between mb-4">
+                                        {token.investmentData.rewards?.myTier ? (
+                                            <div
+                                                className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-bold"
+                                                style={{
+                                                    backgroundColor: (token.investmentData.rewards.tiers.find(t => t.name === token.investmentData.rewards.myTier)?.color || '#ffd700') + '20',
+                                                    color: token.investmentData.rewards.tiers.find(t => t.name === token.investmentData.rewards.myTier)?.color || '#ffd700'
+                                                }}
+                                            >
+                                                <i className="fas fa-crown"></i>
+                                                {token.investmentData.rewards.myTier} Tier
+                                            </div>
+                                        ) : (
+                                            <div className="px-4 py-2 bg-gray-100 rounded-full text-sm font-medium text-gray-500">
+                                                No Tier
+                                            </div>
+                                        )}
+                                        <div className="text-right">
+                                            <p className="text-xs text-gray-500">ROI</p>
+                                            <p className="text-2xl font-bold text-green-600">+{token.investmentData.roi}%</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Funding Progress */}
+                                {token.investmentData.funding && (
+                                    <div className="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm">
+                                        <h3 className="text-lg font-bold text-gray-900 mb-4">Funding Progress</h3>
+                                        <div className="mb-4">
+                                            <div className="flex justify-between text-sm mb-2">
+                                                <span className="text-gray-600">Progress</span>
+                                                <span className="font-bold text-gray-900">{token.investmentData.funding.progress}%</span>
+                                            </div>
+                                            <div className="h-3 bg-gray-200 rounded-full overflow-hidden">
+                                                <div
+                                                    className="h-full bg-gradient-to-r from-blue-500 to-indigo-600 transition-all"
+                                                    style={{ width: `${token.investmentData.funding.progress}%` }}
+                                                ></div>
+                                            </div>
+                                        </div>
+                                        <div className="grid grid-cols-3 gap-4 pt-4 border-t border-gray-100">
+                                            <div className="text-center">
+                                                <p className="text-xs text-gray-500">Total Investors</p>
+                                                <p className="text-lg font-bold text-gray-900">{token.investmentData.funding.totalInvestors?.toLocaleString()}</p>
+                                            </div>
+                                            <div className="text-center">
+                                                <p className="text-xs text-gray-500">Your Ownership</p>
+                                                <p className="text-lg font-bold text-indigo-600">{token.investmentData.funding.myOwnership}%</p>
+                                            </div>
+                                            <div className="text-center">
+                                                <p className="text-xs text-gray-500">Token Price</p>
+                                                <p className="text-lg font-bold text-gray-900">฿{token.investmentData.tokenPrice}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
+
+                                {/* Production Timeline */}
+                                {token.investmentData.timeline && (
+                                    <div className="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm">
+                                        <div className="flex items-center justify-between mb-4">
+                                            <h3 className="text-lg font-bold text-gray-900">Production Status</h3>
+                                            <span
+                                                className="px-3 py-1 rounded-full text-xs font-medium capitalize"
+                                                style={{
+                                                    backgroundColor: token.investmentData.timeline.statusColor === 'blue' ? '#dbeafe' :
+                                                        token.investmentData.timeline.statusColor === 'orange' ? '#fed7aa' :
+                                                            token.investmentData.timeline.statusColor === 'yellow' ? '#fef3c7' : '#d1fae5',
+                                                    color: token.investmentData.timeline.statusColor === 'blue' ? '#1e40af' :
+                                                        token.investmentData.timeline.statusColor === 'orange' ? '#c2410c' :
+                                                            token.investmentData.timeline.statusColor === 'yellow' ? '#a16207' : '#047857'
+                                                }}
+                                            >
+                                                {token.investmentData.timeline.currentStatus}
+                                            </span>
+                                        </div>
+                                        {token.investmentData.timeline.lastUpdateDescription && (
+                                            <div className="mb-4 p-3 bg-blue-50 rounded-lg">
+                                                <p className="text-sm text-blue-900">{token.investmentData.timeline.lastUpdateDescription}</p>
+                                                <p className="text-xs text-blue-600 mt-1">Updated: {token.investmentData.timeline.lastUpdated}</p>
+                                            </div>
+                                        )}
+                                        <div className="grid grid-cols-2 gap-3 text-sm">
+                                            <div>
+                                                <p className="text-gray-500">Next Milestone</p>
+                                                <p className="font-medium text-gray-900">{token.investmentData.timeline.nextMilestone}</p>
+                                            </div>
+                                            {token.investmentData.timeline.boxOffice !== 'N/A' && (
+                                                <div>
+                                                    <p className="text-gray-500">Box Office</p>
+                                                    <p className="font-bold text-green-600">{token.investmentData.timeline.boxOffice}</p>
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+                        )}
+
+                        {/* Regular balance display */}
                         <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl p-6 border border-gray-200">
                             <p className="text-sm text-gray-500 mb-1">My Balance</p>
                             <div className="flex items-center justify-between mb-4">
@@ -371,7 +494,7 @@ const TokenDetail = () => {
                                         {token.balance.toLocaleString()} <span className="text-lg text-gray-500">{token.symbol}</span>
                                     </div>
                                     <div className="text-sm text-gray-500 mt-1">
-                                        ≈ ${(token.balance * token.currentPrice).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USD
+                                        ≈ ฿{(token.balance * token.currentPrice).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                                     </div>
                                 </div>
                             </div>
