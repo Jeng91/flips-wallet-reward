@@ -23,6 +23,7 @@ import AdminWalletMonitoring from './components/admin/AdminWalletMonitoring';
 import AdminColestiaVouchers from './components/admin/AdminColestiaVouchers';
 import AdminCtrlGVouchers from './components/admin/AdminCtrlGVouchers';
 import AdminVoucherOverview from './components/admin/AdminVoucherOverview';
+import AdminVoucherEditPage from './components/admin/AdminVoucherEditPage';
 import AdminTBFVouchers from './components/admin/AdminTBFVouchers';
 import AdminFractionalTBF from './components/admin/AdminFractionalTBF';
 import AdminReports from './components/admin/AdminReports';
@@ -46,14 +47,22 @@ function App() {
                         <Route path="users/new" element={<AdminNewUsers />} />
                         <Route path="wallet/tokens" element={<AdminTokenManagement tokens={filmTokens} />} />
                         <Route path="wallet/monitoring" element={<AdminWalletMonitoring wallets={walletHolders} />} />
+
+                        {/* Voucher Management */}
                         <Route path="vouchers" element={<AdminVoucherOverview />} />
                         <Route path="vouchers/colestia" element={<AdminColestiaVouchers />} />
                         <Route path="vouchers/ctrlg" element={<AdminCtrlGVouchers />} />
-                        <Route path="vouchers/tbf" element={<AdminFractionalTBF />} />
-                        <Route path="fractional" element={<AdminTBFVouchers />} />
+                        <Route path="vouchers/tbf" element={<AdminTBFVouchers />} />
+                        <Route path="vouchers/edit/:id" element={<AdminVoucherEditPage />} />
+                        <Route path="vouchers/new" element={<AdminVoucherEditPage />} />
+
+                        {/* Fractional Ownership Management (bookings, owners) */}
+                        <Route path="fractional" element={<AdminFractionalTBF />} />
+
                         <Route path="reports" element={<AdminReports reports={fundingReports} />} />
                         <Route path="roles" element={<AdminRolesPermissions roles={adminRoles} adminUsers={adminUsers} />} />
                     </Route>
+
 
                     {/* Main Routes with Layout */}
                     <Route element={<MainLayout />}>

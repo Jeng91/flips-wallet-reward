@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Card } from '../ui/Card';
 import { privilegePackages } from '../../data/mockData';
 
 const AdminCtrlGVouchers = () => {
+    const navigate = useNavigate();
     const [searchTerm, setSearchTerm] = useState('');
     const [activeTab, setActiveTab] = useState('all'); // all, game-merchandise, game-meet-greet, game-items, early-access
 
@@ -22,9 +24,18 @@ const AdminCtrlGVouchers = () => {
     return (
         <div className="max-w-7xl mx-auto space-y-6">
             {/* Header */}
-            <div>
-                <h2 className="text-3xl font-bold text-gray-900">CtrlG - Manage Vouchers</h2>
-                <p className="text-gray-600 mt-1">Manage rewards for Gaming and Entertainment</p>
+            <div className="flex items-center justify-between">
+                <div>
+                    <h2 className="text-3xl font-bold text-gray-900">CtrlG - Manage Vouchers</h2>
+                    <p className="text-gray-600 mt-1">Manage rewards for Gaming and Entertainment</p>
+                </div>
+                <button
+                    onClick={() => navigate('/admin/vouchers/new?category=ctrlg')}
+                    className="px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors font-medium shadow-sm"
+                >
+                    <i className="fas fa-plus mr-2"></i>
+                    Add Voucher
+                </button>
             </div>
 
             {/* Statistics */}
@@ -200,11 +211,15 @@ const AdminCtrlGVouchers = () => {
 
                             {/* Action Buttons */}
                             <div className="flex gap-2">
-                                <button className="flex-1 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm font-medium">
+                                <button
+                                    onClick={() => navigate(`/admin/vouchers/edit/${privilege.id}`)}
+                                    className="flex-1 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors text-sm font-medium"
+                                >
+                                    <i className="fas fa-edit mr-1"></i>
                                     Edit
                                 </button>
-                                <button className="flex-1 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors text-sm font-medium">
-                                    View Details
+                                <button className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm font-medium">
+                                    <i className="fas fa-eye"></i>
                                 </button>
                             </div>
                         </div>

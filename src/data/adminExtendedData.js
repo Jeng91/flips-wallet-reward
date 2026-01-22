@@ -66,61 +66,246 @@ export const ctrlgVouchers = [
     { id: 2, movieId: 2, movieTitle: "Urban Dreams", name: "VIP Screening Pass", type: "Activity", category: "ticket", description: "VIP access to exclusive screening", conditions: ["Must book in advance", "Valid at selected cinemas"], startDate: "2024-02-15", expiryDate: "2024-03-07", rewardType: "ticket", totalStock: 150, redeemed: 98, remaining: 52, images: ["/images/vouchers/vip-urban.jpg"], createdDate: "2024-02-15 14:30" }
 ];
 
-export const tbfBoats = [
-    { id: 1, name: "Sea Breeze", nameTh: "สายลมทะเล", type: "Yacht", capacity: 12, description: "หรูหราสไตล์โมเดิร์น พร้อมสิ่งอำนวยความสะดวกครบครัน", facilities: ["Air Conditioning", "Kitchen", "2 Bedrooms", "Sound System", "Fishing Equipment"], images: ["/images/boats/sea-breeze-1.jpg"], pricePerDay: 25000, status: "available" },
-    { id: 2, name: "Ocean Star", nameTh: "ดาราแห่งมหาสมุทร", type: "Speedboat", capacity: 8, description: "เร็วแรง เหมาะสำหรับการท่องเที่ยวเกาะ", facilities: ["GPS Navigation", "Safety Equipment", "Snorkeling Gear", "Cooler Box"], images: ["/images/boats/ocean-star-1.jpg"], pricePerDay: 18000, status: "available" },
-    { id: 3, name: "Paradise Dream", nameTh: "ฝันสวรรค์", type: "Catamaran", capacity: 20, description: "เรือใหญ่สุดหรู เหมาะสำหรับงานปาร์ตี้", facilities: ["Bar Counter", "BBQ Grill", "Sunbathing Deck", "Karaoke System", "3 Bathrooms"], images: ["/images/boats/paradise-1.jpg"], pricePerDay: 45000, status: "available" }
-];
-
-export const tbfBookings = [
-    { id: 1, boatId: 1, boatName: "Sea Breeze", ownerName: "บริษัท ท่องเที่ยวทะเล จำกัด", bookingDate: "2024-01-15", startTime: "09:00", endTime: "17:00", customerName: "สมชาย ใจดี", customerPhone: "081-234-5678", customerEmail: "somchai@example.com", numberOfGuests: 10, purpose: "ทริปครอบครัว", status: "pending", requestDate: "2024-01-08 10:30", notes: "ต้องการอาหารมังสวิรัติ" },
-    { id: 2, boatId: 2, boatName: "Ocean Star", ownerName: "คุณวิชัย พลอยงาม", bookingDate: "2024-01-20", startTime: "08:00", endTime: "16:00", customerName: "นภา ดาวเรือง", customerPhone: "085-678-9012", customerEmail: "napa@example.com", numberOfGuests: 6, purpose: "ดำน้ำดูปะการัง", status: "pending", requestDate: "2024-01-08 11:15", notes: "ขอชุดดำน้ำด้วย" },
-    { id: 3, boatId: 3, boatName: "Paradise Dream", ownerName: "Paradise Marine Co.", bookingDate: "2024-01-25", startTime: "18:00", endTime: "22:00", customerName: "ธนพล ศรีสุข", customerPhone: "092-345-6789", customerEmail: "thanapol@example.com", numberOfGuests: 18, purpose: "งานปาร์ตี้บริษัท", status: "pending", requestDate: "2024-01-08 14:20", notes: "ต้องการจัดเลี้ยงบนเรือ" }
-];
-
-export const tbfConfirmedBookings = [
-    { id: 1, boatId: 1, boatName: "Sea Breeze", ownerName: "บริษัท ท่องเที่ยวทะเล จำกัด", bookingDate: "2024-01-10", startTime: "10:00", endTime: "18:00", customerName: "วารุณี จันทร์เพ็ญ", customerPhone: "093-456-7890", customerEmail: "warunee@example.com", numberOfGuests: 8, purpose: "วันเกิด", status: "confirmed", requestDate: "2024-01-02 09:00", confirmedDate: "2024-01-02 15:30", confirmedBy: "Admin User", notes: "ต้องการเค้กวันเกิด" },
-    { id: 2, boatId: 2, boatName: "Ocean Star", ownerName: "คุณวิชัย พลอยงาม", bookingDate: "2024-01-12", startTime: "07:00", endTime: "15:00", customerName: "John Smith", customerPhone: "083-456-7890", customerEmail: "john@example.com", numberOfGuests: 4, purpose: "ถ่ายรูป", status: "confirmed", requestDate: "2024-01-05 11:20", confirmedDate: "2024-01-05 16:45", confirmedBy: "Admin User", notes: "" }
-];
-
 // =============================================
-// FRACTIONAL TBF DATA
+// TBF YACHT FLEET DATA (Real 2-Yacht Fleet)
 // =============================================
 
-export const fractionalBoat = {
-    id: 1, name: "Luxury Pearl", nameTh: "มุกสุดหรู", type: "Luxury Yacht", capacity: 15,
-    description: "เรือยอชท์หรูระดับพรีเมียม สำหรับเจ้าของร่วม แบ่งส่วนการลงทุน",
-    facilities: ["Master Bedroom Suite", "2 Guest Bedrooms", "Full Kitchen", "Living Room", "Outdoor Deck", "Jacuzzi", "Entertainment System", "Professional Crew"],
-    images: ["/images/boats/luxury-pearl-1.jpg", "/images/boats/luxury-pearl-2.jpg"],
-    totalShares: 10, sharesSold: 7, pricePerShare: 2500000, maintenanceFeePerMonth: 50000,
-    specifications: { length: "65 feet", manufacturer: "Sunseeker", year: 2023, engine: "Twin 1000 HP", maxSpeed: "32 knots" }
+export const tbfYachts = [
+    {
+        id: 'merry-fisher',
+        name: 'Merry Fisher 1095 FLY',
+        brand: 'Jeanneau',
+        tagline: 'Built for Enjoyment',
+        type: 'Flybridge Motor Yacht',
+        specs: {
+            length: '10.45m',
+            lengthFeet: '34 ft',
+            beam: '3.25m',
+            draft: '0.73m',
+            weight: '4,582 kg',
+            fuel: '2×400L',
+            water: '260L',
+            power: '2×300 HP',
+            cabins: 3,
+            maxPax: 8
+        },
+        features: [
+            'Spacious flybridge with sunpad',
+            '3 private cabins',
+            'Full air conditioning',
+            'Twin 300 HP engines',
+            'Gyroscopic stabilizer',
+            'Full galley kitchen',
+            'Underwater & deck lighting'
+        ],
+        description: 'A modern flybridge motor yacht designed for comfort, stability, and effortless cruising.',
+        descriptionTh: 'เรือยอชท์ flybridge ทันสมัย ออกแบบมาเพื่อความสะดวกสบาย เสถียร และการล่องเรือที่ราบรื่น',
+        images: ['/images/yachts/merry-fisher-1.jpg', '/images/yachts/merry-fisher-2.jpg'],
+        status: 'available'
+    },
+    {
+        id: 'cap-camarat',
+        name: 'Cap Camarat 10.5 CC',
+        brand: 'Jeanneau',
+        tagline: 'Built for Adventure',
+        type: 'Center-Console Sports Yacht',
+        specs: {
+            length: '10.90m',
+            lengthFeet: '36 ft',
+            beam: '3.37m',
+            draft: '0.95m',
+            weight: '5,300 kg',
+            fuel: '2×400L',
+            water: '160L',
+            power: '2×300 HP',
+            cabins: '1+1',
+            maxPax: 8
+        },
+        features: [
+            'Open center-console design',
+            'Up to 8 passengers',
+            'Deep-V hull for stability',
+            '2×300 HP outboards',
+            'T-Top with shade',
+            'Underwater LED lights',
+            'Large sun lounges'
+        ],
+        description: 'A powerful center-console yacht designed for open-sea performance, social cruising, and versatile day experiences.',
+        descriptionTh: 'เรือยอชท์ center-console ทรงพลัง ออกแบบมาเพื่อสมรรถนะในทะเลเปิด การล่องเรือแบบสังคม และประสบการณ์ที่หลากหลาย',
+        images: ['/images/yachts/cap-camarat-1.jpg', '/images/yachts/cap-camarat-2.jpg'],
+        status: 'available'
+    }
+];
+
+// Yacht Fleet Location
+export const yachtLocation = {
+    name: 'Boat Lagoon Yachting Charter',
+    address: '22/1 ถ.เทพกระษัตรี ต.เกาะแก้ว',
+    city: 'Muang, Phuket 83000',
+    rating: 4.9,
+    reviews: 11,
+    mapUrl: 'https://maps.google.com/?q=Boat+Lagoon+Phuket'
 };
 
-export const fractionalOwners = [
-    { id: 1, name: "คุณสมชาย ร่ำรวย", shares: 2, percentage: 20, purchaseDate: "2023-06-15", email: "somchai.rich@example.com", phone: "081-111-2222" },
-    { id: 2, name: "คุณนิภา เศรษฐี", shares: 2, percentage: 20, purchaseDate: "2023-07-20", email: "nipa.wealthy@example.com", phone: "082-222-3333" },
-    { id: 3, name: "Mr. David Johnson", shares: 1, percentage: 10, purchaseDate: "2023-08-10", email: "david.j@example.com", phone: "083-333-4444" },
-    { id: 4, name: "คุณประยุทธ สมบูรณ์", shares: 1, percentage: 10, purchaseDate: "2023-09-05", email: "prayuth.s@example.com", phone: "084-444-5555" },
-    { id: 5, name: "Ms. Sarah Williams", shares: 1, percentage: 10, purchaseDate: "2023-10-12", email: "sarah.w@example.com", phone: "085-555-6666" }
+// =============================================
+// MEMBER FRACTION PROGRAM
+// =============================================
+
+export const memberFractionProgram = {
+    name: 'FLIPS Member Fraction Program',
+    tagline: 'Your Exclusive Opportunity',
+    description: 'Fractional yacht ownership designed for lifestyle members. All the benefits of ownership, none of the hassle.',
+    pricePerFraction: 99000, // THB
+    currency: 'THB',
+    ticketsPerYear: 2,
+    hoursPerTicket: 4,
+    programYears: 5,
+    totalTickets: 10, // 2 × 5
+    maxPaxPerTrip: 8,
+    benefits: [
+        'Access to both yachts in the fleet',
+        'Priority booking over charter customers',
+        'No maintenance or crew management costs',
+        'Cruise or Cash Flexibility'
+    ],
+    cashOptions: {
+        charterMatch: {
+            name: 'Charter Match',
+            pricePerTicket: 9900, // THB
+            noticePeriod: 90, // days
+            description: 'Match with charter demand'
+        },
+        mvpExchange: {
+            name: 'MVP Exchange',
+            description: 'List on the MVP Exchange at market price',
+            noticePeriod: null // anytime
+        }
+    }
+};
+
+// Member Fraction Owners
+export const fractionOwners = [
+    { 
+        id: 1, 
+        userId: 'USER001',
+        name: 'สมชาย ใจดี', 
+        email: 'somchai@example.com',
+        phone: '081-234-5678',
+        fractions: 1, 
+        purchaseDate: '2024-01-15',
+        ticketsTotal: 10,
+        ticketsUsed: 2,
+        ticketsRemaining: 8,
+        ticketsCashedOut: 0,
+        status: 'active'
+    },
+    { 
+        id: 2, 
+        userId: 'USER005',
+        name: 'นภา ดาวเรือง', 
+        email: 'napa@example.com',
+        phone: '085-678-9012',
+        fractions: 1, 
+        purchaseDate: '2024-02-01',
+        ticketsTotal: 10,
+        ticketsUsed: 1,
+        ticketsRemaining: 9,
+        ticketsCashedOut: 0,
+        status: 'active'
+    },
+    { 
+        id: 3, 
+        userId: 'USER012',
+        name: 'ธนพล ศรีสุข', 
+        email: 'thanapol@example.com',
+        phone: '092-345-6789',
+        fractions: 2, 
+        purchaseDate: '2024-01-20',
+        ticketsTotal: 20,
+        ticketsUsed: 3,
+        ticketsRemaining: 15,
+        ticketsCashedOut: 2,
+        status: 'active'
+    }
 ];
 
-export const fractionalSchedule = [
-    { id: 1, date: "2024-01-15", startTime: "09:00", endTime: "17:00", status: "available", notes: "" },
-    { id: 2, date: "2024-01-16", startTime: "09:00", endTime: "17:00", status: "available", notes: "" },
-    { id: 3, date: "2024-01-18", startTime: "10:00", endTime: "18:00", status: "available", notes: "" },
-    { id: 4, date: "2024-01-20", startTime: "08:00", endTime: "16:00", status: "booked", bookedBy: "คุณสมชาย ร่ำรวย", notes: "Owner use" },
-    { id: 5, date: "2024-01-22", startTime: "09:00", endTime: "17:00", status: "available", notes: "" },
-    { id: 6, date: "2024-01-25", startTime: "09:00", endTime: "17:00", status: "available", notes: "" },
-    { id: 7, date: "2024-01-27", startTime: "14:00", endTime: "22:00", status: "booked", bookedBy: "คุณนิภา เศรษฐี", notes: "Sunset cruise" },
-    { id: 8, date: "2024-01-30", startTime: "09:00", endTime: "17:00", status: "available", notes: "" }
+// Yacht Bookings (from fraction tickets)
+export const yachtBookings = [
+    { 
+        id: 1, 
+        ownerId: 1, 
+        ownerName: 'สมชาย ใจดี',
+        yachtId: 'merry-fisher',
+        yachtName: 'Merry Fisher 1095 FLY',
+        bookingDate: '2024-02-15',
+        startTime: '09:00',
+        endTime: '13:00', // 4 hours
+        guests: 6,
+        purpose: 'ทริปครอบครัว',
+        status: 'confirmed',
+        ticketUsed: true,
+        requestDate: '2024-02-01 10:30'
+    },
+    { 
+        id: 2, 
+        ownerId: 2, 
+        ownerName: 'นภา ดาวเรือง',
+        yachtId: 'cap-camarat',
+        yachtName: 'Cap Camarat 10.5 CC',
+        bookingDate: '2024-02-20',
+        startTime: '14:00',
+        endTime: '18:00',
+        guests: 4,
+        purpose: 'Sunset cruise',
+        status: 'pending',
+        ticketUsed: false,
+        requestDate: '2024-02-10 14:20'
+    },
+    { 
+        id: 3, 
+        ownerId: 3, 
+        ownerName: 'ธนพล ศรีสุข',
+        yachtId: 'merry-fisher',
+        yachtName: 'Merry Fisher 1095 FLY',
+        bookingDate: '2024-02-25',
+        startTime: '10:00',
+        endTime: '14:00',
+        guests: 8,
+        purpose: 'งานปาร์ตี้บริษัท',
+        status: 'pending',
+        ticketUsed: false,
+        requestDate: '2024-02-12 09:15'
+    }
 ];
 
-export const fractionalBookings = [
-    { id: 1, boatName: "Luxury Pearl", ownerName: "Fractional Ownership Pool", bookingDate: "2024-01-18", startTime: "10:00", endTime: "18:00", customerName: "ชัยวัฒน์ รุ่งเรือง", customerPhone: "087-890-1234", customerEmail: "chaiwat@example.com", numberOfGuests: 12, purpose: "งานครบรอบแต่งงาน", isOwner: false, status: "pending", requestDate: "2024-01-08 09:45", notes: "ต้องการจัดงานรับประทานอาหารค่ำ" },
-    { id: 2, boatName: "Luxury Pearl", ownerName: "Fractional Ownership Pool", bookingDate: "2024-01-22", startTime: "09:00", endTime: "17:00", customerName: "Michael Lee", customerPhone: "098-901-2345", customerEmail: "michael@example.com", numberOfGuests: 8, purpose: "Business meeting", isOwner: false, status: "pending", requestDate: "2024-01-08 13:20", notes: "Require meeting facilities" }
+// Ticket Cash-Out Redemptions
+export const ticketRedemptions = [
+    {
+        id: 1,
+        ownerId: 3,
+        ownerName: 'ธนพล ศรีสุข',
+        redemptionType: 'charter_match',
+        ticketCount: 2,
+        valuePerTicket: 9900,
+        totalValue: 19800,
+        requestDate: '2024-01-25',
+        status: 'paid', // pending, approved, paid
+        paidDate: '2024-02-08',
+        notes: 'Charter match completed'
+    }
 ];
 
-export const fractionalConfirmedBookings = [
-    { id: 1, boatName: "Luxury Pearl", ownerName: "Fractional Ownership Pool", bookingDate: "2024-01-20", startTime: "08:00", endTime: "16:00", customerName: "คุณสมชาย ร่ำรวย", customerPhone: "081-111-2222", customerEmail: "somchai.rich@example.com", numberOfGuests: 10, purpose: "ทริปครอบครัว", isOwner: true, status: "confirmed", requestDate: "2024-01-02 10:00", confirmedDate: "2024-01-02 10:05", confirmedBy: "Auto-confirmed (Owner)", notes: "Owner booking - priority access" },
-    { id: 2, boatName: "Luxury Pearl", ownerName: "Fractional Ownership Pool", bookingDate: "2024-01-27", startTime: "14:00", endTime: "22:00", customerName: "คุณนิภา เศรษฐี", customerPhone: "082-222-3333", customerEmail: "nipa.wealthy@example.com", numberOfGuests: 6, purpose: "Sunset Cruise", isOwner: true, status: "confirmed", requestDate: "2024-01-03 14:30", confirmedDate: "2024-01-03 14:32", confirmedBy: "Auto-confirmed (Owner)", notes: "Owner booking" }
-];
+// Legacy exports for backward compatibility
+export const tbfBoats = tbfYachts;
+export const tbfBookings = yachtBookings;
+export const tbfConfirmedBookings = yachtBookings.filter(b => b.status === 'confirmed');
+export const fractionalBoat = {
+    ...tbfYachts[0],
+    totalShares: 10,
+    sharesSold: 3,
+    pricePerShare: memberFractionProgram.pricePerFraction
+};
+export const fractionalOwners = fractionOwners;
+export const fractionalSchedule = [];
+export const fractionalBookings = yachtBookings.filter(b => b.status === 'pending');
+export const fractionalConfirmedBookings = yachtBookings.filter(b => b.status === 'confirmed');

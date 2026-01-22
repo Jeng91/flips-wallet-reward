@@ -1057,73 +1057,208 @@ export const privilegePackages = [
         conditionsTh: ['เข้าถึงก่อน 2 สัปดาห์', 'แบดจ์ผู้ทดสอบ', 'ช่องทางแจ้งข้อเสนอแนะ'],
         mainCategory: 'ctrlg'
     },
-    // TBF (BOAT) PRIVILEGES
+    // TBF (YACHT) PRIVILEGES - Enhanced with voucherType and yacht-specific fields
     {
         id: 301,
+        voucherType: 'yacht_experience', // Type discriminator
         title: 'Sunset Yacht Cruise',
-        titleTh: 'ล่องเรือยอร์ชชมพระอาทิตย์ตก',
-        subtitle: '3-hour luxury sunset cruise',
-        subtitleTh: 'ล่องเรือหรู 3 ชั่วโมงชมพระอาทิตย์ตก',
+        titleTh: 'ล่องเรือยอชท์ชมพระอาทิตย์ตก',
+        subtitle: '4-hour luxury sunset cruise on premium fleet',
+        subtitleTh: 'ล่องเรือหรู 4 ชั่วโมงชมพระอาทิตย์ตก',
         category: 'boat-passes',
         categoryLabel: 'Boat Passes',
         categoryLabelTh: 'บัตรล่องเรือ',
-        image: 'https://placehold.co/400x200/0369a1/ffffff?text=Sunset+Cruise',
+        image: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800',
         price: 800,
+        currency: 'TBF',
         rating: 4.9,
-        reviews: 145,
+        reviews: 47,
         isPhysical: false,
         tier: 'gold',
-        eventDate: 'Flexible',
-        venue: 'Pattaya Marina',
+
+        // Yacht-specific fields
+        yachtInfo: {
+            availableYachts: ['merry-fisher', 'cap-camarat'],
+            duration: 4, // hours
+            maxPax: 8,
+            location: 'Boat Lagoon Yachting Charter, Phuket',
+            startTimes: ['09:00', '14:00'], // Available departure times
+            included: ['Professional captain & crew', 'Drinks & light refreshments', 'Snorkeling equipment', 'Towels & amenities']
+        },
+
+        // Information page content (for modal Info tab)
+        infoPage: {
+            heroImage: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=1200',
+            sections: [
+                {
+                    title: 'Your Yacht Experience',
+                    titleTh: 'ประสบการณ์ล่องเรือของคุณ',
+                    content: 'Cruise the pristine waters of Phuket on our premium Jeanneau fleet. Choose between the Merry Fisher 1095 FLY for comfort or Cap Camarat 10.5 CC for adventure.',
+                    contentTh: 'ล่องเรือในน่านน้ำภูเก็ตบนเรือ Jeanneau พรีเมียม เลือกระหว่าง Merry Fisher 1095 FLY เพื่อความสะดวกสบาย หรือ Cap Camarat 10.5 CC สำหรับการผจญภัย',
+                    icon: 'anchor'
+                },
+                {
+                    title: "What's Included",
+                    titleTh: 'สิ่งที่รวมอยู่',
+                    items: ['Professional captain & crew', 'Drinks & light refreshments', 'Snorkeling equipment', 'Towels & amenities', 'Underwater & deck lighting for sunset ambience'],
+                    itemsTh: ['กัปตันและลูกเรือมืออาชีพ', 'เครื่องดื่มและของว่าง', 'อุปกรณ์ดำน้ำตื้น', 'ผ้าขนหนูและสิ่งอำนวยความสะดวก', 'ไฟใต้น้ำและบนดาดฟ้าสำหรับบรรยากาศพระอาทิตย์ตก'],
+                    icon: 'check-circle'
+                }
+            ],
+            yachtComparison: true // Show yacht specs comparison
+        },
+
         description: 'Experience a magical sunset cruise on our luxury yacht with drinks and canapes.',
-        descriptionTh: 'สัมผัสประสบการณ์ล่องเรือยอร์ชหรูชมพระอาทิตย์ตกพร้อมเครื่องดื่มและคานาเป้',
-        conditions: ['Valid for 2 persons', 'Advance booking required', 'Subject to weather'],
-        conditionsTh: ['ใช้ได้ 2 ท่าน', 'ต้องจองล่วงหน้า', 'ขึ้นอยู่กับสภาพอากาศ'],
+        descriptionTh: 'สัมผัสประสบการณ์ล่องเรือยอชท์หรูชมพระอาทิตย์ตกพร้อมเครื่องดื่มและคานาเป้',
+        conditions: ['Valid for 2 persons', 'Advance booking required (7 days)', 'Subject to weather', 'Up to 8 guests total'],
+        conditionsTh: ['ใช้ได้ 2 ท่าน', 'ต้องจองล่วงหน้า 7 วัน', 'ขึ้นอยู่กับสภาพอากาศ', 'รองรับผู้โดยสารสูงสุด 8 ท่าน'],
         mainCategory: 'tbf'
     },
     {
         id: 302,
-        title: 'VIP Yacht Party',
-        titleTh: 'ปาร์ตี้บนเรือยอร์ช VIP',
-        subtitle: 'Exclusive yacht party experience',
-        subtitleTh: 'ประสบการณ์ปาร์ตี้บนเรือยอร์ชสุดพิเศษ',
-        category: 'boat-events',
-        categoryLabel: 'Yacht Events',
-        categoryLabelTh: 'อีเว้นท์บนเรือ',
-        image: 'https://placehold.co/400x200/0284c7/ffffff?text=Yacht+Party',
-        price: 1500,
-        rating: 5.0,
+        voucherType: 'yacht_experience',
+        title: 'Island Hopping Adventure',
+        titleTh: 'ผจญภัยเกาะสุดหรู',
+        subtitle: 'Full-day island exploration on Cap Camarat',
+        subtitleTh: 'สำรวจเกาะเต็มวันบน Cap Camarat',
+        category: 'boat-tours',
+        categoryLabel: 'Yacht Tours',
+        categoryLabelTh: 'ทัวร์ยอชท์',
+        image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800',
+        price: 1200,
+        currency: 'TBF',
+        rating: 4.8,
         reviews: 89,
         isPhysical: false,
         tier: 'gold',
-        eventDate: '2025-02-14',
-        venue: 'Phuket Marina',
-        description: 'Join our exclusive VIP yacht party with premium drinks, DJ, and fireworks.',
-        descriptionTh: 'ร่วมปาร์ตี้บนเรือยอร์ช VIP พร้อมเครื่องดื่มพรีเมียม DJ และพลุ',
-        conditions: ['21+ only', 'Dress code: Smart casual', 'Includes all drinks'],
-        conditionsTh: ['อายุ 21+ เท่านั้น', 'การแต่งกาย: Smart casual', 'รวมเครื่องดื่มทั้งหมด'],
+
+        yachtInfo: {
+            availableYachts: ['cap-camarat'], // Specific yacht for this experience
+            duration: 8, // hours
+            maxPax: 8,
+            location: 'Boat Lagoon Yachting Charter, Phuket',
+            startTimes: ['08:00'],
+            included: ['Full-day yacht charter', 'Lunch & drinks', 'Snorkeling at 3 islands', 'Professional guide', 'All equipment']
+        },
+
+        infoPage: {
+            heroImage: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200',
+            sections: [
+                {
+                    title: 'Adventure Awaits',
+                    titleTh: 'การผจญภัยรอคุณอยู่',
+                    content: 'Explore the stunning islands around Phuket on our Cap Camarat 10.5 CC - built for adventure with its Deep-V hull and powerful twin 300 HP engines.',
+                    icon: 'compass'
+                },
+                {
+                    title: 'Island Itinerary',
+                    titleTh: 'เส้นทางเกาะ',
+                    items: ['Koh Racha Yai - Crystal clear waters', 'Coral Island - Snorkeling paradise', 'Maiton Island - Secluded beach lunch', 'Sunset viewpoint on return'],
+                    icon: 'map'
+                }
+            ],
+            yachtComparison: false
+        },
+
+        description: 'Explore stunning islands with snorkeling, lunch, and sunset viewing on the Cap Camarat.',
+        descriptionTh: 'สำรวจเกาะสวยงามพร้อมดำน้ำตื้น อาหารกลางวัน และชมพระอาทิตย์ตกบน Cap Camarat',
+        conditions: ['Valid for 1 person', 'Includes lunch & equipment', 'Pickup from Boat Lagoon', '8 hours duration'],
+        conditionsTh: ['ใช้ได้ 1 ท่าน', 'รวมอาหารกลางวันและอุปกรณ์', 'รับจาก Boat Lagoon', 'ระยะเวลา 8 ชั่วโมง'],
         mainCategory: 'tbf'
     },
     {
-        id: 303,
-        title: 'Island Hopping Tour',
-        titleTh: 'ทัวร์เกาะสุดหรู',
-        subtitle: 'Full-day island exploration',
-        subtitleTh: 'สำรวจเกาะเต็มวัน',
-        category: 'boat-tours',
-        categoryLabel: 'Luxury Tours',
-        categoryLabelTh: 'ทัวร์หรู',
-        image: 'https://placehold.co/400x200/0ea5e9/ffffff?text=Island+Tour',
-        price: 1200,
-        rating: 4.8,
-        reviews: 178,
+        id: 350,
+        voucherType: 'yacht_fraction', // Special type - generates tickets
+        title: 'FLIPS Member Fraction',
+        titleTh: 'FLIPS Member Fraction',
+        subtitle: 'Fractional yacht ownership - 10 tickets over 5 years',
+        subtitleTh: 'สิทธิ์ร่วมเป็นเจ้าของเรือ - 10 ตั๋วใน 5 ปี',
+        category: 'yacht-ownership',
+        categoryLabel: 'Member Fraction',
+        categoryLabelTh: 'สมาชิก Fraction',
+        image: 'https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?w=800',
+        price: 99000,
+        currency: 'THB',
+        rating: 5.0,
+        reviews: 12,
         isPhysical: false,
-        tier: 'gold',
-        venue: 'Krabi Islands',
-        description: 'Explore 4 stunning islands with snorkeling, lunch, and sunset viewing.',
-        descriptionTh: 'สำรวจ 4 เกาะสวยงามพร้อมดำน้ำตื้น อาหารกลางวัน และชมพระอาทิตย์ตก',
-        conditions: ['Valid for 1 person', 'Includes lunch & equipment', 'Pickup from hotel'],
-        conditionsTh: ['ใช้ได้ 1 ท่าน', 'รวมอาหารกลางวันและอุปกรณ์', 'รับจากโรงแรม'],
+        tier: 'platinum',
+
+        // Fraction-specific configuration
+        fractionConfig: {
+            priceThb: 99000,
+            ticketsPerYear: 2,
+            hoursPerTicket: 4,
+            programYears: 5,
+            totalTickets: 10, // 2 × 5
+            maxPaxPerTrip: 8,
+
+            ticketAccess: ['merry-fisher', 'cap-camarat'],
+
+            cashOptions: {
+                charterMatch: {
+                    enabled: true,
+                    valuePerTicket: 9900,
+                    noticeDays: 90,
+                    description: 'Match with charter demand'
+                },
+                mvpExchange: {
+                    enabled: true,
+                    description: 'List on MVP Exchange at market price'
+                }
+            },
+
+            benefits: [
+                'Access to both yachts in the fleet',
+                'Priority booking over charter customers',
+                'No maintenance or crew management costs',
+                'Cruise or Cash Flexibility'
+            ]
+        },
+
+        // When purchased, generates these tickets
+        generatesTickets: true,
+        ticketTemplate: {
+            voucherType: 'yacht_ticket',
+            title: 'Yacht Cruise Ticket',
+            titleTh: 'ตั๋วล่องเรือยอชท์',
+            duration: 4,
+            maxPax: 8,
+            validMonths: 12 // Each year's tickets expire after 12 months
+        },
+
+        infoPage: {
+            heroImage: 'https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?w=1200',
+            sections: [
+                {
+                    title: 'Your Exclusive Opportunity',
+                    titleTh: 'โอกาสพิเศษสำหรับคุณ',
+                    content: 'Fractional yacht ownership designed for lifestyle members. All the benefits of ownership, none of the hassle.',
+                    contentTh: 'การร่วมเป็นเจ้าของเรือยอชท์แบบ Fractional ออกแบบมาสำหรับสมาชิกไลฟ์สไตล์ ได้รับประโยชน์ทั้งหมดของการเป็นเจ้าของ โดยไม่ต้องยุ่งยาก',
+                    icon: 'star'
+                },
+                {
+                    title: 'Two World-Class Yachts',
+                    titleTh: 'เรือยอชท์ระดับโลก 2 ลำ',
+                    content: 'Merry Fisher 1095 FLY (34ft flybridge) & Cap Camarat 10.5 CC (36ft center-console)',
+                    icon: 'ship'
+                },
+                {
+                    title: 'Cruise or Cash',
+                    titleTh: 'ล่องเรือหรือแลกเงิน',
+                    items: ['Use your tickets for yacht experiences', 'Charter Match: THB 9,900 per unused ticket', 'MVP Exchange: List at market price'],
+                    itemsTh: ['ใช้ตั๋วเพื่อประสบการณ์ล่องเรือ', 'Charter Match: ฿9,900 ต่อตั๋วที่ไม่ใช้', 'MVP Exchange: ลงขายในราคาตลาด'],
+                    icon: 'dollar-sign'
+                }
+            ],
+            yachtComparison: true,
+            showTicketPreview: true
+        },
+
+        description: 'Become a fractional yacht owner. Get 2 tickets per year for 5 years (10 total). Each ticket = 4-hour cruise for up to 8 guests.',
+        descriptionTh: 'ร่วมเป็นเจ้าของเรือยอชท์แบบ Fractional รับ 2 ตั๋วต่อปีเป็นเวลา 5 ปี (รวม 10 ตั๋ว) แต่ละตั๋ว = ล่องเรือ 4 ชั่วโมงสำหรับผู้โดยสารสูงสุด 8 ท่าน',
+        conditions: ['THB 99,000 one-time payment', '2 tickets per year for 5 years', '4 hours per trip, up to 8 PAX', 'Priority booking over charter customers', 'Cash-out option: THB 9,900 per ticket'],
+        conditionsTh: ['จ่าย ฿99,000 ครั้งเดียว', '2 ตั๋วต่อปีเป็นเวลา 5 ปี', '4 ชั่วโมงต่อทริป ผู้โดยสารสูงสุด 8 ท่าน', 'จองก่อนลูกค้าเช่าเรือ', 'แลกเป็นเงิน: ฿9,900 ต่อตั๋ว'],
         mainCategory: 'tbf'
     },
     // FLIPS ID (GENERAL) PRIVILEGES
@@ -1235,7 +1370,7 @@ export const privilegePackages = [
         mainCategory: 'flipsid'
     },
     {
-        id: 201,
+        id: 401,
         title: 'Pro Gaming Headset',
         titleTh: 'หูฟังเกมมิ่งโปร',
         subtitle: 'Immersive 7.1 Surround Sound',
@@ -1261,7 +1396,7 @@ export const privilegePackages = [
         mainCategory: 'universal'
     },
     {
-        id: 202,
+        id: 402,
         title: 'Developer Hoodie',
         titleTh: 'เสื้อฮู้ดนักพัฒนา',
         subtitle: 'Limited Edition FLIPS ID Merch',

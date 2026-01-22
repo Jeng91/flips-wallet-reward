@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Card } from '../ui/Card';
 import { privilegePackages } from '../../data/mockData';
 
 const AdminColestiaVouchers = () => {
+    const navigate = useNavigate();
     const [selectedMovie, setSelectedMovie] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
-    const [showAddModal, setShowAddModal] = useState(false);
 
     // Filter Colestia privileges
     const colestiaPrivileges = privilegePackages.filter(p => p.mainCategory === 'colestai');
@@ -46,19 +47,27 @@ const AdminColestiaVouchers = () => {
         <div className="max-w-7xl mx-auto space-y-6">
             {/* Header */}
             <div className="flex items-center justify-between">
-                <div>
-                    <h2 className="text-3xl font-bold text-gray-900">Colestia - Manage Vouchers</h2>
-                    <p className="text-gray-600 mt-1">Manage rewards for Thai films</p>
+                <div className="flex items-center gap-4">
+                    {selectedMovie && (
+                        <button
+                            onClick={() => setSelectedMovie(null)}
+                            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                        >
+                            <i className="fas fa-arrow-left text-gray-600"></i>
+                        </button>
+                    )}
+                    <div>
+                        <h2 className="text-3xl font-bold text-gray-900">Colestia - Manage Vouchers</h2>
+                        <p className="text-gray-600 mt-1">Manage rewards for Thai films</p>
+                    </div>
                 </div>
-                {selectedMovie && (
-                    <button
-                        onClick={() => setSelectedMovie(null)}
-                        className="px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
-                    >
-                        <i className="fas fa-arrow-left mr-2"></i>
-                        Back to Movie List
-                    </button>
-                )}
+                <button
+                    onClick={() => navigate('/admin/vouchers/new?category=colestai')}
+                    className="px-6 py-3 bg-cyan-600 text-white rounded-lg hover:bg-cyan-700 transition-colors font-medium shadow-sm"
+                >
+                    <i className="fas fa-plus mr-2"></i>
+                    Add Voucher
+                </button>
             </div>
 
             {!selectedMovie ? (
@@ -230,7 +239,7 @@ const AdminColestiaVouchers = () => {
                     {/* Add Voucher Button */}
                     <div className="flex justify-end">
                         <button
-                            onClick={() => setShowAddModal(true)}
+                            onClick={() => navigate('/admin/vouchers/new?category=colestai')}
                             className="px-6 py-3 bg-cyan-600 text-white rounded-lg hover:bg-cyan-700 transition-colors font-medium shadow-sm"
                         >
                             <i className="fas fa-plus mr-2"></i>
@@ -304,11 +313,15 @@ const AdminColestiaVouchers = () => {
 
                                         {/* Action Buttons */}
                                         <div className="flex gap-2">
-                                            <button className="flex-1 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm font-medium">
+                                            <button
+                                                onClick={() => navigate(`/admin/vouchers/edit/${voucher.id}`)}
+                                                className="flex-1 px-4 py-2 bg-cyan-600 text-white rounded-lg hover:bg-cyan-700 transition-colors text-sm font-medium"
+                                            >
+                                                <i className="fas fa-edit mr-1"></i>
                                                 Edit
                                             </button>
-                                            <button className="flex-1 px-4 py-2 bg-red-50 text-red-700 rounded-lg hover:bg-red-100 transition-colors text-sm font-medium">
-                                                Delete
+                                            <button className="px-4 py-2 bg-red-50 text-red-700 rounded-lg hover:bg-red-100 transition-colors text-sm font-medium">
+                                                <i className="fas fa-trash"></i>
                                             </button>
                                         </div>
                                     </div>
@@ -324,7 +337,7 @@ const AdminColestiaVouchers = () => {
                             <h3 className="text-xl font-bold text-orange-900 mb-2">No vouchers for this movie yet</h3>
                             <p className="text-orange-700 mb-4">Please add vouchers so users can redeem rewards</p>
                             <button
-                                onClick={() => setShowAddModal(true)}
+                                onClick={() => navigate('/admin/vouchers/new?category=colestai')}
                                 className="px-6 py-3 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors font-medium"
                             >
                                 <i className="fas fa-plus mr-2"></i>
@@ -335,113 +348,7 @@ const AdminColestiaVouchers = () => {
                 </div>
             )}
 
-            {/* Add Voucher Modal */}
-            {showAddModal && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-                    <div className="bg-white rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-                        <div className="p-6">
-                            {/* Modal Header */}
-                            <div className="flex items-center justify-between mb-6">
-                                <h3 className="text-2xl font-bold text-gray-900">Add New Voucher</h3>
-                                <button
-                                    onClick={() => setShowAddModal(false)}
-                                    className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
-                                >
-                                    <i className="fas fa-times text-gray-500"></i>
-                                </button>
-                            </div>
 
-                            {selectedMovie && (
-                                <div className="mb-6 p-4 bg-cyan-50 rounded-lg">
-                                    <p className="text-sm text-gray-600">Add for movie:</p>
-                                    <p className="font-bold text-gray-900">{selectedMovie.movieNameTh}</p>
-                                    <p className="text-sm text-gray-600">{selectedMovie.movieName}</p>
-                                </div>
-                            )}
-
-                            {/* Form Fields Placeholder */}
-                            <div className="space-y-4 mb-6">
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2">Voucher Type</label>
-                                    <select className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
-                                        <option>Movie Tickets</option>
-                                        <option>Meet & Greet</option>
-                                        <option>Merchandise</option>
-                                        <option>Movie Credits</option>
-                                    </select>
-                                </div>
-
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2">Name (Thai)</label>
-                                    <input
-                                        type="text"
-                                        placeholder="Enter voucher name in Thai"
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                                    />
-                                </div>
-
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2">ชื่อ (English)</label>
-                                    <input
-                                        type="text"
-                                        placeholder="Enter voucher name in English"
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                                    />
-                                </div>
-
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
-                                    <textarea
-                                        rows={3}
-                                        placeholder="Describe voucher details"
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                                    />
-                                </div>
-
-                                <div className="grid grid-cols-2 gap-4">
-                                    <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">Price</label>
-                                        <input
-                                            type="number"
-                                            placeholder="0"
-                                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                                        />
-                                    </div>
-                                    <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">Tier</label>
-                                        <select className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
-                                            <option>Gold</option>
-                                            <option>Silver</option>
-                                            <option>Platinum</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* Action Buttons */}
-                            <div className="flex gap-4">
-                                <button
-                                    onClick={() => {
-                                        // Handle save
-                                        alert('Save system is not yet available');
-                                        setShowAddModal(false);
-                                    }}
-                                    className="flex-1 px-6 py-3 bg-cyan-600 text-white rounded-lg hover:bg-cyan-700 transition-colors font-medium"
-                                >
-                                    <i className="fas fa-save mr-2"></i>
-                                    Save
-                                </button>
-                                <button
-                                    onClick={() => setShowAddModal(false)}
-                                    className="flex-1 px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors font-medium"
-                                >
-                                    Cancel
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            )}
         </div>
     );
 };
